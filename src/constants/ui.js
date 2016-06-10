@@ -1,0 +1,1 @@
+export const UI_LEFT_MENU_OPEN = 'UI_LEFT_MENU_OPEN';

@@ -13,7 +13,7 @@ const PATH_DIST = path.join(__dirname, 'dist');
 const ENV = args.e || args.env || args.environment || 'dev';
 const IS_LOC = ENV === 'loc';
 const IS_DEV = ENV === 'dev';
-const IS_PROD = ENV === 'dev';
+const IS_PROD = ENV === 'prod';
 
 let entry = ['babel-polyfill', path.join(__dirname, 'src', 'index.js')];
 
@@ -106,9 +106,9 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin({
-      IS_DEV: JSON.stringify(IS_DEV),
       IS_LOC: JSON.stringify(IS_LOC),
-      IS_PROD: JSON.stringify(IS_LOC)
+      IS_DEV: JSON.stringify(IS_DEV),
+      IS_PROD: JSON.stringify(IS_PROD)
     }),
     new ExtractTextPlugin('style.css'),
     new HtmlWebpackPlugin({

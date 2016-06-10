@@ -11,6 +11,13 @@ module.exports = {
     "max-len": [0, 120, 2],
     "camelcase": [2, {
       "properties": "never"
+    }],
+    "require-jsdoc": ["error", {
+      "require": {
+        "FunctionDeclaration": false,
+        "MethodDefinition": false,
+        "ClassDeclaration": false
+      }
     }]
   },
   "env": {
