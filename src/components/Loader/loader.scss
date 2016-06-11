@@ -1,0 +1,69 @@
+@import '../../scss/variable';
+
+.loader {
+  display: block;
+
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+
+  z-index: 1400;
+
+  opacity: 0;
+  transform: translate3d(0, -100%, 0);
+  transition: transform $animation-duration $animation-function, opacity $animation-duration $animation-function;
+
+  &.show {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.wrapper {
+  display: block;
+
+  position: absolute;
+  left: 50%;
+  top: 50%;
+
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.spinner {
+  animation: rotation 1.4s linear infinite;
+}
+
+.circle {
+  stroke-dasharray: 187;
+  stroke-dashoffset: 0;
+  transform-origin: center;
+  animation: turn 1.4s ease-in-out infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(270deg);
+  }
+}
+
+@keyframes turn {
+  0% {
+    stroke-dashoffset: 187;
+  }
+
+  50% {
+    stroke-dashoffset: 46.75;
+    transform: rotate(135deg);
+  }
+
+  100% {
+    stroke-dashoffset: 187;
+    transform: rotate(450deg);
+  }
+}

@@ -20,7 +20,7 @@ export default class Header extends Component {
       <AppBar
         title="VK Music"
         iconElementLeft={<IconButton onClick={this.props.onMenuClick}>{this.getIcon()}</IconButton>}
-        />
+      />
     );
   }
 }

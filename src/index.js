@@ -14,10 +14,15 @@ import classes from './index.scss';
 let initialState = {
   routing: {},
   oauth: {
-    state: ''
+    state: 'authorized',
+    token: '',
+    userId: '',
+    initTime: 0,
+    expiresIn: 0
   },
   ui: {
-    leftMenuOpen: true
+    leftMenuOpen: true,
+    showLoader: false
   }
 };
 
@@ -26,8 +31,8 @@ const history = syncHistoryWithStore(browserHistory, store);
 const root = window.document.createElement('div');
 
 if (!IS_PROD) {
- /* const whyDidYouUpdate = require('why-did-you-update').whyDidYouUpdate;
-  whyDidYouUpdate(React); */
+  /* const whyDidYouUpdate = require('why-did-you-update').whyDidYouUpdate;
+   whyDidYouUpdate(React); */
 }
 
 injectTapEventPlugin();

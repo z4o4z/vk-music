@@ -12,13 +12,8 @@ module.exports = {
     "camelcase": [2, {
       "properties": "never"
     }],
-    "require-jsdoc": ["error", {
-      "require": {
-        "FunctionDeclaration": false,
-        "MethodDefinition": false,
-        "ClassDeclaration": false
-      }
-    }]
+    "require-jsdoc": 0,
+    "no-debugger": 1
   },
   "env": {
     "browser": true
