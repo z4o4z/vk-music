@@ -13,12 +13,11 @@ import classes from './index.scss';
 
 let initialState = {
   routing: {},
-  oauth: {
-    state: 'authorized',
-    token: '',
-    userId: '',
-    initTime: 0,
-    expiresIn: 0
+  vk: {
+    initialized: false,
+    authorized: false,
+    authError: false,
+    expire: 0
   },
   ui: {
     leftMenuOpen: true,
@@ -39,7 +38,7 @@ injectTapEventPlugin();
 
 root.classList.add(classes.root);
 
-window.document.body.appendChild(root);
+window.document.body.insertBefore(root, window.document.body.firstChild);
 
 render(
   <Root store={store} history={history}/>,

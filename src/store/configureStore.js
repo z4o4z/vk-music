@@ -12,7 +12,12 @@ if (!IS_PROD) {
   middlewares.push(createLogger());
 }
 
-const excludeFromMerge = ['ui.showLoader'];
+const excludeFromMerge = [
+  'vk.initialized',
+  'vk.authorized',
+  'vk.authError',
+  'ui.showLoader'
+];
 
 const exclude = (rule, state, initialState) => {
   let newState = state;

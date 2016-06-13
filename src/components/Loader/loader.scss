@@ -15,12 +15,8 @@
 
   opacity: 0;
   transform: translate3d(0, -100%, 0);
-  transition: transform $animation-duration $animation-function, opacity $animation-duration $animation-function;
 
-  &.show {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
+  animation: show $animation-duration $animation-function both;
 }
 
 .wrapper {
@@ -44,6 +40,17 @@
   stroke-width: 4px;
   transform-origin: center;
   animation: turn 1.4s ease-in-out infinite;
+}
+
+@keyframes show {
+  from {
+    opacity: 0;
+    transform: scale(0) translate3d(0, -100%, 0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translate3d(0, 0, 0);
+  }
 }
 
 @keyframes rotation {

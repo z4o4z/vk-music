@@ -3,42 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=1">
-  <title></title>
-  <script>
-    (function () {
-      var params,
-        hash = window.location.hash;
-
-      if (hash) {
-        params = getParams(hash);
-        params.initTime = Date.now();
-        window.localStorage.setItem('vk-music-auth', JSON.stringify(params));
-        window.close();
-      }
-
-      function getParams (srch) {
-        var pairs, pair, splitted, name, result = {},
-          search = decodeURIComponent(srch.slice(1));
-
-        if (!search) {
-          return result;
-        }
-
-        pairs = search.split('&');
-
-        while (pair = pairs.shift()) {
-          splitted = pair.split('=');
-
-          name = splitted.shift();
-
-          result[name] = splitted.join('=');
-        }
-
-        return result;
-      }
-    })();
-  </script>
+  <title>VK Music</title>
 </head>
 <body>
+  <script src="//vk.com/js/api/openapi.js" type="text/javascript" async></script>
 </body>
 </html>

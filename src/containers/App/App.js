@@ -6,7 +6,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import {uiLeftMenuOpen, showLoader, hideLoader} from '../../actions/ui';
-import {authorization} from '../../actions/ouath';
+import {initAndAuth} from '../../actions/vk';
 
 import Header from '../../components/Header/Header';
 import LeftDrawer from '../../components/LeftDrawer/LeftDrawer';
@@ -20,28 +20,27 @@ class App extends Component {
   static propTypes = {
     leftMenuOpen: PropTypes.bool.isRequired,
     isShowLoader: PropTypes.bool.isRequired,
-    oauth: PropTypes.object.isRequired,
     uiLeftMenuOpen: PropTypes.func.isRequired,
     hideLoader: PropTypes.func.isRequired,
     showLoader: PropTypes.func.isRequired,
-    authorization: PropTypes.func.isRequired
+    isVKInitialized: PropTypes.bool.isRequired,
+    isVKAuthorized: PropTypes.bool.isRequired,
+    VKAuthExpire: PropTypes.number.isRequired,
+    initAndAuthVk: PropTypes.func.isRequired
   };
 
-  isTokenValid(now, token, initTime, expiresIn, state) {
-    if (!token || state === 'authorizing') {
-      return false;
+  componentWillMount() {
+    if (!this.props.isVKInitialized) {
+      this.props.initAndAuthVk(this.props.VKAuthExpire);
     }
-
-    return initTime + expiresIn - 3600000 > now;
   }
 
-  componentWillMount() {
-    const {token, initTime, expiresIn, state} = this.props.oauth;
-    const now = Date.now();
-
-    if (!this.isTokenValid(now, token, initTime, expiresIn, state)) {
-      this.props.authorization();
+  getLoader() {
+    if (this.props.isVKInitialized && this.props.isVKAuthorized) {
+      return null;
     }
+
+    return <Loader />;
   }
 
   render() {
@@ -50,7 +49,7 @@ class App extends Component {
         <div className={classes.app}>
           <Header onMenuClick={this.props.uiLeftMenuOpen} open={this.props.leftMenuOpen} />
           <LeftDrawer open={this.props.leftMenuOpen} topPosition={darkMuiTheme.appBar.height} />
-          <Loader show={this.props.isShowLoader} />
+          {this.getLoader()}
         </div>
       </MuiThemeProvider>
     );
@@ -60,14 +59,16 @@ class App extends Component {
 const mapStateToProps = state => ({
   leftMenuOpen: state.ui.leftMenuOpen,
   isShowLoader: state.ui.showLoader,
-  oauth: state.oauth
+  isVKInitialized: state.vk.initialized,
+  isVKAuthorized: state.vk.authorized,
+  VKAuthExpire: state.vk.expire
 });
 
 const mapDispatchToProps = dispatch => ({
   uiLeftMenuOpen: () => dispatch(uiLeftMenuOpen()),
   showLoader: () => dispatch(showLoader()),
   hideLoader: () => dispatch(hideLoader()),
-  authorization: () => dispatch(authorization())
+  initAndAuthVk: expire => dispatch(initAndAuth(expire))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
