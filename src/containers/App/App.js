@@ -27,10 +27,7 @@ class App extends Component {
     authorization: PropTypes.func.isRequired
   };
 
-  isTokenValid() {
-    const {token, initTime, expiresIn, state} = this.props.oauth;
-    const now = Date.now();
-
+  isTokenValid(now, token, initTime, expiresIn, state) {
     if (!token || state === 'authorizing') {
       return false;
     }
@@ -39,7 +36,10 @@ class App extends Component {
   }
 
   componentWillMount() {
-    if (!this.isTokenValid()) {
+    const {token, initTime, expiresIn, state} = this.props.oauth;
+    const now = Date.now();
+
+    if (!this.isTokenValid(now, token, initTime, expiresIn, state)) {
       this.props.authorization();
     }
   }
