@@ -11,6 +11,8 @@
 
   z-index: 1400;
 
+  background-color: $loader-background;
+
   opacity: 0;
   transform: translate3d(0, -100%, 0);
   transition: transform $animation-duration $animation-function, opacity $animation-duration $animation-function;
@@ -36,8 +38,10 @@
 }
 
 .circle {
+  stroke: $loader-color;
   stroke-dasharray: 187;
   stroke-dashoffset: 0;
+  stroke-width: 4px;
   transform-origin: center;
   animation: turn 1.4s ease-in-out infinite;
 }
