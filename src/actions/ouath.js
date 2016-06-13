@@ -33,7 +33,13 @@ export const authorization = () => dispatch => {
   function storageCallback(event) {
     if (event.key === 'vk-music-auth') {
       try {
-        dispatch(authorised(JSON.parse(event.newValue)));
+        const data = JSON.parse(event.newValue);
+
+        if(data.access_token){
+          dispatch(authorised(data));
+        } else {
+          dispatch(error());
+        }
       } catch (e) {
         dispatch(error());
       }
