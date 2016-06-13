@@ -35,7 +35,7 @@ export const authorization = () => dispatch => {
       try {
         const data = JSON.parse(event.newValue);
 
-        if(data.access_token){
+        if (data.access_token) {
           dispatch(authorised(data));
         } else {
           dispatch(error());
