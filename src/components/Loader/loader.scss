@@ -1,6 +1,6 @@
 @import '../../scss/variable';
 
-.loader {
+.component {
   display: block;
 
   position: fixed;
@@ -19,7 +19,7 @@
   animation: show $animation-duration $animation-function both;
 }
 
-.wrapper {
+.loader {
   display: block;
 
   position: absolute;

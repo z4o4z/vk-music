@@ -19,6 +19,7 @@ export default class Header extends Component {
     return (
       <AppBar
         title="VK Music"
+        zDepth={2}
         iconElementLeft={<IconButton onClick={this.props.onMenuClick}>{this.getIcon()}</IconButton>}
       />
     );

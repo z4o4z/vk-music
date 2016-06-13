@@ -46,7 +46,7 @@ class App extends Component {
   render() {
     return (
       <MuiThemeProvider muiTheme={darkMuiTheme}>
-        <div className={classes.app}>
+        <div className={classes.component}>
           <Header onMenuClick={this.props.uiLeftMenuOpen} open={this.props.leftMenuOpen} />
           <LeftDrawer open={this.props.leftMenuOpen} topPosition={darkMuiTheme.appBar.height} />
           {this.getLoader()}
