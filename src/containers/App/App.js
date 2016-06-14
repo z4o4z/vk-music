@@ -35,12 +35,32 @@ class App extends Component {
     }
   }
 
+  isAppStarted() {
+    return this.props.isVKInitialized && this.props.isVKAuthorized;
+  }
+
   getLoader() {
-    if (this.props.isVKInitialized && this.props.isVKAuthorized) {
+    if (this.isAppStarted()) {
       return null;
     }
 
     return <Loader />;
+  }
+
+  getContent() {
+    if (!this.isAppStarted()) {
+      return null;
+    }
+
+    const style = {
+      paddingLeft: this.props.leftMenuOpen ? darkMuiTheme.navDrawer.width : 0
+    };
+
+    return (
+      <main className={classes.contentWrapper} style={style}>
+        <div className={classes.content}></div>
+      </main>
+    );
   }
 
   render() {
@@ -49,6 +69,7 @@ class App extends Component {
         <div className={classes.component}>
           <Header onMenuClick={this.props.uiLeftMenuOpen} open={this.props.leftMenuOpen} />
           <LeftDrawer open={this.props.leftMenuOpen} topPosition={darkMuiTheme.appBar.height} />
+          {this.getContent()}
           {this.getLoader()}
         </div>
       </MuiThemeProvider>
