@@ -42,6 +42,7 @@ const login = dispatch => () => {
 
 const getLoginStatus = dispatch => () => {
   window.VK.Auth.getLoginStatus(data => {
+    console.log(data);
     if (data.status === STATUS_CONNECTED) {
       dispatch(authorized(data.session.expire * 1000));
     } else {
