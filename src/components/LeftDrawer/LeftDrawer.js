@@ -9,6 +9,7 @@ import SocialPeople from 'material-ui/svg-icons/social/people';
 import SocialWhatshot from 'material-ui/svg-icons/social/whatshot';
 import SocialNotifications from 'material-ui/svg-icons/social/notifications';
 import ActionThumbUp from 'material-ui/svg-icons/action/thumb-up';
+import ActionSettings from 'material-ui/svg-icons/action/settings';
 
 import classes from './leftDrawer.scss';
 
@@ -31,7 +32,7 @@ export default class LeftDrawer extends Component {
           <ListItem primaryText="Популярные" leftIcon={<SocialWhatshot />} />
         </List>
         <List className={classes.list}>
-          <ListItem primaryText="Настройки" leftIcon={<AvLibraryMusic />} />
+          <ListItem primaryText="Настройки" leftIcon={<ActionSettings />} />
         </List>
       </Drawer>
     );
