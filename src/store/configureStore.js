@@ -12,14 +12,12 @@ if (!IS_PROD) {
   middlewares.push(createLogger());
 }
 
-const excludeFromMerge = [
-  'vk.initialized',
-  'vk.authorized',
-  'vk.authError',
-  'ui.showLoader'
+const includeInLocalStorage = [
+  'vk.expire',
+  'ui.leftMenuOpen'
 ];
 
-const exclude = (rule, state, initialState) => {
+const include = (rule, state, initialState) => {
   let newState = state;
   let initState = initialState;
   const keys = rule.split('.');
@@ -36,11 +34,42 @@ const exclude = (rule, state, initialState) => {
   });
 };
 
-const merge = (initialState, persistedState) => {
-  let newState = Object.assign({}, initialState, persistedState);
+const slicer = () => state => {
+  let newState = {};
 
-  excludeFromMerge.forEach(rule => {
-    exclude(rule, newState, initialState);
+  includeInLocalStorage.forEach(rule => {
+    include(rule, newState, state);
+  });
+
+  return newState;
+};
+
+const assignByRule = (rule, state, persistedState) => {
+  let newState = state;
+  let persistState = persistedState;
+  const keys = rule.split('.').slice(0, -1);
+
+  keys.forEach((key, index) => {
+    if (index === keys.length - 1) {
+      newState[key] = Object.assign({}, newState[key], persistState[key]);
+    } else {
+      newState[key] = newState[key] || {};
+      persistState = persistState[key] || {};
+    }
+
+    newState = newState[key];
+  });
+};
+
+const merge = (initialState, persistedState) => {
+  if (!persistedState) {
+    return initialState;
+  }
+
+  let newState = Object.assign({}, initialState);
+
+  includeInLocalStorage.forEach(rule => {
+    assignByRule(rule, newState, persistedState);
   });
 
   return newState;
@@ -49,6 +78,7 @@ const merge = (initialState, persistedState) => {
 const createPersistentStore = compose(
   persistState('', {
     key: 'vk-music',
+    slicer,
     merge
   }),
   applyMiddleware(...middlewares),
