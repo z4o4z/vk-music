@@ -16,10 +16,12 @@
 
   transform: translateZ(0);
   transition: padding $animation-duration $animation-function;
+
+  overflow-y: auto;
 }
 
 .content {
-  display: flex;
+  display: block;
   width: 100%;
   max-width: $content-max-width;
   margin: 0 auto;

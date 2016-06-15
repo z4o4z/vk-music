@@ -26,7 +26,8 @@ class App extends Component {
     isVKInitialized: PropTypes.bool.isRequired,
     isVKAuthorized: PropTypes.bool.isRequired,
     VKAuthExpire: PropTypes.number.isRequired,
-    initAndAuthVk: PropTypes.func.isRequired
+    initAndAuthVk: PropTypes.func.isRequired,
+    children: PropTypes.element.isRequired
   };
 
   componentWillMount() {
@@ -53,12 +54,15 @@ class App extends Component {
     }
 
     const style = {
-      paddingLeft: this.props.leftMenuOpen ? darkMuiTheme.navDrawer.width : 0
+      paddingLeft: this.props.leftMenuOpen ? darkMuiTheme.navDrawer.width : 0,
+      height: `calc(100% - ${darkMuiTheme.appBar.height}px)`
     };
 
     return (
       <main className={classes.contentWrapper} style={style}>
-        <div className={classes.content}></div>
+        <div className={classes.content}>
+          {this.props.children}
+        </div>
       </main>
     );
   }
