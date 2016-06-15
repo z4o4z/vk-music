@@ -22,6 +22,11 @@ let initialState = {
   ui: {
     leftMenuOpen: true,
     showLoader: false
+  },
+  audio: {
+    my: [],
+    loading: false,
+    error: 0
   }
 };
 
