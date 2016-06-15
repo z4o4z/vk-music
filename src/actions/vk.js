@@ -4,7 +4,7 @@ import {
   VK_AUTHORIZING,
   VK_AUTHORIZED,
   VK_AUTHORIZE_ERROR,
-  STATUS_CONNECTED
+  VK_STATUS_CONNECTED
 } from '../constants/vk';
 
 function initialized() {
@@ -20,9 +20,7 @@ function authorizing() {
 function authorized(expire) {
   return {
     type: VK_AUTHORIZED,
-    payload: {
-      expire
-    }
+    payload: expire
   };
 }
 
@@ -32,7 +30,7 @@ function error() {
 
 const login = dispatch => () => {
   window.VK.Auth.login(data => {
-    if (data.status === STATUS_CONNECTED) {
+    if (data.status === VK_STATUS_CONNECTED) {
       dispatch(authorized(data.session.expire * 1000));
     } else {
       dispatch(error());
@@ -43,7 +41,7 @@ const login = dispatch => () => {
 const getLoginStatus = dispatch => () => {
   window.VK.Auth.getLoginStatus(data => {
     console.log(data);
-    if (data.status === STATUS_CONNECTED) {
+    if (data.status === VK_STATUS_CONNECTED) {
       dispatch(authorized(data.session.expire * 1000));
     } else {
       dispatch(login(dispatch)());
