@@ -13,11 +13,20 @@ import classes from './index.scss';
 
 let initialState = {
   routing: {},
-  oauth: {
-    state: ''
+  vk: {
+    initialized: false,
+    authorized: false,
+    authError: false,
+    expire: 0
   },
   ui: {
-    leftMenuOpen: true
+    leftMenuOpen: true,
+    showLoader: false
+  },
+  audio: {
+    my: [],
+    loading: false,
+    error: 0
   }
 };
 
@@ -26,15 +35,15 @@ const history = syncHistoryWithStore(browserHistory, store);
 const root = window.document.createElement('div');
 
 if (!IS_PROD) {
- /* const whyDidYouUpdate = require('why-did-you-update').whyDidYouUpdate;
-  whyDidYouUpdate(React); */
+  /* const whyDidYouUpdate = require('why-did-you-update').whyDidYouUpdate;
+   whyDidYouUpdate(React); */
 }
 
 injectTapEventPlugin();
 
 root.classList.add(classes.root);
 
-window.document.body.appendChild(root);
+window.document.body.insertBefore(root, window.document.body.firstChild);
 
 render(
   <Root store={store} history={history}/>,

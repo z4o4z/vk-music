@@ -1,5 +1,28 @@
-.app {
-  display: block;
+@import "../../scss/variable";
+
+.component {
+  display: flex;
   width: 100%;
   height: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.contentWrapper {
+  display: flex;
+  width: 100%;
+  flex-grow: 1;
+  box-sizing: border-box;
+
+  transform: translateZ(0);
+  transition: padding $animation-duration $animation-function;
+
+  overflow-y: auto;
+}
+
+.content {
+  display: block;
+  width: 100%;
+  max-width: $content-max-width;
+  margin: 0 auto;
 }

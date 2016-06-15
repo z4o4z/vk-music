@@ -1,0 +1,20 @@
+@import "../../scss/variable";
+
+.component {
+  border-right: $color-1;
+
+  & > div {
+    display: flex;
+    height: auto !important;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+
+    bottom: 0;
+  }
+}
+
+.list {
+  display: block;
+  width: 100%;
+}
