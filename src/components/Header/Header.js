@@ -8,7 +8,8 @@ import NavigationMenu from 'material-ui/svg-icons/navigation/menu';
 export default class Header extends Component {
   static propTypes = {
     onMenuClick: PropTypes.func.isRequired,
-    open: PropTypes.bool.isRequired
+    open: PropTypes.bool.isRequired,
+    height: PropTypes.number.isRequired
   };
 
   getIcon() {
@@ -20,6 +21,7 @@ export default class Header extends Component {
       <AppBar
         title="VK Music"
         zDepth={2}
+        style={{minHeight: `${this.props.height}px`}}
         iconElementLeft={<IconButton onClick={this.props.onMenuClick}>{this.getIcon()}</IconButton>}
       />
     );

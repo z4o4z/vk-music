@@ -8,11 +8,11 @@ body {
   width: 100%;
   height: 100%;
 
-  background-color: #303030;
+  background-color: $general-background;
 
   ::selection {
-    background-color: #303030;
-    color: rgb(0, 151, 167);
+    background-color: $general-background;
+    color: $general-selected-color;
   }
 }
 

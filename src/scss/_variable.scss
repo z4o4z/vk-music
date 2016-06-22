@@ -5,8 +5,27 @@ $animation-function: cubic-bezier(0.23, 1, 0.32, 1);
 
 $color-1: rgba(31, 31, 31, 0.8);
 $color-2: rgb(0, 151, 167);
+$color-3: rgb(66, 66, 66);
+$color-4: rgb(255, 255, 255);
+$color-6: rgb(189, 189, 189);
+
+$general-background: $color-3;
+$general-color: $color-4;
+$general-selected-color: $color-2;
+$general-padding: 12px;
+$general-margin: 12px;
+$general-content-padding: $general-padding;
+$general-hover-background-color: rgba(255, 255, 255, 0.0980392);
+
+$content-max-width: 1160px;
 
 $loader-background: $color-1;
 $loader-color: $color-2;
 
-$content-max-width: 1160px;
+$audio-item-height: 60px;
+$audio-item-padding: 10px $general-padding;
+$audio-item-color: $color-4;
+$audio-item-secondary-color: $color-6;
+$audio-item-background-color: $general-hover-background-color;
+$audio-item-content-padding: $general-margin;
+$audio-item-content-padding: $general-margin;

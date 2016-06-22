@@ -1,0 +1,49 @@
+@import "../../scss/variable";
+
+.component {
+  display: flex;
+  width: 100%;
+  height: $audio-item-height;
+  padding: $audio-item-padding;
+  box-sizing: border-box;
+
+  color: $audio-item-color;
+
+  box-shadow: rgba(0, 0, 0, 0.117647) 0 1px 2px;
+
+  cursor: pointer;
+
+  transition: background $animation-duration $animation-function;
+
+  &:hover {
+    background-color: $audio-item-background-color;
+  }
+}
+
+.info {
+  display: block;
+  margin: 0 $audio-item-content-padding;
+}
+
+.infoFooter {
+  margin-top: 3px;
+
+  color: $audio-item-secondary-color;
+  font-size: 14px;
+}
+
+.artist,
+.genre,
+.duration {
+  margin-right: $audio-item-content-padding;
+}
+
+.artist,
+.genre {
+  transition: color $animation-duration $animation-function;
+
+  &:hover {
+    color: lighten($audio-item-secondary-color, 15%);
+    text-decoration: underline;
+  }
+}

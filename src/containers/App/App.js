@@ -54,8 +54,7 @@ class App extends Component {
     }
 
     const style = {
-      paddingLeft: this.props.leftMenuOpen ? darkMuiTheme.navDrawer.width : 0,
-      height: `calc(100% - ${darkMuiTheme.appBar.height}px)`
+      paddingLeft: this.props.leftMenuOpen ? darkMuiTheme.navDrawer.width : 0
     };
 
     return (
@@ -71,7 +70,7 @@ class App extends Component {
     return (
       <MuiThemeProvider muiTheme={darkMuiTheme}>
         <div className={classes.component}>
-          <Header onMenuClick={this.props.uiLeftMenuOpen} open={this.props.leftMenuOpen} />
+          <Header onMenuClick={this.props.uiLeftMenuOpen} open={this.props.leftMenuOpen} height={darkMuiTheme.appBar.height}/>
           <LeftDrawer open={this.props.leftMenuOpen} topPosition={darkMuiTheme.appBar.height} />
           {this.getContent()}
           {this.getLoader()}
