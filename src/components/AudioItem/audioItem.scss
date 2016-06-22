@@ -20,6 +20,16 @@
   }
 }
 
+.button {
+  display: block;
+  width: $audio-item-btn-size;
+  height: $audio-item-btn-size;
+
+  box-shadow: $audio-item-btn-box-shadow;
+
+  background-color: $audio-item-btn-background;
+}
+
 .info {
   display: block;
   margin: 0 $audio-item-content-padding;
@@ -43,7 +53,7 @@
   transition: color $animation-duration $animation-function;
 
   &:hover {
-    color: lighten($audio-item-secondary-color, 15%);
+    color: darken($audio-item-secondary-color, 20%);
     text-decoration: underline;
   }
 }

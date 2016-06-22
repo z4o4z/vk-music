@@ -1,9 +1,12 @@
 import React, {Component, PropTypes} from 'react';
 
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import PlayArrow from 'material-ui/svg-icons/av/Play-Arrow';
+import PlayArrow from 'react-icons/lib/md/play-arrow';
+
+import RippleButton from '../RippleButton/RippleButton';
 
 import classes from './audioItem.scss';
+
+const PlayArrowIcon = <PlayArrow size={24} color="white"/>;
 
 export default class AudioItem extends Component {
   static propTypes = {
@@ -12,12 +15,22 @@ export default class AudioItem extends Component {
     genre: PropTypes.string
   };
 
+  checkProps(nextProps) {
+    const {title, artist, genre} = this.props;
+
+    return title === nextProps.title && artist === nextProps.artist && genre === nextProps.genre;
+  }
+
+  shouldComponentUpdate(nextProps) {
+    return !this.checkProps(nextProps);
+  }
+
   render() {
     return (
       <div className={classes.component}>
-        <FloatingActionButton mini={true} zDepth={1}>
-          <PlayArrow/>
-        </FloatingActionButton>
+        <RippleButton rounded={true} className={classes.button}>
+          {PlayArrowIcon}
+        </RippleButton>
         <div className={classes.info}>
           <span className={classes.title}>{this.props.title}</span>
           <div className={classes.infoFooter}>

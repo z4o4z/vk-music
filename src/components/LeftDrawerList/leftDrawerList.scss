@@ -1,29 +1,5 @@
 @import "../../scss/variable";
 
-.component {
-  display: flex;
-  width: $left-drawer-width;
-  align-items: center;
-  flex-direction: column;
-  justify-content: space-between;
-
-  position: fixed;
-  left: 0;
-  top: $left-drawer-top;
-  bottom: 0;
-
-  background-color: $left-drawer-background;
-  box-shadow: $left-drawer-box-shadow;
-
-  z-index: 1;
-  transform: translateX(-$left-drawer-width) translateZ(0);
-  transition: transform $animation-duration $animation-function;
-
-  &.componentOpen {
-    transform: translateX(0) translateZ(0);
-  }
-}
-
 .list {
   display: block;
   width: 100%;

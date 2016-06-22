@@ -1,20 +1,15 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 
-import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-
 import {uiLeftMenuOpen, showLoader, hideLoader} from '../../actions/ui';
 import {initAndAuth} from '../../actions/vk';
 
 import Header from '../../components/Header/Header';
 import LeftDrawer from '../../components/LeftDrawer/LeftDrawer';
 import Loader from '../../components/Loader/Loader';
+import Player from '../../components/Player/Player';
 
 import classes from './app.scss';
-
-const darkMuiTheme = getMuiTheme(darkBaseTheme);
 
 class App extends Component {
   static propTypes = {
@@ -53,12 +48,8 @@ class App extends Component {
       return null;
     }
 
-    const style = {
-      paddingLeft: this.props.leftMenuOpen ? darkMuiTheme.navDrawer.width : 0
-    };
-
     return (
-      <main className={classes.contentWrapper} style={style}>
+      <main className={`${classes.contentWrapper} ${this.props.leftMenuOpen ? classes.contentWrapperWithPadding : ''}`}>
         <div className={classes.content}>
           {this.props.children}
         </div>
@@ -66,16 +57,31 @@ class App extends Component {
     );
   }
 
+  getPlayer() {
+    if (!this.isAppStarted()) {
+      return null;
+    }
+
+    const style = {
+      marginLeft: 0
+    };
+
+    return (
+      <footer className={classes.playerWrapper} style={style}>
+        <Player height={0}/>
+      </footer>
+    );
+  }
+
   render() {
     return (
-      <MuiThemeProvider muiTheme={darkMuiTheme}>
-        <div className={classes.component}>
-          <Header onMenuClick={this.props.uiLeftMenuOpen} open={this.props.leftMenuOpen} height={darkMuiTheme.appBar.height}/>
-          <LeftDrawer open={this.props.leftMenuOpen} topPosition={darkMuiTheme.appBar.height} />
-          {this.getContent()}
-          {this.getLoader()}
-        </div>
-      </MuiThemeProvider>
+      <section className={classes.component}>
+        <Header onMenuClick={this.props.uiLeftMenuOpen} open={this.props.leftMenuOpen}/>
+        <LeftDrawer open={this.props.leftMenuOpen}/>
+        {this.getContent()}
+        {this.getLoader()}
+        {this.getPlayer()}
+      </section>
     );
   }
 }

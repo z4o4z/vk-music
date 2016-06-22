@@ -1,31 +1,60 @@
 $font-family: 'Roboto', sans-serif;
 
+$primary-color-dark: #455a64;
+$primary-color: #607d8b;
+$primary-color-light: #cfd8dc;
+$primary-color-text: #fff;
+$accent-color: #009688;
+$primary-text-color: #212121;
+$secondary-text-color: #727272;
+$divider-color: #b6b6b6;
+
 $animation-duration: 450ms;
 $animation-function: cubic-bezier(0.23, 1, 0.32, 1);
 
-$color-1: rgba(31, 31, 31, 0.8);
-$color-2: rgb(0, 151, 167);
-$color-3: rgb(66, 66, 66);
-$color-4: rgb(255, 255, 255);
-$color-6: rgb(189, 189, 189);
+$box-shadow-1: rgba(0, 0, 0, 0.156863) 0px 3px 10px, rgba(0, 0, 0, 0.227451) 0px 3px 10px;
+$box-shadow-2: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
 
-$general-background: $color-3;
-$general-color: $color-4;
-$general-selected-color: $color-2;
 $general-padding: 12px;
 $general-margin: 12px;
+$general-background: $primary-color-light;
+$general-color: $primary-color-text;
+$general-selected-color: $primary-color-light;
 $general-content-padding: $general-padding;
-$general-hover-background-color: rgba(255, 255, 255, 0.0980392);
+$general-hover-background-color: transparentize($primary-color-light, 0.75);
 
-$content-max-width: 1160px;
+$btn-hover-background: $general-hover-background-color;
 
-$loader-background: $color-1;
-$loader-color: $color-2;
+$header-height: 64px;
+$header-padding: $general-padding;
+$header-margin: $general-margin;
+$header-button-size: 48px;
+$header-background: $secondary-text-color;
+$header-color: $primary-color-text;
+$header-box-shadow: $box-shadow-1;
+
+$left-drawer-width: 256px;
+$left-drawer-padding: $general-padding;
+$left-drawer-margin: $general-margin;
+$left-drawer-background: $primary-text-color;
+$left-drawer-color: $primary-color-text;
+$left-drawer-top: $header-height;
+$left-drawer-btn-height: 48px;
+$left-drawer-box-shadow: $box-shadow-1;
+
+$app-padding-left: $left-drawer-width;
+$app-content-max-width: 1160px;
+
+$loader-background: transparentize($primary-color-dark, 0.9);
+$loader-color: $accent-color;
 
 $audio-item-height: 60px;
 $audio-item-padding: 10px $general-padding;
-$audio-item-color: $color-4;
-$audio-item-secondary-color: $color-6;
+$audio-item-color: $primary-text-color;
+$audio-item-secondary-color: $secondary-text-color;
 $audio-item-background-color: $general-hover-background-color;
+$audio-item-btn-size: 40px;
+$audio-item-btn-background: $accent-color;
+$audio-item-btn-box-shadow: $box-shadow-2;
 $audio-item-content-padding: $general-margin;
 $audio-item-content-padding: $general-margin;

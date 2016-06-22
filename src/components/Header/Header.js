@@ -1,29 +1,37 @@
 import React, {Component, PropTypes} from 'react';
 
-import AppBar from 'material-ui/AppBar';
-import IconButton from 'material-ui/IconButton';
-import NavigationClose from 'material-ui/svg-icons/navigation/close';
-import NavigationMenu from 'material-ui/svg-icons/navigation/menu';
+import Close from 'react-icons/lib/md/close';
+import Menu from 'react-icons/lib/md/menu';
+
+import RippleButton from '../RippleButton/RippleButton';
+
+import classes from './header.scss';
+
+const CloseIcon = <Close size={24} color="white" name="close"/>;
+const MenuIcon = <Menu size={24} color="white" name="menu"/>;
 
 export default class Header extends Component {
   static propTypes = {
     onMenuClick: PropTypes.func.isRequired,
-    open: PropTypes.bool.isRequired,
-    height: PropTypes.number.isRequired
+    open: PropTypes.bool.isRequired
   };
 
   getIcon() {
-    return this.props.open ? <NavigationClose /> : <NavigationMenu />;
+    return this.props.open ? CloseIcon : MenuIcon;
+  }
+
+  shouldComponentUpdate(nextProps) {
+    return this.props.open !== nextProps.open;
   }
 
   render() {
     return (
-      <AppBar
-        title="VK Music"
-        zDepth={2}
-        style={{minHeight: `${this.props.height}px`}}
-        iconElementLeft={<IconButton onClick={this.props.onMenuClick}>{this.getIcon()}</IconButton>}
-      />
+      <header className={classes.component}>
+       <RippleButton className={classes.button} rounded={true} onClick={this.props.onMenuClick}>
+          {this.getIcon()}
+        </RippleButton>
+        <h1 className={classes.title}>VK Music</h1>
+      </header>
     );
   }
 }

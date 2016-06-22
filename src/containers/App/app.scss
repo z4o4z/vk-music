@@ -18,13 +18,25 @@
   transition: padding $animation-duration $animation-function;
 
   overflow-y: auto;
+
+  &.contentWrapperWithPadding {
+    padding-left: $app-padding-left;
+  }
 }
 
 .content {
   display: block;
   width: 100%;
   height: 100%;
-  max-width: $content-max-width;
+  max-width: $app-content-max-width;
   margin: 0 auto;
   padding: $general-content-padding 0;
+}
+
+.playerWrapper {
+  display: block;
+  height: 65px;
+  margin-left: 0;
+
+  transition: margin $animation-duration $animation-function;
 }
