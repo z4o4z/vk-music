@@ -43,6 +43,8 @@ export default class AudioList extends Component {
           itemRenderer={this.renderItem}
           length={this.props.audios.length}
           type="uniform"
+          threshold={200}
+          useStaticSize={true}
           />
         {this.getLoader()}
         {this.getLoader()}
