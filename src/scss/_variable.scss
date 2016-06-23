@@ -19,7 +19,7 @@ $general-padding: 12px;
 $general-margin: 12px;
 $general-background: $primary-color-light;
 $general-color: $primary-color-text;
-$general-selected-color: $primary-color-light;
+$general-selected-color: $primary-color-text;
 $general-content-padding: $general-padding;
 $general-hover-background-color: transparentize($primary-color-light, 0.75);
 
@@ -33,12 +33,24 @@ $header-background: $secondary-text-color;
 $header-color: $primary-color-text;
 $header-box-shadow: $box-shadow-1;
 
+$player-height: 72px;
+$player-padding: 10px $general-padding;
+$player-margin: $general-margin;
+$player-background: $secondary-text-color;
+$player-box-shadow: $box-shadow-1;
+
+$player-control-size: 48px;
+$player-control-size-small: 34px;
+$player-control-background: $accent-color;
+$player-control-box-shadow: $box-shadow-2;
+
 $left-drawer-width: 256px;
 $left-drawer-padding: $general-padding;
 $left-drawer-margin: $general-margin;
 $left-drawer-background: $primary-text-color;
 $left-drawer-color: $primary-color-text;
 $left-drawer-top: $header-height;
+$left-drawer-bottom: $player-height;
 $left-drawer-btn-height: 48px;
 $left-drawer-box-shadow: $box-shadow-1;
 

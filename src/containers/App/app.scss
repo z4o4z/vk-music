@@ -14,7 +14,6 @@
   box-sizing: border-box;
 
   transform: translateZ(0);
-  will-change: padding;
   transition: padding $animation-duration $animation-function;
 
   overflow-y: auto;
@@ -35,8 +34,6 @@
 
 .playerWrapper {
   display: block;
-  height: 65px;
+  height: $player-height;
   margin-left: 0;
-
-  transition: margin $animation-duration $animation-function;
 }

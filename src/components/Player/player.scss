@@ -1,0 +1,18 @@
+@import '../../scss/variable';
+
+.component {
+  display: flex;
+  width: 100%;
+  height: $player-height;
+  min-height: $player-height;
+  padding: $player-padding;
+  box-sizing: border-box;
+  flex-direction: row;
+
+  position: relative;
+
+  background-color: $player-background;
+  box-shadow: $player-box-shadow;
+
+  z-index: 1;
+}

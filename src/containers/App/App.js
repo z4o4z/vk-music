@@ -62,15 +62,7 @@ class App extends Component {
       return null;
     }
 
-    const style = {
-      marginLeft: 0
-    };
-
-    return (
-      <footer className={classes.playerWrapper} style={style}>
-        <Player height={0}/>
-      </footer>
-    );
+    return <Player/>;
   }
 
   render() {
