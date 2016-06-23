@@ -8,7 +8,8 @@ import AudioItem from '../AudioItem/AudioItem';
 
 export default class AudioList extends Component {
   static propTypes = {
-    audios: PropTypes.array.isRequired,
+    audios: PropTypes.object.isRequired,
+    ids: PropTypes.array.isRequired,
     audiosLoading: PropTypes.bool.isRequired,
     audiosError: PropTypes.number.isRequired
   };
@@ -20,11 +21,13 @@ export default class AudioList extends Component {
   }
 
   renderItem(index, key) {
+    const audio = this.props.audios[this.props.ids[index]];
+
     return <AudioItem
       key={key}
-      title={this.props.audios[index].title}
-      artist={this.props.audios[index].artist}
-      genre={getGenreById(this.props.audios[index].genre)}
+      title={audio.title}
+      artist={audio.artist}
+      genre={getGenreById(audio.genre)}
       />;
   }
 
@@ -41,7 +44,7 @@ export default class AudioList extends Component {
       <div>
         <ReactList
           itemRenderer={this.renderItem}
-          length={this.props.audios.length}
+          length={this.props.ids.length}
           type="uniform"
           threshold={200}
           useStaticSize={true}
