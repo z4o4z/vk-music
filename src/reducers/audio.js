@@ -5,7 +5,7 @@ export default function audio(state = {}, action = {}) {
     case AUDIO_LOADING:
       return {...state, loading: true};
     case AUDIO_MY_LOADED:
-      return {...state, loading: false, my: action.payload};
+      return {...state, loading: false, my: action.payload.ids, all: {...state.all, ...action.payload.normalized}};
     case AUDIO_ERROR:
       return {...state, loading: false, error: action.payload};
     default: return state;

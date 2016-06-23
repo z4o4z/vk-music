@@ -7,7 +7,8 @@ import AudioList from '../../components/AudioList/AudioList';
 
 class MyAudio extends AudioList {
   static propTypes = {
-    audios: PropTypes.array.isRequired,
+    audios: PropTypes.object.isRequired,
+    ids: PropTypes.array.isRequired,
     audiosLoading: PropTypes.bool.isRequired,
     audiosError: PropTypes.number.isRequired,
     getMyAudio: PropTypes.func.isRequired
@@ -19,7 +20,8 @@ class MyAudio extends AudioList {
 }
 
 const mapStateToProps = state => ({
-  audios: state.audio.my,
+  audios: state.audio.all,
+  ids: state.audio.my,
   audiosLoading: state.audio.loading,
   audiosError: state.audio.error
 });

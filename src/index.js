@@ -23,6 +23,7 @@ let initialState = {
     showLoader: false
   },
   audio: {
+    all: {},
     my: [],
     loading: false,
     error: 0
