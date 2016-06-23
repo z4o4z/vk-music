@@ -124,6 +124,20 @@ module.exports = {
     hot: true,
     historyApiFallback: {
       index: '/index.html'
+    },
+    proxy: {
+      '/audio-proxy/cs6-1v4.vk-cdn.net/*': {target: 'https://cs6-1v4.vk-cdn.net', rewrite},
+      '/audio-proxy/cs6-2v4.vk-cdn.net/*': {target: 'https://cs6-2v4.vk-cdn.net', rewrite},
+      '/audio-proxy/cs6-3v4.vk-cdn.net/*': {target: 'https://cs6-3v4.vk-cdn.net', rewrite},
+      '/audio-proxy/cs6-4v4.vk-cdn.net/*': {target: 'https://cs6-4v4.vk-cdn.net', rewrite},
+      '/audio-proxy/cs6-5v4.vk-cdn.net/*': {target: 'https://cs6-5v4.vk-cdn.net', rewrite},
+      '/audio-proxy/cs6-6v4.vk-cdn.net/*': {target: 'https://cs6-6v4.vk-cdn.net', rewrite},
+      '/audio-proxy/cs6-7v4.vk-cdn.net/*': {target: 'https://cs6-7v4.vk-cdn.net', rewrite},
+      '/audio-proxy/cs6-8v4.vk-cdn.net/*': {target: 'https://cs6-8v4.vk-cdn.net', rewrite},
+      '/audio-proxy/cs6-9v4.vk-cdn.net/*': {target: 'https://cs6-9v4.vk-cdn.net', rewrite},
+      '/audio-proxy/cs6-10v4.vk-cdn.net/*': {target: 'https://cs6-10v4.vk-cdn.net', rewrite},
+      '/audio-proxy/cs6-11v4.vk-cdn.net/*': {target: 'https://cs6-11v4.vk-cdn.net', rewrite},
+      '/audio-proxy/cs6-12v4.vk-cdn.net/*': {target: 'https://cs6-12v4.vk-cdn.net', rewrite}
     }
   }
 };
@@ -140,4 +154,10 @@ if (IS_PROD) {
       comments: false
     })
   );
+}
+
+function rewrite(req) {
+  let array = req.url.split('/');
+  array.splice(0, 3);
+  req.url = array.join('/');
 }
