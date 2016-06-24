@@ -22,6 +22,8 @@ class App extends Component {
     isVKAuthorized: PropTypes.bool.isRequired,
     VKAuthExpire: PropTypes.number.isRequired,
     initAndAuthVk: PropTypes.func.isRequired,
+    player: PropTypes.object.isRequired,
+    audios: PropTypes.object.isRequired,
     children: PropTypes.element.isRequired
   };
 
@@ -57,12 +59,16 @@ class App extends Component {
     );
   }
 
+  getAudioUrl(id) {
+    return this.props.audios[id].url;
+  }
+
   getPlayer() {
-    if (!this.isAppStarted()) {
+    if (!this.isAppStarted() || !this.props.audios || !this.props.player.current) {
       return null;
     }
 
-    return <Player/>;
+    return <Player playing={this.props.player.playing} audioFile={this.getAudioUrl(this.props.player.current)}/>;
   }
 
   render() {
@@ -83,7 +89,9 @@ const mapStateToProps = state => ({
   isShowLoader: state.ui.showLoader,
   isVKInitialized: state.vk.initialized,
   isVKAuthorized: state.vk.authorized,
-  VKAuthExpire: state.vk.expire
+  VKAuthExpire: state.vk.expire,
+  player: state.player,
+  audios: state.audio.all
 });
 
 const mapDispatchToProps = dispatch => ({

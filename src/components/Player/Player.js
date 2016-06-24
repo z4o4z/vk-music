@@ -7,14 +7,19 @@ import classes from './player.scss';
 
 export default class Player extends Component {
   static propTypes = {
-    height: PropTypes.number
+    audioFile: PropTypes.string.isRequired,
+    playing: PropTypes.bool.isRequired
   };
+
+  shouldComponentUpdate(nextProps) {
+    return nextProps.playing !== this.props.playing && nextProps.audioFile !== this.props.audioFile;
+  }
 
   render() {
     return (
       <div className={classes.component}>
-        <PlayerControls play={true}/>
-        <PlayerWavesurfer audioFile={'http://cs6-12v4.vk-cdn.net/p11/9758346801e22d.mp3'}/>
+        <PlayerControls play={this.props.playing}/>
+        <PlayerWavesurfer audioFile={this.props.audioFile}/>
       </div>
     );
   }

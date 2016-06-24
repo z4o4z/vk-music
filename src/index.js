@@ -27,6 +27,10 @@ let initialState = {
     my: [],
     loading: false,
     error: 0
+  },
+  player: {
+    current: 0,
+    playing: false
   }
 };
 
