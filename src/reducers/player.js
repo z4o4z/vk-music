@@ -7,7 +7,7 @@ export default function player(state = {}, action = {}) {
     case PLAYER_SET_TRACK:
       return {...state, current: action.payload};
     case PLAYER_PLAY_PAUSE:
-      return {...state, playing: false};
+      return {...state, playing: !state.playing};
     default: return state;
   }
 }

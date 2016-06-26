@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 
 import PlayerControls from '../PlayerControls/PlayerControls';
-import PlayerWavesurfer from '../PlayerWavesurfer/PlayerWavesurfer';
+import PlayerVisualization from '../PlayerVisualization/PlayerVisualization';
 
 import classes from './player.scss';
 
@@ -12,14 +12,14 @@ export default class Player extends Component {
   };
 
   shouldComponentUpdate(nextProps) {
-    return nextProps.playing !== this.props.playing && nextProps.audioFile !== this.props.audioFile;
+    return nextProps.playing !== this.props.playing || nextProps.audioFile !== this.props.audioFile;
   }
 
   render() {
     return (
       <div className={classes.component}>
-        <PlayerControls play={this.props.playing}/>
-        <PlayerWavesurfer audioFile={this.props.audioFile}/>
+        <PlayerControls playing={this.props.playing}/>
+        <PlayerVisualization audioFile={this.props.audioFile} playing={this.props.playing}/>
       </div>
     );
   }

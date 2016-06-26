@@ -1,5 +1,4 @@
 import React, {Component, PropTypes} from 'react';
-import ReactList from 'react-list';
 
 import {getGenreById} from '../../helpers/genres';
 
@@ -12,7 +11,7 @@ export default class AudioList extends Component {
     ids: PropTypes.array.isRequired,
     audiosLoading: PropTypes.bool.isRequired,
     audiosError: PropTypes.number.isRequired,
-    playerTrack: PropTypes.number.isRequired,
+    playerCurrentTrack: PropTypes.number.isRequired,
     playerPlaying: PropTypes.bool.isRequired,
     getAudio: PropTypes.func.isRequired,
     playTrack: PropTypes.func.isRequired,
@@ -23,7 +22,6 @@ export default class AudioList extends Component {
   constructor(props) {
     super(props);
 
-    this.renderItem = this.renderItem.bind(this);
     this.onPlayClick = this.onPlayClick.bind(this);
   }
 
@@ -32,32 +30,33 @@ export default class AudioList extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.playerTrack && Object.keys(nextProps.audios).length) {
+    if (!nextProps.playerCurrentTrack && Object.keys(nextProps.audios).length) {
       this.props.setTrack(nextProps.ids[0]);
     }
   }
 
   onPlayClick(id) {
-    if (id === this.props.playerTrack) {
+    if (id === this.props.playerCurrentTrack) {
       this.props.playPlayPause();
     } else {
       this.props.playTrack(id);
     }
   }
 
-  renderItem(index, key) {
-    const audio = this.props.audios[this.props.ids[index]];
-    const id = audio.aid;
+  renderItems() {
+    return this.props.ids.map(id => {
+      const audio = this.props.audios[id];
 
-    return <AudioItem
-      key={key}
-      id={id}
-      title={audio.title}
-      artist={audio.artist}
-      genre={getGenreById(audio.genre)}
-      onPlayClick={this.onPlayClick}
-      playing={this.props.playerPlaying && id === this.props.playerTrack}
+      return <AudioItem
+        key={id}
+        id={id}
+        title={audio.title}
+        artist={audio.artist}
+        genre={getGenreById(audio.genre)}
+        onPlayClick={this.onPlayClick}
+        playing={this.props.playerPlaying && id === this.props.playerCurrentTrack}
       />;
+    });
   }
 
   getLoader() {
@@ -71,14 +70,7 @@ export default class AudioList extends Component {
   render() {
     return (
       <div>
-        <ReactList
-          itemRenderer={this.renderItem}
-          length={this.props.ids.length}
-          type="uniform"
-          threshold={200}
-          useStaticSize={true}
-          />
-        {this.getLoader()}
+        {this.renderItems()}
         {this.getLoader()}
       </div>
     );

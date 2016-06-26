@@ -27,9 +27,10 @@ export default class AudioItem extends Component {
   }
 
   checkProps(nextProps) {
-    const {title, artist, genre} = this.props;
+    const {title, artist, genre, id, playing} = this.props;
 
-    return title === nextProps.title && artist === nextProps.artist && genre === nextProps.genre;
+    return title === nextProps.title && artist === nextProps.artist &&
+      genre === nextProps.genre && id === nextProps.id && playing === nextProps.playing;
   }
 
   shouldComponentUpdate(nextProps) {

@@ -12,7 +12,7 @@ const mapStateToProps = state => ({
   ids: state.audio.my,
   audiosLoading: state.audio.loading,
   audiosError: state.audio.error,
-  playerTrack: state.player.current,
+  playerCurrentTrack: state.player.current,
   playerPlaying: state.player.playing
 });
 

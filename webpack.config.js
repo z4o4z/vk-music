@@ -137,7 +137,19 @@ module.exports = {
       '/audio-proxy/cs6-9v4.vk-cdn.net/*': {target: 'https://cs6-9v4.vk-cdn.net', rewrite},
       '/audio-proxy/cs6-10v4.vk-cdn.net/*': {target: 'https://cs6-10v4.vk-cdn.net', rewrite},
       '/audio-proxy/cs6-11v4.vk-cdn.net/*': {target: 'https://cs6-11v4.vk-cdn.net', rewrite},
-      '/audio-proxy/cs6-12v4.vk-cdn.net/*': {target: 'https://cs6-12v4.vk-cdn.net', rewrite}
+      '/audio-proxy/cs6-12v4.vk-cdn.net/*': {target: 'https://cs6-12v4.vk-cdn.net', rewrite},
+      '/audio-proxy/cs9-1v4.vk.me/*': {target: 'https://cs9-1v4.vk.me', rewrite},
+      '/audio-proxy/cs9-2v4.vk.me/*': {target: 'https://cs9-2v4.vk.me', rewrite},
+      '/audio-proxy/cs9-3v4.vk.me/*': {target: 'https://cs9-3v4.vk.me', rewrite},
+      '/audio-proxy/cs9-4v4.vk.me/*': {target: 'https://cs9-4v4.vk.me', rewrite},
+      '/audio-proxy/cs9-5v4.vk.me/*': {target: 'https://cs9-5v4.vk.me', rewrite},
+      '/audio-proxy/cs9-6v4.vk.me/*': {target: 'https://cs9-6v4.vk.me', rewrite},
+      '/audio-proxy/cs9-7v4.vk.me/*': {target: 'https://cs9-7v4.vk.me', rewrite},
+      '/audio-proxy/cs9-8v4.vk.me/*': {target: 'https://cs9-8v4.vk.me', rewrite},
+      '/audio-proxy/cs9-9v4.vk.me/*': {target: 'https://cs9-9v4.vk.me', rewrite},
+      '/audio-proxy/cs9-10v4.vk.me/*': {target: 'https://cs9-10v4.vk.me', rewrite},
+      '/audio-proxy/cs9-11v4.vk.me/*': {target: 'https://cs9-11v4.vk.me', rewrite},
+      '/audio-proxy/cs9-12v4.vk.me/*': {target: 'https://cs9-12v4.vk.me', rewrite}
     }
   }
 };

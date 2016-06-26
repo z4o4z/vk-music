@@ -29,6 +29,7 @@ let initialState = {
     error: 0
   },
   player: {
+    playlist: [],
     current: 0,
     playing: false
   }
