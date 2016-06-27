@@ -23,6 +23,27 @@ export default class RippleButton extends Component {
     this.onMouseDown = this.onMouseDown.bind(this);
   }
 
+  render() {
+    return (
+      <button className={this.getClassName()}
+              ref="button"
+              onMouseDown={this.onMouseDown}
+              onTouchstart={this.onMouseDown}
+              onClick={this.onClick}>
+        {this.props.children}
+        <Ripple cursorPos={this.state.cursorPos} />
+      </button>
+    );
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return !this.checkPropsAndState(nextProps, nextState);
+  }
+
+  getClassName() {
+    return `${classes.button} ${this.props.className} ${this.props.rounded ? classes.buttonRounded : ''}`;
+  }
+
   checkPropsAndState(nextProps, nextState) {
     const {children, onClick, rounded, className} = this.props;
 
@@ -31,10 +52,6 @@ export default class RippleButton extends Component {
       rounded === nextProps.rounded &&
       className === nextProps.className &&
       nextState === this.state;
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return !this.checkPropsAndState(nextProps, nextState);
   }
 
   onMouseDown(e) {
@@ -51,22 +68,5 @@ export default class RippleButton extends Component {
     if (this.props.onClick) {
       this.props.onClick();
     }
-  }
-
-  getClassName() {
-    return `${classes.button} ${this.props.className} ${this.props.rounded ? classes.buttonRounded : ''}`;
-  }
-
-  render() {
-    return (
-      <button className={this.getClassName()}
-              ref="button"
-              onMouseDown={this.onMouseDown}
-              onTouchstart={this.onMouseDown}
-              onClick={this.onClick}>
-        {this.props.children}
-        <Ripple cursorPos={this.state.cursorPos} />
-      </button>
-    );
   }
 }

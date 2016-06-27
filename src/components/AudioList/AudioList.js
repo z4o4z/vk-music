@@ -29,21 +29,22 @@ export default class AudioList extends Component {
     this.props.getAudio(0, 100);
   }
 
+  render() {
+    return (
+      <div>
+        {this.getItems()}
+        {this.getLoader()}
+      </div>
+    );
+  }
+
   componentWillReceiveProps(nextProps) {
     if (!nextProps.playerCurrentTrack && Object.keys(nextProps.audios).length) {
       this.props.setTrack(nextProps.ids[0]);
     }
   }
 
-  onPlayClick(id) {
-    if (id === this.props.playerCurrentTrack) {
-      this.props.playPlayPause();
-    } else {
-      this.props.playTrack(id);
-    }
-  }
-
-  renderItems() {
+  getItems() {
     return this.props.ids.map(id => {
       const audio = this.props.audios[id];
 
@@ -67,12 +68,11 @@ export default class AudioList extends Component {
     return <Loader />;
   }
 
-  render() {
-    return (
-      <div>
-        {this.renderItems()}
-        {this.getLoader()}
-      </div>
-    );
+  onPlayClick(id) {
+    if (id === this.props.playerCurrentTrack) {
+      this.props.playPlayPause();
+    } else {
+      this.props.playTrack(id);
+    }
   }
 }

@@ -15,6 +15,12 @@ export default class Ripple extends Component {
     left: 0
   };
 
+  render() {
+    return (
+      <i className={this.getClassName()} ref="ripple" style={this.getStyle()}></i>
+    );
+  }
+
   componentWillReceiveProps(nextProps) {
     let cursorPos = nextProps.cursorPos;
 
@@ -32,6 +38,19 @@ export default class Ripple extends Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     return this.state !== nextState;
+  }
+
+  getStyle() {
+    return {
+      top: `${this.state.top}px`,
+      left: `${this.state.left}px`,
+      width: `${this.state.width}px`,
+      height: `${this.state.height}px`
+    };
+  }
+
+  getClassName() {
+    return `${classes.ripple} ${this.state.animate ? classes.isReppling : ''}`;
   }
 
   reppling(cursorPos) {
@@ -57,24 +76,5 @@ export default class Ripple extends Component {
       top: cursorPos.top - buttonPos.top - centerize,
       left: cursorPos.left - buttonPos.left - centerize
     });
-  }
-
-  getStyle() {
-    return {
-      top: `${this.state.top}px`,
-      left: `${this.state.left}px`,
-      width: `${this.state.width}px`,
-      height: `${this.state.height}px`
-    };
-  }
-
-  getClassName() {
-    return `${classes.ripple} ${this.state.animate ? classes.isReppling : ''}`;
-  }
-
-  render() {
-    return (
-      <i className={this.getClassName()} ref="ripple" style={this.getStyle()}></i>
-    );
   }
 }

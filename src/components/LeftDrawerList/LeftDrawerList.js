@@ -9,6 +9,14 @@ export default class LeftDrawerList extends Component {
     items: PropTypes.array.isRequired
   };
 
+  render() {
+    return (
+      <ul className={classes.list}>
+        {this.getItems()}
+      </ul>
+    );
+  }
+
   shouldComponentUpdate(nextProps) {
     return this.props.items !== nextProps.items;
   }
@@ -23,14 +31,6 @@ export default class LeftDrawerList extends Component {
           </div>
         </RippleButton>
       </li>
-    );
-  }
-
-  render() {
-    return (
-      <ul className={classes.list}>
-        {this.getItems()}
-      </ul>
     );
   }
 }

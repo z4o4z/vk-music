@@ -47,14 +47,6 @@ export default class LeftDrawer extends Component {
     }]
   };
 
-  shouldComponentUpdate(nextProps) {
-    return this.props.open !== nextProps.open;
-  }
-
-  getClassName() {
-    return `${classes.component} ${this.props.open ? classes.componentOpen : ''}`;
-  }
-
   render() {
     return (
       <aside className={this.getClassName()}>
@@ -62,5 +54,13 @@ export default class LeftDrawer extends Component {
         <LeftDrawerList items={this.state.bottomList}/>
       </aside>
     );
+  }
+
+  shouldComponentUpdate(nextProps) {
+    return this.props.open !== nextProps.open;
+  }
+
+  getClassName() {
+    return `${classes.component} ${this.props.open ? classes.componentOpen : ''}`;
   }
 }

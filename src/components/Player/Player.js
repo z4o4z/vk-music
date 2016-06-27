@@ -11,10 +11,6 @@ export default class Player extends Component {
     playing: PropTypes.bool.isRequired
   };
 
-  shouldComponentUpdate(nextProps) {
-    return nextProps.playing !== this.props.playing || nextProps.audioFile !== this.props.audioFile;
-  }
-
   render() {
     return (
       <div className={classes.component}>
@@ -22,5 +18,9 @@ export default class Player extends Component {
         <PlayerVisualization audioFile={this.props.audioFile} playing={this.props.playing}/>
       </div>
     );
+  }
+
+  shouldComponentUpdate(nextProps) {
+    return nextProps.playing !== this.props.playing || nextProps.audioFile !== this.props.audioFile;
   }
 }

@@ -26,21 +26,6 @@ export default class AudioItem extends Component {
     this.onPlay = this.onPlay.bind(this);
   }
 
-  checkProps(nextProps) {
-    const {title, artist, genre, id, playing} = this.props;
-
-    return title === nextProps.title && artist === nextProps.artist &&
-      genre === nextProps.genre && id === nextProps.id && playing === nextProps.playing;
-  }
-
-  shouldComponentUpdate(nextProps) {
-    return !this.checkProps(nextProps);
-  }
-
-  onPlay() {
-    this.props.onPlayClick(this.props.id);
-  }
-
   render() {
     return (
       <div className={classes.component} onClick={this.onPlay}>
@@ -56,5 +41,20 @@ export default class AudioItem extends Component {
         </div>
       </div>
     );
+  }
+
+  shouldComponentUpdate(nextProps) {
+    return !this.checkProps(nextProps);
+  }
+
+  checkProps(nextProps) {
+    const {title, artist, genre, id, playing} = this.props;
+
+    return title === nextProps.title && artist === nextProps.artist &&
+      genre === nextProps.genre && id === nextProps.id && playing === nextProps.playing;
+  }
+
+  onPlay() {
+    this.props.onPlayClick(this.props.id);
   }
 }

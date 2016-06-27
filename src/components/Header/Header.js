@@ -16,14 +16,6 @@ export default class Header extends Component {
     open: PropTypes.bool.isRequired
   };
 
-  getIcon() {
-    return this.props.open ? CloseIcon : MenuIcon;
-  }
-
-  shouldComponentUpdate(nextProps) {
-    return this.props.open !== nextProps.open;
-  }
-
   render() {
     return (
       <header className={classes.component}>
@@ -33,5 +25,13 @@ export default class Header extends Component {
         <h1 className={classes.title}>VK Music</h1>
       </header>
     );
+  }
+
+  shouldComponentUpdate(nextProps) {
+    return this.props.open !== nextProps.open;
+  }
+
+  getIcon() {
+    return this.props.open ? CloseIcon : MenuIcon;
   }
 }

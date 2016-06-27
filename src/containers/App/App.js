@@ -33,16 +33,16 @@ class App extends Component {
     }
   }
 
-  isAppStarted() {
-    return this.props.isVKInitialized && this.props.isVKAuthorized;
-  }
-
-  getLoader() {
-    if (this.isAppStarted()) {
-      return null;
-    }
-
-    return <Loader />;
+  render() {
+    return (
+      <section className={classes.component}>
+        <Header onMenuClick={this.props.uiLeftMenuOpen} open={this.props.leftMenuOpen}/>
+        <LeftDrawer open={this.props.leftMenuOpen}/>
+        {this.getContent()}
+        {this.getPlayer()}
+        {this.getLoader()}
+      </section>
+    );
   }
 
   getContent() {
@@ -71,16 +71,16 @@ class App extends Component {
     return <Player playing={this.props.player.playing} audioFile={this.getAudioUrl(this.props.player.current)}/>;
   }
 
-  render() {
-    return (
-      <section className={classes.component}>
-        <Header onMenuClick={this.props.uiLeftMenuOpen} open={this.props.leftMenuOpen}/>
-        <LeftDrawer open={this.props.leftMenuOpen}/>
-        {this.getContent()}
-        {this.getLoader()}
-        {this.getPlayer()}
-      </section>
-    );
+  getLoader() {
+    if (this.isAppStarted()) {
+      return null;
+    }
+
+    return <Loader />;
+  }
+
+  isAppStarted() {
+    return this.props.isVKInitialized && this.props.isVKAuthorized;
   }
 }
 
