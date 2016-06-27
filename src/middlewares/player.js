@@ -6,7 +6,7 @@ function isSetNewPlayList(type, playlistPage, currentPage) {
   return type === PLAYER_SET_TRACK && playlistPage !== currentPage;
 }
 
-export default store => next => action => {
+export const playerSetPlaylistAndPage = store => next => action => {
   const state = store.getState();
   const currentPage = state.routing.locationBeforeTransitions ? state.routing.locationBeforeTransitions.pathname : '';
   let result = next(action);
@@ -18,8 +18,8 @@ export default store => next => action => {
       default: playlist = state.audio.my;
     }
 
-    store.dispatch(playerSetPlaylist(playlist));
-    store.dispatch(playerSetPlaylistPage(currentPage));
+    result = next(playerSetPlaylist(playlist));
+    result = next(playerSetPlaylistPage(currentPage));
   }
 
   return result;

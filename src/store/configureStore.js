@@ -4,10 +4,14 @@ import persistState from 'redux-localstorage';
 
 import reducers from '../reducers/index.js';
 
-import authorize from '../middlewares/authorize';
-import player from '../middlewares/player';
+import {authorize} from '../middlewares/authorize';
+import {playerSetPlaylistAndPage} from '../middlewares/player';
 
-let middlewares = [authorize, player, thunk];
+let middlewares = [
+  authorize,
+  playerSetPlaylistAndPage,
+  thunk
+];
 
 if (!IS_PROD) {
   const createLogger = require('redux-logger');
