@@ -16,7 +16,8 @@ const FastRewindIcon = <FastRewind size={22} color="white"/>;
 
 export default class PlayerControls extends Component {
   static propTypes = {
-    playing: PropTypes.bool.isRequired
+    playing: PropTypes.bool.isRequired,
+    onPlay: PropTypes.func.isRequired
   };
 
   render() {
@@ -25,7 +26,7 @@ export default class PlayerControls extends Component {
         <RippleButton rounded={true} className={classes.prev}>
           {FastRewindIcon}
         </RippleButton>
-        <RippleButton rounded={true} className={classes.play}>
+        <RippleButton rounded={true} className={classes.play} onClick={this.props.onPlay}>
           {this.props.playing ? PauseIcon : PlayArrowIcon}
         </RippleButton>
         <RippleButton rounded={true} className={classes.next}>

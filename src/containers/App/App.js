@@ -2,7 +2,8 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 
 import {uiLeftMenuOpen, showLoader, hideLoader} from '../../actions/ui';
-import {initAndAuth} from '../../actions/vk';
+import {initialize} from '../../actions/initialize';
+import {playerPlayPause} from '../../actions/player';
 
 import Header from '../../components/Header/Header';
 import LeftDrawer from '../../components/LeftDrawer/LeftDrawer';
@@ -18,19 +19,18 @@ class App extends Component {
     uiLeftMenuOpen: PropTypes.func.isRequired,
     hideLoader: PropTypes.func.isRequired,
     showLoader: PropTypes.func.isRequired,
-    isVKInitialized: PropTypes.bool.isRequired,
-    isVKAuthorized: PropTypes.bool.isRequired,
-    VKAuthExpire: PropTypes.number.isRequired,
-    initAndAuthVk: PropTypes.func.isRequired,
+    initialized: PropTypes.bool.isRequired,
+    authorized: PropTypes.bool.isRequired,
+    tokenExpire: PropTypes.number.isRequired,
+    initialize: PropTypes.func.isRequired,
+    playPlayPause: PropTypes.func.isRequired,
     player: PropTypes.object.isRequired,
     audios: PropTypes.object.isRequired,
     children: PropTypes.element.isRequired
   };
 
   componentWillMount() {
-    if (!this.props.isVKInitialized) {
-      this.props.initAndAuthVk(this.props.VKAuthExpire);
-    }
+    this.props.initialize();
   }
 
   render() {
@@ -68,7 +68,10 @@ class App extends Component {
       return null;
     }
 
-    return <Player playing={this.props.player.playing} audioFile={this.getAudioUrl(this.props.player.current)}/>;
+    return <Player
+      playing={this.props.player.playing}
+      audioFile={this.getAudioUrl(this.props.player.current)}
+      onPlay={this.props.playPlayPause}/>;
   }
 
   getLoader() {
@@ -80,16 +83,16 @@ class App extends Component {
   }
 
   isAppStarted() {
-    return this.props.isVKInitialized && this.props.isVKAuthorized;
+    return this.props.initialized && this.props.authorized;
   }
 }
 
 const mapStateToProps = state => ({
   leftMenuOpen: state.ui.leftMenuOpen,
   isShowLoader: state.ui.showLoader,
-  isVKInitialized: state.vk.initialized,
-  isVKAuthorized: state.vk.authorized,
-  VKAuthExpire: state.vk.expire,
+  initialized: state.initialized,
+  authorized: state.authorize.authorized,
+  tokenExpire: state.authorize.expire,
   player: state.player,
   audios: state.audio.all
 });
@@ -98,7 +101,8 @@ const mapDispatchToProps = dispatch => ({
   uiLeftMenuOpen: () => dispatch(uiLeftMenuOpen()),
   showLoader: () => dispatch(showLoader()),
   hideLoader: () => dispatch(hideLoader()),
-  initAndAuthVk: expire => dispatch(initAndAuth(expire))
+  initialize: () => dispatch(initialize()),
+  playPlayPause: () => dispatch(playerPlayPause())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

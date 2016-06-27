@@ -12,8 +12,8 @@ import classes from './index.scss';
 
 let initialState = {
   routing: {},
-  vk: {
-    initialized: false,
+  initialized: false,
+  authorize: {
     authorized: false,
     authError: false,
     expire: 0
@@ -30,6 +30,7 @@ let initialState = {
   },
   player: {
     playlist: [],
+    playlistPage: '',
     current: 0,
     playing: false
   }

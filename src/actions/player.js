@@ -1,4 +1,10 @@
-import {PLAYER_PLAY_TRACK, PLAYER_PLAY_PAUSE, PLAYER_SET_TRACK} from '../constants/player';
+import {
+  PLAYER_PLAY_TRACK,
+  PLAYER_PLAY_PAUSE,
+  PLAYER_SET_TRACK,
+  PLAYER_SET_PLAYLIST,
+  PLAYER_SET_PLAYLIST_PAGE
+} from '../constants/player';
 
 export function playerPlayTrack(id) {
   return {
@@ -17,5 +23,19 @@ export function playerSetTrack(id) {
   return {
     type: PLAYER_SET_TRACK,
     payload: id
+  };
+}
+
+export function playerSetPlaylist(playlist) {
+  return {
+    type: PLAYER_SET_PLAYLIST,
+    payload: playlist
+  };
+}
+
+export function playerSetPlaylistPage(page) {
+  return {
+    type: PLAYER_SET_PLAYLIST_PAGE,
+    payload: page
   };
 }

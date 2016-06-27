@@ -4,7 +4,10 @@ import persistState from 'redux-localstorage';
 
 import reducers from '../reducers/index.js';
 
-let middlewares = [thunk];
+import authorize from '../middlewares/authorize';
+import player from '../middlewares/player';
+
+let middlewares = [authorize, player, thunk];
 
 if (!IS_PROD) {
   const createLogger = require('redux-logger');
@@ -13,7 +16,7 @@ if (!IS_PROD) {
 }
 
 const includeInLocalStorage = [
-  'vk.expire',
+  'authorize.expire',
   'ui.leftMenuOpen'
 ];
 

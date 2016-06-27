@@ -8,13 +8,14 @@ import classes from './player.scss';
 export default class Player extends Component {
   static propTypes = {
     audioFile: PropTypes.string.isRequired,
-    playing: PropTypes.bool.isRequired
+    playing: PropTypes.bool.isRequired,
+    onPlay: PropTypes.func.isRequired
   };
 
   render() {
     return (
       <div className={classes.component}>
-        <PlayerControls playing={this.props.playing}/>
+        <PlayerControls playing={this.props.playing} onPlay={this.props.onPlay}/>
         <PlayerVisualization audioFile={this.props.audioFile} playing={this.props.playing}/>
       </div>
     );

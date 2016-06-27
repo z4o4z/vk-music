@@ -1,6 +1,6 @@
 import {UI_LEFT_MENU_OPEN, UI_SHOW_LOADER, UI_HIDE_LOADER} from '../constants/ui';
 
-export default function ui(state = {}, action = {}) {
+export default (state = {}, action = {}) => {
   switch (action.type) {
     case UI_LEFT_MENU_OPEN:
       return {...state, leftMenuOpen: !state.leftMenuOpen};
@@ -10,4 +10,4 @@ export default function ui(state = {}, action = {}) {
       return {...state, showLoader: false};
     default: return state;
   }
-}
+};
