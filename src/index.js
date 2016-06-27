@@ -32,6 +32,8 @@ let initialState = {
     playlist: [],
     playlistPage: '',
     current: 0,
+    next: 0,
+    prev: 0,
     playing: false
   }
 };
