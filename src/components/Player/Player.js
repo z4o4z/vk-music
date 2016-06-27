@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react';
 
 import PlayerControls from '../PlayerControls/PlayerControls';
 import PlayerVisualization from '../PlayerVisualization/PlayerVisualization';
+import AudioInfo from '../AudioInfo/AudioInfo';
 
 import classes from './player.scss';
 
@@ -23,6 +24,8 @@ export default class Player extends Component {
   }
 
   render() {
+    const audio = this.props.audio;
+
     return (
       <div className={classes.component}>
         <PlayerControls
@@ -35,10 +38,13 @@ export default class Player extends Component {
         />
 
         <PlayerVisualization
-          audioFile={this.props.audio.url}
+          audioFile={audio.url}
           playing={this.props.playing}
-          onEnded={this.onEnded}
-        />
+          onEnded={this.onEnded}>
+          <div className={classes.visualisationContent}>
+            <AudioInfo title={audio.title} artist={audio.artist} genre={audio.genre} />
+          </div>
+        </PlayerVisualization>
       </div>
     );
   }

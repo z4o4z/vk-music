@@ -4,6 +4,7 @@ import PlayArrow from 'react-icons/lib/md/play-arrow';
 import Pause from 'react-icons/lib/md/pause';
 
 import RippleButton from '../RippleButton/RippleButton';
+import AudioInfo from '../AudioInfo/AudioInfo';
 
 import classes from './audioItem.scss';
 
@@ -28,18 +29,13 @@ export default class AudioItem extends Component {
 
   render() {
     return (
-      <div className={classes.component} onClick={this.onPlay}>
+      <li className={classes.component} onClick={this.onPlay}>
         <RippleButton rounded={true} className={classes.button}>
           {this.props.playing ? PauseIcon : PlayArrowIcon}
         </RippleButton>
-        <div className={classes.info}>
-          <span className={classes.title}>{this.props.title}</span>
-          <div className={classes.infoFooter}>
-            <span className={classes.artist}>{this.props.artist}</span>
-            <span className={classes.genre}>{this.props.genre}</span>
-          </div>
-        </div>
-      </div>
+
+        <AudioInfo title={this.props.title} artist={this.props.artist} genre={this.props.genre} />
+      </li>
     );
   }
 

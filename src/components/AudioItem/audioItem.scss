@@ -29,31 +29,3 @@
 
   background-color: $audio-item-btn-background;
 }
-
-.info {
-  display: block;
-  margin: 0 $audio-item-content-padding;
-}
-
-.infoFooter {
-  margin-top: 3px;
-
-  color: $audio-item-secondary-color;
-  font-size: 14px;
-}
-
-.artist,
-.genre,
-.duration {
-  margin-right: $audio-item-content-padding;
-}
-
-.artist,
-.genre {
-  transition: color $animation-duration $animation-function;
-
-  &:hover {
-    color: darken($audio-item-secondary-color, 20%);
-    text-decoration: underline;
-  }
-}

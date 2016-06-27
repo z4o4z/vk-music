@@ -15,7 +15,8 @@ export default class PlayerVisualization extends Component {
   static propTypes = {
     audioFile: PropTypes.string,
     playing: PropTypes.bool.isRequired,
-    onEnded: PropTypes.func.isRequired
+    onEnded: PropTypes.func.isRequired,
+    children: PropTypes.element.isRequired
   };
 
   withoutVisualisation = false;
@@ -45,6 +46,7 @@ export default class PlayerVisualization extends Component {
       <div className={classes.component}>
         <audio src={this.getProxyUrl(this.props.audioFile)} ref="audio" onEnded={this.props.onEnded}/>
         <div className={classes.graph} ref="graph"></div>
+        {this.props.children}
       </div>
     );
   }

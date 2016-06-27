@@ -5,6 +5,8 @@ import {getGenreById} from '../../helpers/genres';
 import Loader from '../Loader/Loader';
 import AudioItem from '../AudioItem/AudioItem';
 
+import classes from './audioList.scss';
+
 export default class AudioList extends Component {
   static propTypes = {
     audios: PropTypes.object.isRequired,
@@ -31,10 +33,10 @@ export default class AudioList extends Component {
 
   render() {
     return (
-      <div>
+      <ul className={classes.component}>
         {this.getItems()}
         {this.getLoader()}
-      </div>
+      </ul>
     );
   }
 
