@@ -17,19 +17,36 @@ const FastRewindIcon = <FastRewind size={22} color="white"/>;
 export default class PlayerControls extends Component {
   static propTypes = {
     playing: PropTypes.bool.isRequired,
-    onPlay: PropTypes.func.isRequired
+    onPlay: PropTypes.func.isRequired,
+    onNext: PropTypes.func.isRequired,
+    onPrev: PropTypes.func.isRequired,
+    hasNext: PropTypes.bool.isRequired,
+    hasPrev: PropTypes.bool.isRequired
   };
 
   render() {
     return (
       <div className={classes.component}>
-        <RippleButton rounded={true} className={classes.prev}>
+        <RippleButton
+          className={classes.prev}
+          rounded={true}
+          disabled={!this.props.hasPrev}
+          onClick={this.props.onPrev}>
           {FastRewindIcon}
         </RippleButton>
-        <RippleButton rounded={true} className={classes.play} onClick={this.props.onPlay}>
+
+        <RippleButton
+          className={classes.play}
+          rounded={true}
+          onClick={this.props.onPlay}>
           {this.props.playing ? PauseIcon : PlayArrowIcon}
         </RippleButton>
-        <RippleButton rounded={true} className={classes.next}>
+
+        <RippleButton
+          className={classes.next}
+          rounded={true}
+          disabled={!this.props.hasNext}
+          onClick={this.props.onNext}>
           {FastForwardIcon}
         </RippleButton>
       </div>

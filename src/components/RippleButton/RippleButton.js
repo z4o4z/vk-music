@@ -9,6 +9,7 @@ export default class RippleButton extends Component {
     className: PropTypes.string.isRequired,
     onClick: PropTypes.func,
     rounded: PropTypes.bool,
+    disabled: PropTypes.bool,
     children: PropTypes.element.isRequired
   };
 
@@ -41,16 +42,31 @@ export default class RippleButton extends Component {
   }
 
   getClassName() {
-    return `${classes.button} ${this.props.className} ${this.props.rounded ? classes.buttonRounded : ''}`;
+    let _classes = [classes.button];
+
+    if (this.props.className) {
+      _classes.push(this.props.className);
+    }
+
+    if (this.props.rounded) {
+      _classes.push(classes.buttonRounded);
+    }
+
+    if (this.props.disabled) {
+      _classes.push(classes.disabled);
+    }
+
+    return _classes.join(' ');
   }
 
   checkPropsAndState(nextProps, nextState) {
-    const {children, onClick, rounded, className} = this.props;
+    const {children, onClick, rounded, disabled, className} = this.props;
 
     return children === nextProps.children &&
       onClick === nextProps.onClick &&
       rounded === nextProps.rounded &&
       className === nextProps.className &&
+      disabled === nextProps.disabled &&
       nextState === this.state;
   }
 

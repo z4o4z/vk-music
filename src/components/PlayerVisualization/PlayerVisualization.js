@@ -14,7 +14,8 @@ const BAR_BLUE_COLOR = 0.4666666666666667;
 export default class PlayerVisualization extends Component {
   static propTypes = {
     audioFile: PropTypes.string,
-    playing: PropTypes.bool.isRequired
+    playing: PropTypes.bool.isRequired,
+    onEnded: PropTypes.func.isRequired
   };
 
   withoutVisualisation = false;
@@ -42,7 +43,7 @@ export default class PlayerVisualization extends Component {
   render() {
     return (
       <div className={classes.component}>
-        <audio src={this.getProxyUrl(this.props.audioFile)} ref="audio"/>
+        <audio src={this.getProxyUrl(this.props.audioFile)} ref="audio" onEnded={this.props.onEnded}/>
         <div className={classes.graph} ref="graph"></div>
       </div>
     );

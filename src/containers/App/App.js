@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 
 import {uiLeftMenuOpen, showLoader, hideLoader} from '../../actions/ui';
 import {initialize} from '../../actions/initialize';
-import {playerPlayPause} from '../../actions/player';
+import {playerPlayPause, playerNext, playerPrev} from '../../actions/player';
 
 import Header from '../../components/Header/Header';
 import LeftDrawer from '../../components/LeftDrawer/LeftDrawer';
@@ -24,6 +24,8 @@ class App extends Component {
     tokenExpire: PropTypes.number.isRequired,
     initialize: PropTypes.func.isRequired,
     playPlayPause: PropTypes.func.isRequired,
+    playerNext: PropTypes.func.isRequired,
+    playerPrev: PropTypes.func.isRequired,
     player: PropTypes.object.isRequired,
     audios: PropTypes.object.isRequired,
     children: PropTypes.element.isRequired
@@ -59,8 +61,8 @@ class App extends Component {
     );
   }
 
-  getAudioUrl(id) {
-    return this.props.audios[id].url;
+  getAudio(id) {
+    return this.props.audios[id];
   }
 
   getPlayer() {
@@ -70,8 +72,13 @@ class App extends Component {
 
     return <Player
       playing={this.props.player.playing}
-      audioFile={this.getAudioUrl(this.props.player.current)}
-      onPlay={this.props.playPlayPause}/>;
+      audio={this.getAudio(this.props.player.current)}
+      hasNext={Boolean(this.props.player.next)}
+      hasPrev={Boolean(this.props.player.prev)}
+      onPlay={this.props.playPlayPause}
+      onNext={this.props.playerNext}
+      onPrev={this.props.playerPrev}
+    />;
   }
 
   getLoader() {
@@ -102,7 +109,9 @@ const mapDispatchToProps = dispatch => ({
   showLoader: () => dispatch(showLoader()),
   hideLoader: () => dispatch(hideLoader()),
   initialize: () => dispatch(initialize()),
-  playPlayPause: () => dispatch(playerPlayPause())
+  playPlayPause: () => dispatch(playerPlayPause()),
+  playerNext: () => dispatch(playerNext()),
+  playerPrev: () => dispatch(playerPrev())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

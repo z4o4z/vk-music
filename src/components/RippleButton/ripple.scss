@@ -61,6 +61,11 @@
       opacity: 1;
     }
   }
+
+  &.disabled {
+    cursor: default;
+    pointer-events: none;
+  }
 }
 
 @keyframes ripple {
