@@ -44,7 +44,7 @@ export default class PlayerVisualization extends Component {
   render() {
     return (
       <div className={classes.component}>
-        <audio src={this.getProxyUrl(this.props.audioFile)} ref="audio" onEnded={this.props.onEnded}/>
+        <audio src={this.getProxyUrl(this.props.audioFile)} ref="audio" onEnded={this.props.onEnded} crossOrigin="anonymous"/>
         <div className={classes.graph} ref="graph"></div>
         {this.props.children}
       </div>
@@ -87,6 +87,10 @@ export default class PlayerVisualization extends Component {
   }
 
   getProxyUrl(url) {
+    if (url.search('psv4.vk.me/') + 1) {
+      return url;
+    }
+
     let urlArr = url.split('/');
     urlArr[0] = 'http:';
     urlArr.splice(2, 0, window.location.host, 'audio-proxy');
