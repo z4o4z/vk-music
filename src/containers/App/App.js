@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 
-import {uiLeftMenuOpen, showLoader, hideLoader} from '../../actions/ui';
+import {uiLeftMenuOpen} from '../../actions/ui';
 import {initialize} from '../../actions/initialize';
 import {playerPlayPause, playerNext, playerPrev} from '../../actions/player';
 
@@ -15,10 +15,7 @@ import classes from './app.scss';
 class App extends Component {
   static propTypes = {
     leftMenuOpen: PropTypes.bool.isRequired,
-    isShowLoader: PropTypes.bool.isRequired,
     uiLeftMenuOpen: PropTypes.func.isRequired,
-    hideLoader: PropTypes.func.isRequired,
-    showLoader: PropTypes.func.isRequired,
     initialized: PropTypes.bool.isRequired,
     authorized: PropTypes.bool.isRequired,
     tokenExpire: PropTypes.number.isRequired,
@@ -53,7 +50,7 @@ class App extends Component {
     }
 
     return (
-      <main className={`${classes.contentWrapper} ${this.props.leftMenuOpen ? classes.contentWrapperWithPadding : ''}`}>
+      <main className={classes.contentWrapper}>
         <div className={classes.content}>
           {this.props.children}
         </div>
@@ -96,7 +93,6 @@ class App extends Component {
 
 const mapStateToProps = state => ({
   leftMenuOpen: state.ui.leftMenuOpen,
-  isShowLoader: state.ui.showLoader,
   initialized: state.initialized,
   authorized: state.authorize.authorized,
   tokenExpire: state.authorize.expire,
@@ -106,8 +102,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   uiLeftMenuOpen: () => dispatch(uiLeftMenuOpen()),
-  showLoader: () => dispatch(showLoader()),
-  hideLoader: () => dispatch(hideLoader()),
   initialize: () => dispatch(initialize()),
   playPlayPause: () => dispatch(playerPlayPause()),
   playerNext: () => dispatch(playerNext()),

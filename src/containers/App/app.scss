@@ -13,14 +13,7 @@
   flex-grow: 1;
   box-sizing: border-box;
 
-  transform: translateZ(0);
-  transition: padding $animation-duration $animation-function;
-
   overflow-y: auto;
-
-  &.contentWrapperWithPadding {
-    padding-left: $app-padding-left;
-  }
 }
 
 .content {

@@ -37,12 +37,9 @@ export default class Player extends Component {
           hasPrev={this.props.hasPrev}
         />
 
-        <PlayerVisualization
-          audioFile={audio.url}
-          playing={this.props.playing}
-          onEnded={this.onEnded}>
+        <PlayerVisualization audioFile={audio.url} playing={this.props.playing} onEnded={this.onEnded}>
           <div className={classes.visualisationContent}>
-            <AudioInfo title={audio.title} artist={audio.artist} genre={audio.genre} />
+            <AudioInfo title={audio.title} artist={audio.artist} playerStyle={true}/>
           </div>
         </PlayerVisualization>
       </div>
