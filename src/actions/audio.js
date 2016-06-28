@@ -1,4 +1,10 @@
-import {AUDIO_MY_LOADED, AUDIO_LOADING, AUDIO_ERROR} from '../constants/audio';
+import {
+  AUDIO_ERROR,
+  AUDIO_LOADED,
+  AUDIO_LOADING,
+  AUDIO_MY_FETCHED,
+  AUDIO_MY_UPDATED
+} from '../constants/audio';
 
 function normalizeAudios(audios) {
   let normalized = {};
@@ -15,14 +21,22 @@ function normalizeAudios(audios) {
   };
 }
 
-function loading() {
-  return {type: AUDIO_LOADING};
+function loading(ownerIs, albumId, audioIds, offset, count) {
+  return {
+    type: AUDIO_LOADING,
+    payload: {
+      ownerIs,
+      albumId,
+      audioIds,
+      offset,
+      count
+    }
+  };
 }
 
-function myAudioLoaded(audios) {
+function loaded() {
   return {
-    type: AUDIO_MY_LOADED,
-    payload: normalizeAudios(audios)
+    type: AUDIO_LOADED
   };
 }
 
@@ -33,7 +47,27 @@ function error(id) {
   };
 }
 
-function getAudio(ownerIs, albumId, audioIds, offset, count) {
+function myAudioFetched(offset, audios) {
+  return {
+    type: AUDIO_MY_FETCHED,
+    payload: {
+      offset,
+      ...normalizeAudios(audios)
+    }
+  };
+}
+
+function myAudioUpdated(offset, audios) {
+  return {
+    type: AUDIO_MY_UPDATED,
+    payload: {
+      offset,
+      ...normalizeAudios(audios)
+    }
+  };
+}
+
+function fetchAudio(ownerIs, albumId, audioIds, offset, count) {
   let params = {
     offset,
     count
@@ -66,10 +100,20 @@ function getAudio(ownerIs, albumId, audioIds, offset, count) {
   });
 }
 
-export const getMyAudio = (offset, count) => dispatch => {
+export const fetchMyAudio = (offset, count) => dispatch => {
+  dispatch(loading(undefined, undefined, undefined, offset, count));
+
+  fetchAudio(undefined, undefined, undefined, offset, count)
+    .then(audios => dispatch(myAudioFetched(offset, audios)))
+    .then(() => dispatch(loaded()))
+    .catch(id => dispatch(error(id)));
+};
+
+export const updateMyAudio = (offset, count) => dispatch => {
   dispatch(loading());
 
-  getAudio(undefined, undefined, undefined, offset, count)
-    .then(audios => dispatch(myAudioLoaded(audios)))
+  fetchAudio(undefined, undefined, undefined, offset, count)
+    .then(audios => dispatch(myAudioUpdated(offset, audios)))
+    .then(() => dispatch(loaded()))
     .catch(id => dispatch(error(id)));
 };

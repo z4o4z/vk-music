@@ -50,10 +50,8 @@ class App extends Component {
     }
 
     return (
-      <main className={classes.contentWrapper}>
-        <div className={classes.content}>
-          {this.props.children}
-        </div>
+      <main className={classes.content}>
+        {this.props.children}
       </main>
     );
   }

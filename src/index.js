@@ -24,7 +24,10 @@ let initialState = {
   },
   audio: {
     all: {},
-    my: [],
+    my: {
+      offset: 0,
+      ids: []
+    },
     loading: false,
     error: 0
   },
