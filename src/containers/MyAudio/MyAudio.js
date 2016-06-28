@@ -1,31 +1,26 @@
-import {PropTypes} from 'react';
 import {connect} from 'react-redux';
 
 import {getMyAudio} from '../../actions/audio';
+import {playerPlayTrack, playerPlayPause, playerSetTrack} from '../../actions/player';
 
 import AudioList from '../../components/AudioList/AudioList';
 
-class MyAudio extends AudioList {
-  static propTypes = {
-    audios: PropTypes.array.isRequired,
-    audiosLoading: PropTypes.bool.isRequired,
-    audiosError: PropTypes.number.isRequired,
-    getMyAudio: PropTypes.func.isRequired
-  };
-
-  componentWillMount() {
-    this.props.getMyAudio(0, 100);
-  }
-}
+class MyAudio extends AudioList {}
 
 const mapStateToProps = state => ({
-  audios: state.audio.my,
+  audios: state.audio.all,
+  ids: state.audio.my,
   audiosLoading: state.audio.loading,
-  audiosError: state.audio.error
+  audiosError: state.audio.error,
+  playerCurrentTrack: state.player.current,
+  playerPlaying: state.player.playing
 });
 
 const mapDispatchToProps = dispatch => ({
-  getMyAudio: (offset, count) => dispatch(getMyAudio(offset, count))
+  getAudio: (offset, count) => dispatch(getMyAudio(offset, count)),
+  playTrack: id => dispatch(playerPlayTrack(id)),
+  setTrack: id => dispatch(playerSetTrack(id)),
+  playPlayPause: () => dispatch(playerPlayPause())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyAudio);

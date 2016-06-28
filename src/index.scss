@@ -7,11 +7,12 @@ body {
   padding: 0;
   width: 100%;
   height: 100%;
+  overflow: hidden;
 
   background-color: $general-background;
 
   ::selection {
-    background-color: $general-background;
+    background-color: $primary-text-color;
     color: $general-selected-color;
   }
 }

@@ -1,40 +1,66 @@
 import React, {Component, PropTypes} from 'react';
 
-import Drawer from 'material-ui/Drawer';
-import {List, ListItem} from 'material-ui/List';
-import AvLibraryMusic from 'material-ui/svg-icons/av/library-music';
-import AVArtTrack from 'material-ui/svg-icons/av/art-track';
-import SocialPerson from 'material-ui/svg-icons/social/person';
-import SocialPeople from 'material-ui/svg-icons/social/people';
-import SocialWhatshot from 'material-ui/svg-icons/social/whatshot';
-import SocialNotifications from 'material-ui/svg-icons/social/notifications';
-import ActionThumbUp from 'material-ui/svg-icons/action/thumb-up';
-import ActionSettings from 'material-ui/svg-icons/action/settings';
+import AvLibraryMusic from 'react-icons/lib/md/library-music';
+import AvAlbum from 'react-icons/lib/md/album';
+import SocialPerson from 'react-icons/lib/md/person';
+import SocialPeople from 'react-icons/lib/md/people';
+import SocialWhatshot from 'react-icons/lib/md/whatshot';
+import SocialNotifications from 'react-icons/lib/md/notifications';
+import ActionThumbUp from 'react-icons/lib/md/thumb-up';
+import ActionSettings from 'react-icons/lib/md/settings';
+
+import LeftDrawerList from '../LeftDrawerList/LeftDrawerList';
 
 import classes from './leftDrawer.scss';
 
 export default class LeftDrawer extends Component {
   static propTypes = {
-    open: PropTypes.bool.isRequired,
-    topPosition: PropTypes.number.isRequired
+    open: PropTypes.bool.isRequired
+  };
+
+  state = {
+    topList: [{
+      icon: <AvLibraryMusic className={classes.icon} size={24} color="white" />,
+      text: 'Аудиозаписи'
+    }, {
+      icon: <AvAlbum className={classes.icon} size={24} color="white" />,
+      text: 'Альбомы'
+    }, {
+      icon: <SocialPerson className={classes.icon} size={24} color="white" />,
+      text: 'Друзья'
+    }, {
+      icon: <SocialPeople className={classes.icon} size={24} color="white" />,
+      text: 'Группы'
+    }, {
+      icon: <SocialWhatshot className={classes.icon} size={24} color="white" />,
+      text: 'Обновления'
+    }, {
+      icon: <SocialNotifications className={classes.icon} size={24} color="white" />,
+      text: 'Рекомендации'
+    }, {
+      icon: <ActionThumbUp className={classes.icon} size={24} color="white" />,
+      text: 'Популярные'
+    }],
+    bottomList: [{
+      icon: <ActionSettings className={classes.icon} size={24} color="white" />,
+      text: 'Настройки'
+    }]
   };
 
   render() {
     return (
-      <Drawer className={classes.component} open={this.props.open} zDepth={2} containerStyle={{top: this.props.topPosition}}>
-        <List className={classes.list}>
-          <ListItem primaryText="Аудиозаписи" leftIcon={<AvLibraryMusic />} />
-          <ListItem primaryText="Альбомы" leftIcon={<AVArtTrack />} />
-          <ListItem primaryText="Друзья" leftIcon={<SocialPerson />} />
-          <ListItem primaryText="Группы" leftIcon={<SocialPeople />} />
-          <ListItem primaryText="Обновления" leftIcon={<SocialNotifications />} />
-          <ListItem primaryText="Рекомендации" leftIcon={<ActionThumbUp />} />
-          <ListItem primaryText="Популярные" leftIcon={<SocialWhatshot />} />
-        </List>
-        <List className={classes.list}>
-          <ListItem primaryText="Настройки" leftIcon={<ActionSettings />} />
-        </List>
-      </Drawer>
+      <aside className={this.getClassName()}>
+        <LeftDrawerList items={this.state.topList}/>
+        <LeftDrawerList items={this.state.bottomList}/>
+      </aside>
     );
+  }
+
+  shouldComponentUpdate(nextProps) {
+    return this.props.open !== nextProps.open;
+  }
+
+  getClassName() {
+    return `${classes.component} ${this.props.open ? classes.componentOpen : ''}`;
   }
 }

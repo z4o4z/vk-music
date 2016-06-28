@@ -3,7 +3,6 @@ import React from 'react';
 import {render} from 'react-dom';
 import {browserHistory} from 'react-router';
 import {syncHistoryWithStore} from 'react-router-redux';
-import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import configureStore from './store/configureStore.js';
 
@@ -13,20 +12,29 @@ import classes from './index.scss';
 
 let initialState = {
   routing: {},
-  vk: {
-    initialized: false,
+  initialized: false,
+  authorize: {
     authorized: false,
     authError: false,
     expire: 0
   },
   ui: {
-    leftMenuOpen: true,
+    leftMenuOpen: false,
     showLoader: false
   },
   audio: {
+    all: {},
     my: [],
     loading: false,
     error: 0
+  },
+  player: {
+    playlist: [],
+    playlistPage: '',
+    current: 0,
+    next: 0,
+    prev: 0,
+    playing: false
   }
 };
 
@@ -35,11 +43,9 @@ const history = syncHistoryWithStore(browserHistory, store);
 const root = window.document.createElement('div');
 
 if (!IS_PROD) {
-  /* const whyDidYouUpdate = require('why-did-you-update').whyDidYouUpdate;
-   whyDidYouUpdate(React); */
+  const whyDidYouUpdate = require('why-did-you-update').whyDidYouUpdate;
+  whyDidYouUpdate(React);
 }
-
-injectTapEventPlugin();
 
 root.classList.add(classes.root);
 

@@ -9,41 +9,31 @@
 
   color: $audio-item-color;
 
-  box-shadow: rgba(0, 0, 0, 0.117647) 0 1px 2px;
-
   cursor: pointer;
 
   transition: background $animation-duration $animation-function;
 
   &:hover {
-    background-color: $audio-item-background-color;
+    background-color: darken($audio-item-background-color, 15%);
+  }
+
+  &.active {
+    background-color: darken($audio-item-background-color, 30%);
+  }
+
+  & + & {
+    border-top: 1px solid $audio-item-border-color;
   }
 }
 
-.info {
+.button {
   display: block;
-  margin: 0 $audio-item-content-padding;
-}
+  width: $audio-item-btn-size;
+  height: $audio-item-btn-size;
+  min-width: $audio-item-btn-size;
+  min-height: $audio-item-btn-size;
 
-.infoFooter {
-  margin-top: 3px;
+  box-shadow: $audio-item-btn-box-shadow;
 
-  color: $audio-item-secondary-color;
-  font-size: 14px;
-}
-
-.artist,
-.genre,
-.duration {
-  margin-right: $audio-item-content-padding;
-}
-
-.artist,
-.genre {
-  transition: color $animation-duration $animation-function;
-
-  &:hover {
-    color: lighten($audio-item-secondary-color, 15%);
-    text-decoration: underline;
-  }
+  background-color: $audio-item-btn-background;
 }

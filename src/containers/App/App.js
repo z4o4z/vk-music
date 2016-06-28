@@ -1,43 +1,81 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 
-import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-
-import {uiLeftMenuOpen, showLoader, hideLoader} from '../../actions/ui';
-import {initAndAuth} from '../../actions/vk';
+import {uiLeftMenuOpen} from '../../actions/ui';
+import {initialize} from '../../actions/initialize';
+import {playerPlayPause, playerNext, playerPrev} from '../../actions/player';
 
 import Header from '../../components/Header/Header';
 import LeftDrawer from '../../components/LeftDrawer/LeftDrawer';
 import Loader from '../../components/Loader/Loader';
+import Player from '../../components/Player/Player';
 
 import classes from './app.scss';
-
-const darkMuiTheme = getMuiTheme(darkBaseTheme);
 
 class App extends Component {
   static propTypes = {
     leftMenuOpen: PropTypes.bool.isRequired,
-    isShowLoader: PropTypes.bool.isRequired,
     uiLeftMenuOpen: PropTypes.func.isRequired,
-    hideLoader: PropTypes.func.isRequired,
-    showLoader: PropTypes.func.isRequired,
-    isVKInitialized: PropTypes.bool.isRequired,
-    isVKAuthorized: PropTypes.bool.isRequired,
-    VKAuthExpire: PropTypes.number.isRequired,
-    initAndAuthVk: PropTypes.func.isRequired,
+    initialized: PropTypes.bool.isRequired,
+    authorized: PropTypes.bool.isRequired,
+    tokenExpire: PropTypes.number.isRequired,
+    initialize: PropTypes.func.isRequired,
+    playPlayPause: PropTypes.func.isRequired,
+    playerNext: PropTypes.func.isRequired,
+    playerPrev: PropTypes.func.isRequired,
+    player: PropTypes.object.isRequired,
+    audios: PropTypes.object.isRequired,
     children: PropTypes.element.isRequired
   };
 
   componentWillMount() {
-    if (!this.props.isVKInitialized) {
-      this.props.initAndAuthVk(this.props.VKAuthExpire);
-    }
+    this.props.initialize();
   }
 
-  isAppStarted() {
-    return this.props.isVKInitialized && this.props.isVKAuthorized;
+  render() {
+    return (
+      <section className={classes.component}>
+        <Header onMenuClick={this.props.uiLeftMenuOpen} open={this.props.leftMenuOpen}/>
+        <LeftDrawer open={this.props.leftMenuOpen}/>
+        {this.getContent()}
+        {this.getPlayer()}
+        {this.getLoader()}
+      </section>
+    );
+  }
+
+  getContent() {
+    if (!this.isAppStarted()) {
+      return null;
+    }
+
+    return (
+      <main className={classes.contentWrapper}>
+        <div className={classes.content}>
+          {this.props.children}
+        </div>
+      </main>
+    );
+  }
+
+  getAudio(id) {
+    return this.props.audios[id];
+  }
+
+  getPlayer() {
+    if (!this.isAppStarted() || !this.props.audios || !this.props.player.current) {
+      return null;
+    }
+
+    return <Player
+      playing={this.props.player.playing}
+      audio={this.getAudio(this.props.player.current)}
+      hasNext={Boolean(this.props.player.next)}
+      hasPrev={Boolean(this.props.player.prev)}
+      onPlay={this.props.playPlayPause}
+      onNext={this.props.playerNext}
+      onPrev={this.props.playerPrev}
+    />;
   }
 
   getLoader() {
@@ -48,51 +86,26 @@ class App extends Component {
     return <Loader />;
   }
 
-  getContent() {
-    if (!this.isAppStarted()) {
-      return null;
-    }
-
-    const style = {
-      paddingLeft: this.props.leftMenuOpen ? darkMuiTheme.navDrawer.width : 0
-    };
-
-    return (
-      <main className={classes.contentWrapper} style={style}>
-        <div className={classes.content}>
-          {this.props.children}
-        </div>
-      </main>
-    );
-  }
-
-  render() {
-    return (
-      <MuiThemeProvider muiTheme={darkMuiTheme}>
-        <div className={classes.component}>
-          <Header onMenuClick={this.props.uiLeftMenuOpen} open={this.props.leftMenuOpen} height={darkMuiTheme.appBar.height}/>
-          <LeftDrawer open={this.props.leftMenuOpen} topPosition={darkMuiTheme.appBar.height} />
-          {this.getContent()}
-          {this.getLoader()}
-        </div>
-      </MuiThemeProvider>
-    );
+  isAppStarted() {
+    return this.props.initialized && this.props.authorized;
   }
 }
 
 const mapStateToProps = state => ({
   leftMenuOpen: state.ui.leftMenuOpen,
-  isShowLoader: state.ui.showLoader,
-  isVKInitialized: state.vk.initialized,
-  isVKAuthorized: state.vk.authorized,
-  VKAuthExpire: state.vk.expire
+  initialized: state.initialized,
+  authorized: state.authorize.authorized,
+  tokenExpire: state.authorize.expire,
+  player: state.player,
+  audios: state.audio.all
 });
 
 const mapDispatchToProps = dispatch => ({
   uiLeftMenuOpen: () => dispatch(uiLeftMenuOpen()),
-  showLoader: () => dispatch(showLoader()),
-  hideLoader: () => dispatch(hideLoader()),
-  initAndAuthVk: expire => dispatch(initAndAuth(expire))
+  initialize: () => dispatch(initialize()),
+  playPlayPause: () => dispatch(playerPlayPause()),
+  playerNext: () => dispatch(playerNext()),
+  playerPrev: () => dispatch(playerPrev())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

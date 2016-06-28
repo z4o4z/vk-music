@@ -1,5 +1,20 @@
 import {AUDIO_MY_LOADED, AUDIO_LOADING, AUDIO_ERROR} from '../constants/audio';
 
+function normalizeAudios(audios) {
+  let normalized = {};
+  let ids = [];
+
+  audios.forEach(audio => {
+    ids.push(audio.aid);
+    normalized[audio.aid] = audio;
+  });
+
+  return {
+    normalized,
+    ids
+  };
+}
+
 function loading() {
   return {type: AUDIO_LOADING};
 }
@@ -7,7 +22,7 @@ function loading() {
 function myAudioLoaded(audios) {
   return {
     type: AUDIO_MY_LOADED,
-    payload: audios
+    payload: normalizeAudios(audios)
   };
 }
 
