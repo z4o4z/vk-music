@@ -29,7 +29,7 @@ export default class AudioItem extends Component {
 
   render() {
     return (
-      <li className={classes.component} onClick={this.onPlay}>
+      <li className={this.getClassName()} onClick={this.onPlay}>
         <RippleButton rounded={true} className={classes.button}>
           {this.props.playing ? PauseIcon : PlayArrowIcon}
         </RippleButton>
@@ -41,6 +41,16 @@ export default class AudioItem extends Component {
 
   shouldComponentUpdate(nextProps) {
     return !this.checkProps(nextProps);
+  }
+
+  getClassName() {
+    let _classes = [classes.component];
+
+    if (this.props.playing) {
+      _classes.push(classes.active);
+    }
+
+    return _classes.join(' ');
   }
 
   checkProps(nextProps) {

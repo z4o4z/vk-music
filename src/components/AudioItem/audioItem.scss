@@ -9,14 +9,20 @@
 
   color: $audio-item-color;
 
-  box-shadow: rgba(0, 0, 0, 0.117647) 0 1px 2px;
-
   cursor: pointer;
 
   transition: background $animation-duration $animation-function;
 
   &:hover {
-    background-color: $audio-item-background-color;
+    background-color: darken($audio-item-background-color, 15%);
+  }
+
+  &.active {
+    background-color: darken($audio-item-background-color, 30%);
+  }
+
+  & + & {
+    border-top: 1px solid $audio-item-border-color;
   }
 }
 
@@ -24,6 +30,8 @@
   display: block;
   width: $audio-item-btn-size;
   height: $audio-item-btn-size;
+  min-width: $audio-item-btn-size;
+  min-height: $audio-item-btn-size;
 
   box-shadow: $audio-item-btn-box-shadow;
 
