@@ -20,8 +20,7 @@ if (!IS_PROD) {
 }
 
 const includeInLocalStorage = [
-  'authorize.expire',
-  'ui.leftMenuOpen'
+  'authorize.expire'
 ];
 
 const include = (rule, state, initialState) => {

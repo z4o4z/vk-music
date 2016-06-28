@@ -19,7 +19,7 @@ let initialState = {
     expire: 0
   },
   ui: {
-    leftMenuOpen: true,
+    leftMenuOpen: false,
     showLoader: false
   },
   audio: {
