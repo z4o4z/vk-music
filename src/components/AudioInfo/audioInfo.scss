@@ -2,22 +2,36 @@
 
 .component {
   display: block;
-  margin: 0 $audio-item-content-padding;
+  max-width: calc(100% - #{$audio-info-padding * 2 + 4});
+  padding: 0 $audio-info-padding;
+  box-sizing: border-box;
 
-  color: $audio-item-color;
+  color: $audio-info-color;
+}
+
+.title {
+  display: block;
+  max-width: 100%;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .infoFooter {
+  max-width: 100%;
   margin-top: 3px;
 
-  color: $audio-item-secondary-color;
+  color: $audio-info-secondary-color;
   font-size: 14px;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.artist,
-.genre,
-.duration {
-  margin-right: $audio-item-content-padding;
+.artist {
+  margin-right: $audio-info-margin;
 }
 
 .artist,
@@ -25,7 +39,31 @@
   transition: color $animation-duration $animation-function;
 
   &:hover {
-    color: darken($audio-item-secondary-color, 20%);
+    color: darken($audio-info-secondary-color, 20%);
     text-decoration: underline;
+  }
+}
+
+.componentPLayer {
+  display: inline-flex;
+  max-width: $audio-info-player-max-width;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+
+  color: $audio-info-player-color;
+
+  background-color: $audio-info-player-background;
+
+  .infoFooter {
+    color: $audio-info-secondary-player-color;
+  }
+
+  .artist,
+  .genre {
+    &:hover {
+      color: $audio-info-secondary-player-color;
+      text-decoration: none;
+    }
   }
 }

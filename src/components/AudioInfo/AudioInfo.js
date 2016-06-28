@@ -6,12 +6,13 @@ export default class AudioItem extends Component {
   static propTypes = {
     title: PropTypes.string.isRequired,
     artist: PropTypes.string.isRequired,
-    genre: PropTypes.string
+    genre: PropTypes.string,
+    playerStyle: PropTypes.bool
   };
 
   render() {
     return (
-      <div className={classes.component}>
+      <div className={`${classes.component} ${this.props.playerStyle ? classes.componentPLayer : ''}`}>
         <span className={classes.title}>{this.props.title}</span>
         <div className={classes.infoFooter}>
           <span className={classes.artist}>{this.props.artist}</span>
