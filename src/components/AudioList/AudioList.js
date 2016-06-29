@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import ReactList from 'react-list';
 
 import {UI_SCROLL_UPDATE_HEIGHT} from '../../constants/ui';
 import {AUDIO_FETCH_COUNT} from '../../constants/audio';
@@ -30,6 +31,7 @@ export default class AudioList extends Component {
 
     this.onPlayClick = this.onPlayClick.bind(this);
     this.onScroll = this.onScroll.bind(this);
+    this.renderItem = this.renderItem.bind(this);
   }
 
   componentWillMount() {
@@ -38,28 +40,36 @@ export default class AudioList extends Component {
 
   render() {
     return (
-      <div className={classes.component} onScroll={this.onScroll} ref="scrollable">
-        <ul className={classes.content}>
-          {this.getItems()}
-        </ul>
+      <div className={classes.component} ref="scrollable" onScroll={this.onScroll}>
+        <div className={classes.content}>
+          <ReactList
+            itemRenderer={this.renderItem}
+            length={this.props.ids.length}
+            pageSize={AUDIO_FETCH_COUNT}
+            type="uniform"
+            useStaticSize={true}
+            useTranslate3d={true}
+            currentId={this.props.playerCurrentTrack}
+          />
+        </div>
       </div>
     );
   }
 
-  getItems() {
-    return this.props.ids.map(id => {
-      const audio = this.props.audios[id];
+  renderItem(index, key) {
+    const audio = this.props.audios[this.props.ids[index]];
 
-      return <AudioItem
-        key={id}
-        id={id}
+    return (
+      <AudioItem
+        key={key}
+        id={audio.aid}
         title={audio.title}
         artist={audio.artist}
         genre={getGenreById(audio.genre)}
         onPlayClick={this.onPlayClick}
-        playing={this.props.playerPlaying && id === this.props.playerCurrentTrack}
-      />;
-    });
+        playing={this.props.playerPlaying && audio.aid === this.props.playerCurrentTrack}
+      />
+    );
   }
 
   onPlayClick(id) {
