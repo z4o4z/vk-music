@@ -24,7 +24,7 @@ export default class LeftDrawerList extends Component {
   getItems() {
     return this.props.items.map((item, index) =>
       <li className={classes.item} key={index}>
-        <RippleButton className={classes.button}>
+        <RippleButton className={classes.button} href={item.href}>
           <div className={classes.buttonContent}>
             {item.icon}
             <span className={classes.text}>{item.text}</span>

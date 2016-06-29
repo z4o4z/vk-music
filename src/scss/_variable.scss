@@ -17,11 +17,12 @@ $box-shadow-2: rgba(0, 0, 0, 0.117647) 0 1px 6px, rgba(0, 0, 0, 0.117647) 0 1px 
 
 $general-padding: 12px;
 $general-margin: 12px;
-$general-background: $primary-color-light;
+$general-background: $primary-color-text;
 $general-color: $primary-color-text;
 $general-selected-color: $primary-color-text;
 $general-content-padding: $general-padding;
 $general-hover-background-color: transparentize($primary-color-light, 0.75);
+$general-content-max-width: 1160px;
 
 $btn-hover-background: $general-hover-background-color;
 
@@ -55,7 +56,6 @@ $left-drawer-btn-height: 48px;
 $left-drawer-box-shadow: $box-shadow-1;
 
 $app-padding-left: $left-drawer-width;
-$app-content-max-width: 1160px;
 
 $loader-background: transparentize($primary-color-dark, 0.9);
 $loader-color: $accent-color;

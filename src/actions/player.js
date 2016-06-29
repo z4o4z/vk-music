@@ -3,6 +3,7 @@ import {
   PLAYER_PLAY_PAUSE,
   PLAYER_SET_TRACK,
   PLAYER_SET_PLAYLIST,
+  PLAYER_UPDATE_PLAYLIST,
   PLAYER_SET_PLAYLIST_PAGE,
   PLAYER_NEXT,
   PLAYER_PREV
@@ -32,6 +33,12 @@ export function playerSetPlaylist(playlist) {
   return {
     type: PLAYER_SET_PLAYLIST,
     payload: playlist
+  };
+}
+
+export function playerUpdatePlaylist() {
+  return {
+    type: PLAYER_UPDATE_PLAYLIST
   };
 }
 

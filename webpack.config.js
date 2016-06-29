@@ -33,7 +33,7 @@ if (IS_LOC) {
 module.exports = {
   entry,
 
-  devtool: (IS_DEV || IS_LOC) ? 'cheap-inline-module-source-map' : '',
+  devtool: (IS_DEV || IS_LOC) ? 'cheap-inline-module-source-map' : 'cheap-module-source-map',
 
   watch: IS_LOC,
 
@@ -100,16 +100,19 @@ module.exports = {
   postcss: () => [autoprefixer],
 
   plugins: [
+    new webpack.DefinePlugin({
+      IS_LOC: JSON.stringify(IS_LOC),
+      IS_DEV: JSON.stringify(IS_DEV),
+      IS_PROD: JSON.stringify(IS_PROD),
+      'process.env': {
+        'NODE_ENV': JSON.stringify(IS_PROD ? 'production' : 'development')
+      }
+    }),
     new StyleLintPlugin({
       configFile: '.stylelintrc.js'
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
-    new webpack.DefinePlugin({
-      IS_LOC: JSON.stringify(IS_LOC),
-      IS_DEV: JSON.stringify(IS_DEV),
-      IS_PROD: JSON.stringify(IS_PROD)
-    }),
     new ExtractTextPlugin('style.css'),
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'src', 'index.html'),

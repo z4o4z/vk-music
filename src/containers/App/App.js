@@ -15,16 +15,16 @@ import classes from './app.scss';
 class App extends Component {
   static propTypes = {
     leftMenuOpen: PropTypes.bool.isRequired,
-    uiLeftMenuOpen: PropTypes.func.isRequired,
     initialized: PropTypes.bool.isRequired,
     authorized: PropTypes.bool.isRequired,
     tokenExpire: PropTypes.number.isRequired,
+    player: PropTypes.object.isRequired,
+    audios: PropTypes.object.isRequired,
+    uiLeftMenuOpen: PropTypes.func.isRequired,
     initialize: PropTypes.func.isRequired,
     playPlayPause: PropTypes.func.isRequired,
     playerNext: PropTypes.func.isRequired,
     playerPrev: PropTypes.func.isRequired,
-    player: PropTypes.object.isRequired,
-    audios: PropTypes.object.isRequired,
     children: PropTypes.element.isRequired
   };
 
@@ -50,10 +50,8 @@ class App extends Component {
     }
 
     return (
-      <main className={classes.contentWrapper}>
-        <div className={classes.content}>
-          {this.props.children}
-        </div>
+      <main className={classes.content}>
+        {this.props.children}
       </main>
     );
   }
