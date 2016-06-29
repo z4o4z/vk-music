@@ -21,13 +21,15 @@ export default class LeftDrawer extends Component {
   state = {
     topList: [{
       icon: <AvLibraryMusic className={classes.icon} size={24} color="white" />,
-      text: 'Аудиозаписи'
+      text: 'Аудиозаписи',
+      href: '/'
     }, {
       icon: <AvAlbum className={classes.icon} size={24} color="white" />,
       text: 'Альбомы'
     }, {
       icon: <SocialPerson className={classes.icon} size={24} color="white" />,
-      text: 'Друзья'
+      text: 'Друзья',
+      href: '/friends'
     }, {
       icon: <SocialPeople className={classes.icon} size={24} color="white" />,
       text: 'Группы'
