@@ -1,20 +1,17 @@
 import {
-  AUDIO_ERROR,
-  AUDIO_LOADED,
-  AUDIO_LOADING,
-  AUDIO_MY_FETCHED,
-  AUDIO_MY_UPDATED
-} from '../constants/audios';
+  FRIENDS_ERROR,
+  FRIENDS_LOADED,
+  FRIENDS_LOADING,
+  FRIENDS_FETCHED,
+  FRIENDS_UPDATED
+} from '../constants/friends';
 
 import normalizeBy from '../helpers/normalizeBy';
 
-function loading(ownerIs, albumId, audioIds, offset, count) {
+function loading(offset, count) {
   return {
-    type: AUDIO_LOADING,
+    type: FRIENDS_LOADING,
     payload: {
-      ownerIs,
-      albumId,
-      audioIds,
       offset,
       count
     }
@@ -23,57 +20,45 @@ function loading(ownerIs, albumId, audioIds, offset, count) {
 
 function loaded() {
   return {
-    type: AUDIO_LOADED
+    type: FRIENDS_LOADED
   };
 }
 
 function error(id) {
   return {
-    type: AUDIO_ERROR,
+    type: FRIENDS_ERROR,
     payload: id
   };
 }
 
-function myAudioFetched(offset, audios) {
+function friendsFetched(offset, friends) {
   return {
-    type: AUDIO_MY_FETCHED,
+    type: FRIENDS_FETCHED,
     payload: {
       offset,
-      ...normalizeBy(audios, 'aid')
+      ...normalizeBy(friends, 'id')
     }
   };
 }
 
-function myAudioUpdated(offset, audios) {
+function friendsUpdated(offset, friends) {
   return {
-    type: AUDIO_MY_UPDATED,
+    type: FRIENDS_UPDATED,
     payload: {
       offset,
-      ...normalizeBy(audios, 'aid')
+      ...normalizeBy(friends, 'id')
     }
   };
 }
 
-function fetchAudio(ownerIs, albumId, audioIds, offset, count) {
+function fetch(offset, count) {
   let params = {
     offset,
     count
   };
 
-  if (ownerIs) {
-    params.owner_id = ownerIs;
-  }
-
-  if (albumId) {
-    params.album_id = albumId;
-  }
-
-  if (audioIds) {
-    params.audio_ids = audioIds;
-  }
-
   return new Promise((resolve, reject) => {
-    window.VK.api("audio.get", params, data => {
+    window.VK.api("friends.get", params, data => {
       if (data.error) {
         if (!IS_PROD) {
           console.error(data.error);
