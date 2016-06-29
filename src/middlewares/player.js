@@ -1,7 +1,7 @@
-import {AUDIO_LOADED, AUDIO_FETCH_COUNT} from '../constants/audio';
+import {AUDIO_LOADED, AUDIO_FETCH_COUNT} from '../constants/audios';
 import {PLAYER_NEXT, PLAYER_UPDATE_PLAYLIST_COUNT} from '../constants/player';
 
-import {updateMyAudio} from '../actions/audio';
+import {updateMyAudio} from '../actions/audios';
 import {playerSetPlaylist, playerSetPlaylistPage, playerSetTrack, playerUpdatePlaylist} from '../actions/player';
 
 function setTack(store, next, action, lastResult) {

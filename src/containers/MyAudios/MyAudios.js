@@ -1,11 +1,11 @@
 import {connect} from 'react-redux';
 
-import {fetchMyAudio, updateMyAudio} from '../../actions/audio';
+import {fetchMyAudio, updateMyAudio} from '../../actions/audios';
 import {playerPlayTrack, playerPlayPause, playerSetTrack} from '../../actions/player';
 
-import AudioList from '../../components/AudioList/AudioList';
+import AudiosList from '../../components/AudiosList/AudiosList';
 
-class MyAudio extends AudioList {}
+class MyAudio extends AudiosList {}
 
 const mapStateToProps = state => ({
   audios: state.audio.all,

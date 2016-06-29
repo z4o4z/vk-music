@@ -4,7 +4,7 @@ import {
   AUDIO_LOADING,
   AUDIO_MY_FETCHED,
   AUDIO_MY_UPDATED
-} from '../constants/audio';
+} from '../constants/audios';
 
 function normalizeAudios(audios) {
   let normalized = {};

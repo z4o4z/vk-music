@@ -2,15 +2,15 @@ import React, {Component, PropTypes} from 'react';
 import ReactList from 'react-list';
 
 import {UI_SCROLL_UPDATE_HEIGHT} from '../../constants/ui';
-import {AUDIO_FETCH_COUNT} from '../../constants/audio';
+import {AUDIO_FETCH_COUNT} from '../../constants/audios';
 
 import {getGenreById} from '../../helpers/genres';
 
 import AudioItem from '../AudioItem/AudioItem';
 
-import classes from './audioList.scss';
+import classes from './audiosList.scss';
 
-export default class AudioList extends Component {
+export default class AudiosList extends Component {
   static propTypes = {
     audios: PropTypes.object.isRequired,
     ids: PropTypes.array.isRequired,
@@ -50,10 +50,20 @@ export default class AudioList extends Component {
             useStaticSize={true}
             useTranslate3d={true}
             currentId={this.props.playerCurrentTrack}
+            playerPlaying={this.props.playerPlaying}
           />
         </div>
       </div>
     );
+  }
+
+  shouldComponentUpdate(newProps) {
+    const {audios, ids, offset, audiosLoading, audiosError, playerCurrentTrack, playerPlaying} = newProps;
+
+    return this.props.audios !== audios || this.props.ids !== ids ||
+      this.props.offset !== offset || this.props.audiosLoading !== audiosLoading ||
+      this.props.audiosError !== audiosError || this.props.playerCurrentTrack !== playerCurrentTrack ||
+      this.props.playerPlaying !== playerPlaying;
   }
 
   renderItem(index, key) {
