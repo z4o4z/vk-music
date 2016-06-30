@@ -28,7 +28,9 @@ class App extends Component {
     children: PropTypes.element.isRequired
   };
 
-  componentWillMount() {
+  constructor(props) {
+    super(props);
+
     this.props.initialize();
   }
 
