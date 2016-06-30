@@ -31,6 +31,13 @@ let initialState = {
     loading: false,
     error: 0
   },
+  friends: {
+    all: {},
+    ids: [],
+    offset: 0,
+    loading: false,
+    error: 0
+  },
   player: {
     playlist: [],
     playlistPage: '',

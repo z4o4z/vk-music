@@ -54,7 +54,8 @@ function friendsUpdated(offset, friends) {
 function fetch(offset, count) {
   let params = {
     offset,
-    count
+    count,
+    fields: 'photo_100'
   };
 
   return new Promise((resolve, reject) => {
@@ -72,20 +73,20 @@ function fetch(offset, count) {
   });
 }
 
-export const fetchMyAudio = (offset, count) => dispatch => {
-  dispatch(loading(undefined, undefined, undefined, offset, count));
+export const fetchFriends = (offset, count) => dispatch => {
+  dispatch(loading(offset, count));
 
-  fetchAudio(undefined, undefined, undefined, offset, count)
-    .then(audios => dispatch(myAudioFetched(offset, audios)))
+  fetch(offset, count)
+    .then(audios => dispatch(friendsFetched(offset, audios)))
     .then(() => dispatch(loaded()))
     .catch(id => dispatch(error(id)));
 };
 
-export const updateMyAudio = (offset, count) => dispatch => {
-  dispatch(loading());
+export const updateFriends = (offset, count) => dispatch => {
+  dispatch(loading(offset, count));
 
-  fetchAudio(undefined, undefined, undefined, offset, count)
-    .then(audios => dispatch(myAudioUpdated(offset, audios)))
+  fetch(offset, count)
+    .then(audios => dispatch(friendsUpdated(offset, audios)))
     .then(() => dispatch(loaded()))
     .catch(id => dispatch(error(id)));
 };
