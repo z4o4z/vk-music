@@ -1,4 +1,4 @@
-import {AUDIO_LOADED, AUDIO_FETCH_COUNT} from '../constants/audios';
+import {AUDIOS_LOADED, AUDIOS_FETCH_COUNT} from '../constants/audios';
 import {PLAYER_NEXT, PLAYER_UPDATE_PLAYLIST_COUNT} from '../constants/player';
 
 import {updateMyAudio} from '../actions/audios';
@@ -9,7 +9,7 @@ function setTack(store, next, action, lastResult) {
   const playlistPage = state.routing.locationBeforeTransitions.pathname;
   let trackId;
 
-  if (action.type !== AUDIO_LOADED || state.player.current) {
+  if (action.type !== AUDIOS_LOADED || state.player.current) {
     return lastResult;
   }
 
@@ -26,7 +26,7 @@ function setPlaylist(store, next, action, lastResult) {
   let state = store.getState();
   let playlist;
 
-  if (action.type !== AUDIO_LOADED || state.routing.locationBeforeTransitions.pathname !== state.player.playlistPage) {
+  if (action.type !== AUDIOS_LOADED || state.routing.locationBeforeTransitions.pathname !== state.player.playlistPage) {
     return lastResult;
   }
 
@@ -46,7 +46,7 @@ function updatePlaylist(store, next, action, lastResult) {
   }
 
   switch (state.player.page) {
-    default: store.dispatch(updateMyAudio(state.audio.my.offset + AUDIO_FETCH_COUNT + 1, AUDIO_FETCH_COUNT));
+    default: store.dispatch(updateMyAudio(state.audio.my.offset + AUDIOS_FETCH_COUNT + 1, AUDIOS_FETCH_COUNT));
   }
 
   return next(playerUpdatePlaylist());

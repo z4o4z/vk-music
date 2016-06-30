@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import ReactList from 'react-list';
 
 import {UI_SCROLL_UPDATE_HEIGHT} from '../../constants/ui';
-import {AUDIO_FETCH_COUNT} from '../../constants/audios';
+import {AUDIOS_FETCH_COUNT} from '../../constants/audios';
 
 import {getGenreById} from '../../helpers/genres';
 
@@ -32,10 +32,8 @@ export default class AudiosList extends Component {
     this.onPlayClick = this.onPlayClick.bind(this);
     this.onScroll = this.onScroll.bind(this);
     this.renderItem = this.renderItem.bind(this);
-  }
 
-  componentWillMount() {
-    this.props.fetchAudio(this.props.offset, AUDIO_FETCH_COUNT);
+    this.props.fetchAudio(0, AUDIOS_FETCH_COUNT);
   }
 
   render() {
@@ -45,7 +43,7 @@ export default class AudiosList extends Component {
           <ReactList
             itemRenderer={this.renderItem}
             length={this.props.ids.length}
-            pageSize={AUDIO_FETCH_COUNT}
+            pageSize={AUDIOS_FETCH_COUNT}
             type="uniform"
             useStaticSize={true}
             useTranslate3d={true}
@@ -97,7 +95,7 @@ export default class AudiosList extends Component {
     const childHeight = scrollable.firstChild.offsetHeight;
 
     if (scrollTop >= childHeight - height - UI_SCROLL_UPDATE_HEIGHT && !this.props.audiosLoading) {
-      this.props.updateAudio(this.props.offset + AUDIO_FETCH_COUNT + 1, AUDIO_FETCH_COUNT);
+      this.props.updateAudio(this.props.offset + AUDIOS_FETCH_COUNT + 1, AUDIOS_FETCH_COUNT);
     }
   }
 }

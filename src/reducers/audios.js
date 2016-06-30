@@ -1,19 +1,19 @@
 import {
-  AUDIO_ERROR,
-  AUDIO_LOADED,
-  AUDIO_LOADING,
-  AUDIO_MY_FETCHED,
-  AUDIO_MY_UPDATED
+  AUDIOS_ERROR,
+  AUDIOS_LOADED,
+  AUDIOS_LOADING,
+  AUDIOS_MY_FETCHED,
+  AUDIOS_MY_UPDATED
 } from '../constants/audios';
 
-function audioLoading(state) {
+function audiosLoading(state) {
   return {
     ...state,
     loading: true
   };
 }
 
-function myAudioFetched(state, action) {
+function myAudiosFetched(state, action) {
   return {
     ...state,
     my: {
@@ -27,7 +27,7 @@ function myAudioFetched(state, action) {
   };
 }
 
-function myAudioUpdated(state, action) {
+function myAudiosUpdated(state, action) {
   return {
     ...state,
     my: {
@@ -41,7 +41,7 @@ function myAudioUpdated(state, action) {
   };
 }
 
-function audioError(state, action) {
+function audiosError(state, action) {
   return {
     ...state,
     loading: false,
@@ -49,7 +49,7 @@ function audioError(state, action) {
   };
 }
 
-function audioLoaded(state) {
+function audiosLoaded(state) {
   return {
     ...state,
     loading: false
@@ -58,16 +58,16 @@ function audioLoaded(state) {
 
 export default (state = {}, action = {}) => {
   switch (action.type) {
-    case AUDIO_LOADING:
-      return audioLoading(state);
-    case AUDIO_MY_FETCHED:
-      return myAudioFetched(state, action);
-    case AUDIO_MY_UPDATED:
-      return myAudioUpdated(state, action);
-    case AUDIO_ERROR:
-      return audioError(state, action);
-    case AUDIO_LOADED:
-      return audioLoaded(state);
+    case AUDIOS_LOADING:
+      return audiosLoading(state);
+    case AUDIOS_MY_FETCHED:
+      return myAudiosFetched(state, action);
+    case AUDIOS_MY_UPDATED:
+      return myAudiosUpdated(state, action);
+    case AUDIOS_ERROR:
+      return audiosError(state, action);
+    case AUDIOS_LOADED:
+      return audiosLoaded(state);
     default: return state;
   }
 };

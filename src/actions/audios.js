@@ -1,16 +1,16 @@
 import {
-  AUDIO_ERROR,
-  AUDIO_LOADED,
-  AUDIO_LOADING,
-  AUDIO_MY_FETCHED,
-  AUDIO_MY_UPDATED
+  AUDIOS_ERROR,
+  AUDIOS_LOADED,
+  AUDIOS_LOADING,
+  AUDIOS_MY_FETCHED,
+  AUDIOS_MY_UPDATED
 } from '../constants/audios';
 
 import normalizeBy from '../helpers/normalizeBy';
 
 function loading(ownerIs, albumId, audioIds, offset, count) {
   return {
-    type: AUDIO_LOADING,
+    type: AUDIOS_LOADING,
     payload: {
       ownerIs,
       albumId,
@@ -23,20 +23,20 @@ function loading(ownerIs, albumId, audioIds, offset, count) {
 
 function loaded() {
   return {
-    type: AUDIO_LOADED
+    type: AUDIOS_LOADED
   };
 }
 
 function error(id) {
   return {
-    type: AUDIO_ERROR,
+    type: AUDIOS_ERROR,
     payload: id
   };
 }
 
-function myAudioFetched(offset, audios) {
+function myAudiosFetched(offset, audios) {
   return {
-    type: AUDIO_MY_FETCHED,
+    type: AUDIOS_MY_FETCHED,
     payload: {
       offset,
       ...normalizeBy(audios, 'aid')
@@ -44,9 +44,9 @@ function myAudioFetched(offset, audios) {
   };
 }
 
-function myAudioUpdated(offset, audios) {
+function myAudiosUpdated(offset, audios) {
   return {
-    type: AUDIO_MY_UPDATED,
+    type: AUDIOS_MY_UPDATED,
     payload: {
       offset,
       ...normalizeBy(audios, 'aid')
@@ -54,7 +54,7 @@ function myAudioUpdated(offset, audios) {
   };
 }
 
-function fetchAudio(ownerIs, albumId, audioIds, offset, count) {
+function fetchAudios(ownerIs, albumId, audioIds, offset, count) {
   let params = {
     offset,
     count
@@ -90,8 +90,8 @@ function fetchAudio(ownerIs, albumId, audioIds, offset, count) {
 export const fetchMyAudio = (offset, count) => dispatch => {
   dispatch(loading(undefined, undefined, undefined, offset, count));
 
-  fetchAudio(undefined, undefined, undefined, offset, count)
-    .then(audios => dispatch(myAudioFetched(offset, audios)))
+  fetchAudios(undefined, undefined, undefined, offset, count)
+    .then(audios => dispatch(myAudiosFetched(offset, audios)))
     .then(() => dispatch(loaded()))
     .catch(id => dispatch(error(id)));
 };
@@ -99,8 +99,8 @@ export const fetchMyAudio = (offset, count) => dispatch => {
 export const updateMyAudio = (offset, count) => dispatch => {
   dispatch(loading());
 
-  fetchAudio(undefined, undefined, undefined, offset, count)
-    .then(audios => dispatch(myAudioUpdated(offset, audios)))
+  fetchAudios(undefined, undefined, undefined, offset, count)
+    .then(audios => dispatch(myAudiosUpdated(offset, audios)))
     .then(() => dispatch(loaded()))
     .catch(id => dispatch(error(id)));
 };
