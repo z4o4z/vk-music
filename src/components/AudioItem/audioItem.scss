@@ -25,15 +25,3 @@
     border-top: 1px solid $audio-item-border-color;
   }
 }
-
-.button {
-  display: block;
-  width: $audio-item-btn-size;
-  height: $audio-item-btn-size;
-  min-width: $audio-item-btn-size;
-  min-height: $audio-item-btn-size;
-
-  box-shadow: $audio-item-btn-box-shadow;
-
-  background-color: $audio-item-btn-background;
-}

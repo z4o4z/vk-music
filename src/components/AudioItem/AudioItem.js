@@ -1,15 +1,9 @@
 import React, {Component, PropTypes} from 'react';
 
-import PlayArrow from 'react-icons/lib/md/play-arrow';
-import Pause from 'react-icons/lib/md/pause';
-
-import RippleButton from '../RippleButton/RippleButton';
+import PlayPauseButton from '../PlayPauseButton/PlayPauseButton';
 import AudioInfo from '../AudioInfo/AudioInfo';
 
 import classes from './audioItem.scss';
-
-const PlayArrowIcon = <PlayArrow size={24} color="white"/>;
-const PauseIcon = <Pause size={24} color="white"/>;
 
 export default class AudioItem extends Component {
   static propTypes = {
@@ -30,9 +24,7 @@ export default class AudioItem extends Component {
   render() {
     return (
       <li className={this.getClassName()} onClick={this.onPlay}>
-        <RippleButton rounded={true} className={classes.button}>
-          {this.props.playing ? PauseIcon : PlayArrowIcon}
-        </RippleButton>
+        <PlayPauseButton playing={this.props.playing}/>
 
         <AudioInfo title={this.props.title} artist={this.props.artist} genre={this.props.genre} />
       </li>

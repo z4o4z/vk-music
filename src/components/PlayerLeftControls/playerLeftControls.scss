@@ -8,8 +8,8 @@
 .prev,
 .next {
   display: block;
-  width: $player-control-size-small;
-  height: $player-control-size-small;
+  width: $player-control-size;
+  height: $player-control-size;
 
   transition: background $animation-duration $animation-function, box-shadow $animation-duration $animation-function;
 
@@ -19,11 +19,5 @@
 }
 
 .play {
-  display: block;
-  width: $player-control-size;
-  height: $player-control-size;
   margin: 0 6px;
-
-  background-color: $player-control-background;
-  box-shadow: $player-control-box-shadow;
 }

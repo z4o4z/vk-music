@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 
-import PlayerControls from '../PlayerControls/PlayerControls';
+import PlayerLeftControls from '../PlayerLeftControls/PlayerLeftControls';
 import PlayerVisualization from '../PlayerVisualization/PlayerVisualization';
 import AudioInfo from '../AudioInfo/AudioInfo';
 
@@ -28,7 +28,7 @@ export default class Player extends Component {
 
     return (
       <div className={classes.component}>
-        <PlayerControls
+        <PlayerLeftControls
           playing={this.props.playing}
           onPlay={this.props.onPlay}
           onNext={this.props.onNext}
@@ -47,7 +47,7 @@ export default class Player extends Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    return nextProps.playing !== this.props.playing || nextProps.audio !== this.props.audio;
+    return nextProps.playing !== this.props.playing || nextProps.audio.aid !== this.props.audio.aid;
   }
 
   onEnded() {

@@ -1,20 +1,17 @@
 import React, {Component, PropTypes} from 'react';
 
-import PlayArrow from 'react-icons/lib/md/play-arrow';
-import Pause from 'react-icons/lib/md/pause';
 import FastForward from 'react-icons/lib/md/fast-forward';
 import FastRewind from 'react-icons/lib/md/fast-rewind';
 
 import RippleButton from '../RippleButton/RippleButton';
+import PlayPauseButton from '../PlayPauseButton/PlayPauseButton';
 
-import classes from './playerControls.scss';
+import classes from './playerLeftControls.scss';
 
-const PlayArrowIcon = <PlayArrow size={28} color="white"/>;
-const PauseIcon = <Pause size={28} color="white"/>;
 const FastForwardIcon = <FastForward size={22} color="white"/>;
 const FastRewindIcon = <FastRewind size={22} color="white"/>;
 
-export default class PlayerControls extends Component {
+export default class PlayerLeftControls extends Component {
   static propTypes = {
     playing: PropTypes.bool.isRequired,
     onPlay: PropTypes.func.isRequired,
@@ -35,12 +32,12 @@ export default class PlayerControls extends Component {
           {FastRewindIcon}
         </RippleButton>
 
-        <RippleButton
+        <PlayPauseButton
           className={classes.play}
-          rounded={true}
-          onClick={this.props.onPlay}>
-          {this.props.playing ? PauseIcon : PlayArrowIcon}
-        </RippleButton>
+          playing={this.props.playing}
+          big={true}
+          onClick={this.props.onPlay}
+        />
 
         <RippleButton
           className={classes.next}
