@@ -23,11 +23,11 @@ export default class AudioItem extends Component {
 
   render() {
     return (
-      <li className={this.getClassName()} onClick={this.onPlay}>
+      <div className={this.getClassName()} onClick={this.onPlay}>
         <PlayPauseButton playing={this.props.playing}/>
 
         <AudioInfo title={this.props.title} artist={this.props.artist} genre={this.props.genre} />
-      </li>
+      </div>
     );
   }
 

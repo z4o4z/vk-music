@@ -6,9 +6,8 @@ import {AUDIOS_FETCH_COUNT} from '../../constants/audios';
 
 import {getGenreById} from '../../helpers/genres';
 
+import Scrollable from '../Scrollable/Scrollable';
 import AudioItem from '../AudioItem/AudioItem';
-
-import classes from './audiosList.scss';
 
 export default class AudiosList extends Component {
   static propTypes = {
@@ -29,29 +28,27 @@ export default class AudiosList extends Component {
   constructor(props) {
     super(props);
 
-    this.onPlayClick = this.onPlayClick.bind(this);
-    this.onScroll = this.onScroll.bind(this);
     this.renderItem = this.renderItem.bind(this);
+    this.onScroll = this.onScroll.bind(this);
+    this.onPlayClick = this.onPlayClick.bind(this);
 
     this.props.fetchAudio(0, AUDIOS_FETCH_COUNT);
   }
 
   render() {
     return (
-      <div className={classes.component} ref="scrollable" onScroll={this.onScroll}>
-        <div className={classes.content}>
-          <ReactList
-            itemRenderer={this.renderItem}
-            length={this.props.ids.length}
-            pageSize={AUDIOS_FETCH_COUNT}
-            type="uniform"
-            useStaticSize={true}
-            useTranslate3d={true}
-            currentId={this.props.playerCurrentTrack}
-            playerPlaying={this.props.playerPlaying}
-          />
-        </div>
-      </div>
+    <Scrollable onScroll={this.onScroll}>
+      <ReactList
+        itemRenderer={this.renderItem}
+        length={this.props.ids.length}
+        pageSize={AUDIOS_FETCH_COUNT}
+        type="uniform"
+        useStaticSize={true}
+        useTranslate3d={true}
+        currentId={this.props.playerCurrentTrack}
+        playerPlaying={this.props.playerPlaying}
+      />
+    </Scrollable>
     );
   }
 
@@ -88,12 +85,7 @@ export default class AudiosList extends Component {
     }
   }
 
-  onScroll() {
-    const scrollable = this.refs.scrollable;
-    const scrollTop = scrollable.scrollTop;
-    const height = scrollable.offsetHeight;
-    const childHeight = scrollable.firstChild.offsetHeight;
-
+  onScroll(scrollTop, height, childHeight) {
     if (scrollTop >= childHeight - height - UI_SCROLL_UPDATE_HEIGHT && !this.props.audiosLoading) {
       this.props.updateAudio(this.props.offset + AUDIOS_FETCH_COUNT + 1, AUDIOS_FETCH_COUNT);
     }

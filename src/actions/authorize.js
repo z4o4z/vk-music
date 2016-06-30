@@ -24,7 +24,7 @@ const login = () => dispatch => {
     }
 
     return dispatch(error());
-  });
+  }, 270346);
 };
 
 const getLoginStatus = () => dispatch => {
