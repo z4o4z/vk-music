@@ -18,7 +18,8 @@ function fetched(state, action) {
     ...state,
     offset: action.payload.offset,
     ids: action.payload.ids,
-    all: action.payload.normalized
+    all: action.payload.normalized,
+    allLoaded: false
   };
 }
 
@@ -26,6 +27,7 @@ function updated(state, action) {
   return {
     ...state,
     offset: action.payload.offset,
+    allLoaded: state.ids.length === state.ids.length + action.payload.ids.length,
     ids: [...state.ids, ...action.payload.ids],
     all: {
       ...state.all,

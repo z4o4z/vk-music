@@ -59,11 +59,11 @@ class App extends Component {
   }
 
   getAudio(id) {
-    return this.props.audios[id];
+    return this.props.audios[id] || {};
   }
 
   getPlayer() {
-    if (!this.isAppStarted() || !this.props.audios || !this.props.player.current) {
+    if (!this.isAppStarted()) {
       return null;
     }
 

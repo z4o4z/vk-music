@@ -26,7 +26,10 @@ let initialState = {
     all: {},
     my: {
       offset: 0,
-      ids: []
+      ids: [],
+      allLoaded: false
+    },
+    friends: {
     },
     loading: false,
     error: 0
@@ -35,6 +38,7 @@ let initialState = {
     all: {},
     ids: [],
     offset: 0,
+    allLoaded: false,
     loading: false,
     error: 0
   },

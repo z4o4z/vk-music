@@ -13,6 +13,7 @@ export default class FriendsAndGroupsList extends Component {
     offset: PropTypes.number.isRequired,
     fetchCount: PropTypes.number.isRequired,
     loading: PropTypes.bool.isRequired,
+    allLoaded: PropTypes.bool.isRequired,
     error: PropTypes.number.isRequired,
     fetch: PropTypes.func.isRequired,
     update: PropTypes.func.isRequired
@@ -34,7 +35,6 @@ export default class FriendsAndGroupsList extends Component {
           itemRenderer={this.renderItem}
           length={this.props.ids.length}
           pageSize={this.props.fetchCount}
-          type="uniform"
           useStaticSize={true}
           useTranslate3d={true}
         />
@@ -56,15 +56,18 @@ export default class FriendsAndGroupsList extends Component {
     return (
       <FriendsAndGroupsItem
         key={key}
-        id={item.id}
-        name={this.getName()}
+        id={item.uid}
+        name={this.getName(item)}
         photo={item.photo_100}
       />
     );
   }
+
   onScroll(scrollTop, height, childHeight) {
-    if (scrollTop >= childHeight - height - UI_SCROLL_UPDATE_HEIGHT && !this.props.loading) {
-      this.props.updateAudio(this.props.offset + this.props.fetchCount + 1, this.props.fetchCount);
+    const updateHeight = childHeight - height - UI_SCROLL_UPDATE_HEIGHT;
+
+    if (scrollTop >= updateHeight && !this.props.loading && !this.props.allLoaded) {
+      this.props.update(this.props.offset + this.props.fetchCount + 1, this.props.fetchCount);
     }
   }
 }

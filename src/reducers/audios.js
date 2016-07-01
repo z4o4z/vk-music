@@ -3,7 +3,9 @@ import {
   AUDIOS_LOADED,
   AUDIOS_LOADING,
   AUDIOS_MY_FETCHED,
-  AUDIOS_MY_UPDATED
+  AUDIOS_MY_UPDATED,
+  AUDIOS_FRIEND_FETCHED,
+  AUDIOS_FRIEND_UPDATED
 } from '../constants/audios';
 
 function audiosLoading(state) {
@@ -18,7 +20,8 @@ function myAudiosFetched(state, action) {
     ...state,
     my: {
       offset: action.payload.offset,
-      ids: action.payload.ids
+      ids: action.payload.ids,
+      allLoaded: false
     },
     all: {
       ...state.all,
@@ -32,7 +35,42 @@ function myAudiosUpdated(state, action) {
     ...state,
     my: {
       offset: action.payload.offset,
-      ids: [...state.my.ids, ...action.payload.ids]
+      ids: [...state.my.ids, ...action.payload.ids],
+      allLoaded: state.my.ids.length === state.my.ids.length + action.payload.ids
+    },
+    all: {
+      ...state.all,
+      ...action.payload.normalized
+    }
+  };
+}
+
+function friendAudiosFetched(state, action) {
+  return {
+    ...state,
+    friends: {
+      [action.payload.id]: {
+        offset: action.payload.offset,
+        ids: action.payload.ids,
+        allLoaded: false
+      }
+    },
+    all: {
+      ...state.all,
+      ...action.payload.normalized
+    }
+  };
+}
+
+function friendAudiosUpdated(state, action) {
+  return {
+    ...state,
+    friends: {
+      [action.payload.id]: {
+        offset: action.payload.offset,
+        ids: [...state.friends[action.payload.id].ids, ...action.payload.ids],
+        allLoaded: state.friends[action.payload.id].ids === state.friends[action.payload.id].ids.length + action.payload.ids
+      }
     },
     all: {
       ...state.all,
@@ -64,6 +102,10 @@ export default (state = {}, action = {}) => {
       return myAudiosFetched(state, action);
     case AUDIOS_MY_UPDATED:
       return myAudiosUpdated(state, action);
+    case AUDIOS_FRIEND_FETCHED:
+      return friendAudiosFetched(state, action);
+    case AUDIOS_FRIEND_UPDATED:
+      return friendAudiosUpdated(state, action);
     case AUDIOS_ERROR:
       return audiosError(state, action);
     case AUDIOS_LOADED:

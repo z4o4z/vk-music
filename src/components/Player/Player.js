@@ -24,10 +24,11 @@ export default class Player extends Component {
   }
 
   render() {
-    const audio = this.props.audio;
+    console.log(this.props.audio.aid);
 
     return (
       <div className={classes.component}>
+
         <PlayerLeftControls
           playing={this.props.playing}
           onPlay={this.props.onPlay}
@@ -35,19 +36,33 @@ export default class Player extends Component {
           onPrev={this.props.onPrev}
           hasNext={this.props.hasNext}
           hasPrev={this.props.hasPrev}
+          disabled={!this.props.audio.aid}
         />
 
-        <PlayerVisualization audioFile={audio.url} playing={this.props.playing} onEnded={this.onEnded}>
-          <div className={classes.visualisationContent}>
-            <AudioInfo title={audio.title} artist={audio.artist} playerStyle={true}/>
-          </div>
-        </PlayerVisualization>
+        {this.getPlayerVisualisation()}
+
       </div>
     );
   }
 
   shouldComponentUpdate(nextProps) {
     return nextProps.playing !== this.props.playing || nextProps.audio.aid !== this.props.audio.aid;
+  }
+
+  getPlayerVisualisation() {
+    const audio = this.props.audio;
+
+    if (!audio.aid) {
+      return null;
+    }
+
+    return (
+      <PlayerVisualization audioFile={audio.url} playing={this.props.playing} onEnded={this.onEnded}>
+        <div className={classes.visualisationContent}>
+          <AudioInfo title={audio.title} artist={audio.artist} playerStyle={true}/>
+        </div>
+      </PlayerVisualization>
+    );
   }
 
   onEnded() {

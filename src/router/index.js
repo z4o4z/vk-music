@@ -4,6 +4,7 @@ import {Router, Route, IndexRoute} from 'react-router';
 import App from '../containers/App/App';
 import MyAudios from '../containers/MyAudios/MyAudios';
 import Friends from '../containers/Friends/Friends';
+import FriendAudios from '../containers/FriendAudios/FriendAudios';
 
 export default class MyRouter extends Component {
   static propTypes = {
@@ -16,6 +17,7 @@ export default class MyRouter extends Component {
         <Route path="/" component={App}>
           <IndexRoute component={MyAudios}/>
           <Route path="friends" component={Friends}/>
+          <Route path="/friend/:friendId" component={FriendAudios}/>
         </Route>
       </Router>
     );

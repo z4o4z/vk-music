@@ -3,7 +3,9 @@ import {
   AUDIOS_LOADED,
   AUDIOS_LOADING,
   AUDIOS_MY_FETCHED,
-  AUDIOS_MY_UPDATED
+  AUDIOS_MY_UPDATED,
+  AUDIOS_FRIEND_FETCHED,
+  AUDIOS_FRIEND_UPDATED
 } from '../constants/audios';
 
 import normalizeBy from '../helpers/normalizeBy';
@@ -54,6 +56,28 @@ function myAudiosUpdated(offset, audios) {
   };
 }
 
+function friendAudiosFetched(id, offset, audios) {
+  return {
+    type: AUDIOS_FRIEND_FETCHED,
+    payload: {
+      id,
+      offset,
+      ...normalizeBy(audios, 'aid')
+    }
+  };
+}
+
+function friendAudiosUpdated(id, offset, audios) {
+  return {
+    type: AUDIOS_FRIEND_UPDATED,
+    payload: {
+      id,
+      offset,
+      ...normalizeBy(audios, 'aid')
+    }
+  };
+}
+
 function fetchAudios(ownerIs, albumId, audioIds, offset, count) {
   let params = {
     offset,
@@ -97,10 +121,28 @@ export const fetchMyAudio = (offset, count) => dispatch => {
 };
 
 export const updateMyAudio = (offset, count) => dispatch => {
-  dispatch(loading());
+  dispatch(loading(undefined, undefined, undefined, offset, count));
 
   fetchAudios(undefined, undefined, undefined, offset, count)
     .then(audios => dispatch(myAudiosUpdated(offset, audios)))
+    .then(() => dispatch(loaded()))
+    .catch(id => dispatch(error(id)));
+};
+
+export const fetchFriendAudio = (id, offset, count) => dispatch => {
+  dispatch(loading(id, undefined, undefined, offset, count));
+
+  fetchAudios(id, undefined, undefined, offset, count)
+    .then(audios => dispatch(friendAudiosFetched(id, offset, audios)))
+    .then(() => dispatch(loaded()))
+    .catch(id => dispatch(error(id)));
+};
+
+export const updateFriendAudio = (id, offset, count) => dispatch => {
+  dispatch(loading(id, undefined, undefined, offset, count));
+
+  fetchAudios(id, undefined, undefined, offset, count)
+    .then(audios => dispatch(friendAudiosUpdated(id, offset, audios)))
     .then(() => dispatch(loaded()))
     .catch(id => dispatch(error(id)));
 };

@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {Link} from 'react-router';
+import {browserHistory} from 'react-router';
 
 import Ripple from './Ripple.js';
 
@@ -27,19 +27,6 @@ export default class RippleButton extends Component {
   }
 
   render() {
-    if (this.props.href) {
-      return (
-        <Link className={this.getClassName()}
-              ref="button"
-              onMouseDown={this.onMouseDown}
-              onTouchstart={this.onMouseDown}
-              to={this.props.href}>
-          {this.props.children}
-          <Ripple cursorPos={this.state.cursorPos} />
-        </Link>
-      );
-    }
-
     return (
       <button className={this.getClassName()}
               ref="button"
@@ -96,6 +83,10 @@ export default class RippleButton extends Component {
   }
 
   onClick() {
+    if (this.props.href) {
+      browserHistory.push(this.props.href);
+    }
+
     if (this.props.onClick) {
       this.props.onClick();
     }

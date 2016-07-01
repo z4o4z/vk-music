@@ -17,6 +17,7 @@ export default class PlayPauseButton extends Component {
     className: PropTypes.string,
     playing: PropTypes.bool.isRequired,
     big: PropTypes.bool,
+    disabled: PropTypes.bool,
     onClick: PropTypes.func
   };
 
@@ -28,14 +29,14 @@ export default class PlayPauseButton extends Component {
 
   render() {
     return (
-      <RippleButton rounded={true} className={this.getClassName()} onClick={this.onClick}>
+      <RippleButton rounded={true} className={this.getClassName()} onClick={this.onClick} disabled={this.props.disabled}>
         {this.getIcon()}
       </RippleButton>
     );
   }
 
   shouldComponentUpdate(nextProps) {
-    return this.props.playing !== nextProps.playing;
+    return this.props.playing !== nextProps.playing || this.props.disabled !== nextProps.disabled;
   }
 
   getClassName() {

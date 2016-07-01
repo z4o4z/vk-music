@@ -36,7 +36,7 @@ function friendsFetched(offset, friends) {
     type: FRIENDS_FETCHED,
     payload: {
       offset,
-      ...normalizeBy(friends, 'id')
+      ...normalizeBy(friends, 'uid')
     }
   };
 }
@@ -46,7 +46,7 @@ function friendsUpdated(offset, friends) {
     type: FRIENDS_UPDATED,
     payload: {
       offset,
-      ...normalizeBy(friends, 'id')
+      ...normalizeBy(friends, 'uid')
     }
   };
 }
@@ -55,7 +55,8 @@ function fetch(offset, count) {
   let params = {
     offset,
     count,
-    fields: 'photo_100'
+    fields: 'photo_100',
+    order: 'hints'
   };
 
   return new Promise((resolve, reject) => {

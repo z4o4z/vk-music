@@ -1,6 +1,8 @@
 import React, {Component, PropTypes} from 'react';
 
-import classes from './audioItem.scss';
+import RippleButton from '../RippleButton/RippleButton';
+
+import classes from './friendsAndGroupsItem.scss';
 
 export default class FriendsAndGroupsItem extends Component {
   static propTypes = {
@@ -11,10 +13,15 @@ export default class FriendsAndGroupsItem extends Component {
 
   render() {
     return (
-      <div className={classes.component}>
-        <img src={this.props.photo} alt=""/>
-        <span>{this.props.name}</span>
-      </div>
+      <RippleButton className={classes.component} href={`/friend/${this.props.id}`}>
+        <div className={classes.content}>
+          <img className={classes.photo} src={this.props.photo} alt=""/>
+          <div className={classes.wrapper}>
+            <span className={classes.name} >{this.props.name}</span>
+            <a className={classes.link} href={`//vk.com/id${this.props.id}`} target="_blank" onClick={this.onClick}>Профиль</a>
+          </div>
+        </div>
+      </RippleButton>
     );
   }
 
@@ -22,5 +29,9 @@ export default class FriendsAndGroupsItem extends Component {
     const {id, name, photo} = this.props;
 
     return id !== nextProps.id || name !== nextProps.name || photo !== nextProps.photo;
+  }
+
+  onClick(e) {
+    e.stopPropagation();
   }
 }

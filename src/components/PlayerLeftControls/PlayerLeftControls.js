@@ -18,12 +18,14 @@ export default class PlayerLeftControls extends Component {
     onNext: PropTypes.func.isRequired,
     onPrev: PropTypes.func.isRequired,
     hasNext: PropTypes.bool.isRequired,
-    hasPrev: PropTypes.bool.isRequired
+    hasPrev: PropTypes.bool.isRequired,
+    disabled: PropTypes.bool.isRequired
   };
 
   render() {
     return (
       <div className={classes.component}>
+
         <RippleButton
           className={classes.prev}
           rounded={true}
@@ -37,6 +39,7 @@ export default class PlayerLeftControls extends Component {
           playing={this.props.playing}
           big={true}
           onClick={this.props.onPlay}
+          disabled={this.props.disabled}
         />
 
         <RippleButton
@@ -46,6 +49,7 @@ export default class PlayerLeftControls extends Component {
           onClick={this.props.onNext}>
           {FastForwardIcon}
         </RippleButton>
+
       </div>
     );
   }

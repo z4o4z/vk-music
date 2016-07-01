@@ -18,6 +18,7 @@ export default class AudiosList extends Component {
     audiosError: PropTypes.number.isRequired,
     playerCurrentTrack: PropTypes.number.isRequired,
     playerPlaying: PropTypes.bool.isRequired,
+    allLoaded: PropTypes.bool.isRequired,
     fetchAudio: PropTypes.func.isRequired,
     updateAudio: PropTypes.func.isRequired,
     playTrack: PropTypes.func.isRequired,
@@ -32,7 +33,7 @@ export default class AudiosList extends Component {
     this.onScroll = this.onScroll.bind(this);
     this.onPlayClick = this.onPlayClick.bind(this);
 
-    this.props.fetchAudio(0, AUDIOS_FETCH_COUNT);
+    this.fetch(AUDIOS_FETCH_COUNT);
   }
 
   render() {
@@ -77,6 +78,14 @@ export default class AudiosList extends Component {
     );
   }
 
+  fetch(count) {
+    this.props.fetchAudio(0, count);
+  }
+
+  update(count) {
+    this.props.updateAudio(this.props.offset + count + 1, count);
+  }
+
   onPlayClick(id) {
     if (id === this.props.playerCurrentTrack) {
       this.props.playPlayPause();
@@ -86,8 +95,11 @@ export default class AudiosList extends Component {
   }
 
   onScroll(scrollTop, height, childHeight) {
-    if (scrollTop >= childHeight - height - UI_SCROLL_UPDATE_HEIGHT && !this.props.audiosLoading) {
-      this.props.updateAudio(this.props.offset + AUDIOS_FETCH_COUNT + 1, AUDIOS_FETCH_COUNT);
+    const updateHeight = childHeight - height - UI_SCROLL_UPDATE_HEIGHT;
+
+    if (scrollTop >= updateHeight && !this.props.audiosLoading && !this.props.allLoaded) {
+      this.update(AUDIOS_FETCH_COUNT);
     }
   }
 }
+
