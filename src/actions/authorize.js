@@ -1,25 +1,25 @@
-import {VK_AUTHORIZING, VK_AUTHORIZED, VK_AUTHORIZE_ERROR, VK_STATUS_CONNECTED} from '../constants/authorize';
+import {AUTHORIZING, AUTHORIZED, AUTHORIZE_ERROR, STATUS_CONNECTED, SET_REDIRECT_PAGE} from '../constants/authorize';
 
 function authorizing() {
   return {
-    type: VK_AUTHORIZING
+    type: AUTHORIZING
   };
 }
 
 function authorized(expire) {
   return {
-    type: VK_AUTHORIZED,
+    type: AUTHORIZED,
     payload: expire
   };
 }
 
 function error() {
-  return {type: VK_AUTHORIZE_ERROR};
+  return {type: AUTHORIZE_ERROR};
 }
 
 const login = () => dispatch => {
   window.VK.Auth.login(data => {
-    if (data.status === VK_STATUS_CONNECTED) {
+    if (data.status === STATUS_CONNECTED) {
       return dispatch(authorized(data.session.expire * 1000));
     }
 
@@ -27,9 +27,9 @@ const login = () => dispatch => {
   }, 270346);
 };
 
-const getLoginStatus = () => dispatch => {
+export const getLoginStatus = () => dispatch => {
   window.VK.Auth.getLoginStatus(data => {
-    if (data.status === VK_STATUS_CONNECTED) {
+    if (data.status === STATUS_CONNECTED) {
       return dispatch(authorized(data.session.expire * 1000));
     }
 
@@ -48,3 +48,10 @@ export const authorize = expire => dispatch => {
 
   return dispatch(getLoginStatus());
 };
+
+export function redirectTo(page) {
+  return {
+    type: SET_REDIRECT_PAGE,
+    payload: page
+  };
+}

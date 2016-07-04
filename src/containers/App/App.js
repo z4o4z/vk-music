@@ -16,8 +16,6 @@ class App extends Component {
   static propTypes = {
     leftMenuOpen: PropTypes.bool.isRequired,
     initialized: PropTypes.bool.isRequired,
-    authorized: PropTypes.bool.isRequired,
-    tokenExpire: PropTypes.number.isRequired,
     player: PropTypes.object.isRequired,
     audios: PropTypes.object.isRequired,
     uiLeftMenuOpen: PropTypes.func.isRequired,
@@ -87,15 +85,13 @@ class App extends Component {
   }
 
   isAppStarted() {
-    return this.props.initialized && this.props.authorized;
+    return this.props.initialized;
   }
 }
 
 const mapStateToProps = state => ({
   leftMenuOpen: state.ui.leftMenuOpen,
   initialized: state.initialized,
-  authorized: state.authorize.authorized,
-  tokenExpire: state.authorize.expire,
   player: state.player,
   audios: state.audio.all
 });

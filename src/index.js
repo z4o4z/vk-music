@@ -15,7 +15,8 @@ let initialState = {
   authorize: {
     authorized: false,
     authError: false,
-    expire: 0
+    expire: 0,
+    redirectPage: '/'
   },
   ui: {
     leftMenuOpen: false,
