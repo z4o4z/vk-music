@@ -16,16 +16,21 @@ class FriendAudios extends AudiosList {
   }
 }
 
-const mapStateToProps = state => ({
-  audios: state.audio.all,
-  ids: state.audio.my.ids,
-  offset: state.audio.my.offset,
-  audiosLoading: state.audio.loading,
-  audiosError: state.audio.error,
-  allLoaded: state.audio.my.allLoaded,
-  playerCurrentTrack: state.player.current,
-  playerPlaying: state.player.playing
-});
+const mapStateToProps = (state, ownProps) => {
+  const id = Number(ownProps.params.friendId);
+  const friend = state.audio.friends[id] || {};
+
+  return ({
+    audios: state.audio.all,
+    ids: friend.ids || [],
+    offset: friend.offset || 0,
+    audiosLoading: state.audio.loading,
+    audiosError: state.audio.error,
+    allLoaded: friend.allLoaded || false,
+    playerCurrentTrack: state.player.current,
+    playerPlaying: state.player.playing
+  });
+};
 
 const mapDispatchToProps = dispatch => ({
   fetchAudio: (id, offset, count) => dispatch(fetchFriendAudio(id, offset, count)),
