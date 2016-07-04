@@ -6,6 +6,19 @@ import {
   FRIENDS_UPDATED
 } from '../constants/friends';
 
+import isArrayStartFrom from '../helpers/isArrayStartFrom';
+import getDifferencesByKeys from '../helpers/getDifferencesByKeys';
+
+function getAllFriends(allFriends, newFriends) {
+  let differentAudios = getDifferencesByKeys(allFriends, newFriends, 'first_name', 'last_name', 'photo_100');
+
+  if (differentAudios) {
+    return {...allFriends, ...differentAudios};
+  }
+
+  return allFriends;
+}
+
 function loading(state) {
   return {
     ...state,
@@ -14,25 +27,27 @@ function loading(state) {
 }
 
 function fetched(state, action) {
+  let ids = state.ids;
+  let newIds = action.payload.ids;
+
   return {
     ...state,
     offset: action.payload.offset,
-    ids: action.payload.ids,
-    all: action.payload.normalized,
+    ids: isArrayStartFrom(ids, newIds) ? ids : newIds,
+    all: getAllFriends(state.all, action.payload.normalized),
     allLoaded: false
   };
 }
 
 function updated(state, action) {
+  let isAllLoaded = state.ids.length === state.ids.length + action.payload.ids.length;
+
   return {
     ...state,
     offset: action.payload.offset,
-    allLoaded: state.ids.length === state.ids.length + action.payload.ids.length,
-    ids: [...state.ids, ...action.payload.ids],
-    all: {
-      ...state.all,
-      ...action.payload.normalized
-    }
+    allLoaded: isAllLoaded,
+    ids: isAllLoaded ? state.ids : [...state.ids, ...action.payload.ids],
+    all: getAllFriends(state.all, action.payload.normalized)
   };
 }
 

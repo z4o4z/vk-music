@@ -8,6 +8,19 @@ import {
   AUDIOS_FRIEND_UPDATED
 } from '../constants/audios';
 
+import isArrayStartFrom from '../helpers/isArrayStartFrom';
+import getDifferencesByKeys from '../helpers/getDifferencesByKeys';
+
+function getAllAudios(allAudios, newAudios) {
+  let differentAudios = getDifferencesByKeys(allAudios, newAudios, 'title', 'artist', 'genre');
+
+  if (differentAudios) {
+    return {...allAudios, ...differentAudios};
+  }
+
+  return allAudios;
+}
+
 function audiosLoading(state) {
   return {
     ...state,
@@ -16,60 +29,63 @@ function audiosLoading(state) {
 }
 
 function myAudiosFetched(state, action) {
+  let ids = state.my.ids;
+  let newIds = action.payload.ids;
+
   return {
     ...state,
     my: {
       offset: action.payload.offset,
-      ids: action.payload.ids,
+      ids: isArrayStartFrom(ids, newIds) ? ids : newIds,
       allLoaded: false
     },
-    all: {
-      ...state.all,
-      ...action.payload.normalized
-    }
+    all: getAllAudios(state.all, action.payload.normalized)
   };
 }
 
 function myAudiosUpdated(state, action) {
+  let isAllLoaded = state.my.ids.length === state.my.ids.length + action.payload.ids;
+
   return {
     ...state,
     my: {
       offset: action.payload.offset,
-      ids: [...state.my.ids, ...action.payload.ids],
-      allLoaded: state.my.ids.length === state.my.ids.length + action.payload.ids
+      ids: isAllLoaded ? state.my.ids : [...state.my.ids, ...action.payload.ids],
+      allLoaded: isAllLoaded
     },
-    all: {
-      ...state.all,
-      ...action.payload.normalized
-    }
+    all: getAllAudios(state.all, action.payload.normalized)
   };
 }
 
 function friendAudiosFetched(state, action) {
+  let friend = state.friends[action.payload.id] || {};
+  let ids = friend.ids || [];
+  let newIds = action.payload.ids;
+
   return {
     ...state,
     friends: {
       [action.payload.id]: {
         offset: action.payload.offset,
-        ids: action.payload.ids,
+        ids: isArrayStartFrom(ids, newIds) ? ids : newIds,
         allLoaded: false
       }
     },
-    all: {
-      ...state.all,
-      ...action.payload.normalized
-    }
+    all: getAllAudios(state.all, action.payload.normalized)
   };
 }
 
 function friendAudiosUpdated(state, action) {
+  let friend = state.friends[action.payload.id] || {};
+  let isAllLoaded = friend.ids === friend.ids.length + action.payload.ids;
+
   return {
     ...state,
     friends: {
       [action.payload.id]: {
         offset: action.payload.offset,
-        ids: [...state.friends[action.payload.id].ids, ...action.payload.ids],
-        allLoaded: state.friends[action.payload.id].ids === state.friends[action.payload.id].ids.length + action.payload.ids
+        ids: isAllLoaded ? friend.ids : [...friend.ids, ...action.payload.ids],
+        allLoaded: isAllLoaded
       }
     },
     all: {

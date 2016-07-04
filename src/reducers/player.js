@@ -8,6 +8,8 @@ import {
   PLAYER_PREV
 } from '../constants/player';
 
+import isArrayStartFrom from '../helpers/isArrayStartFrom';
+
 function getNext(playlist, current) {
   const currentIndex = playlist.indexOf(current);
 
@@ -47,6 +49,10 @@ function playPause(state) {
 }
 
 function setPlaylist(state, action) {
+  if (isArrayStartFrom(state.playlist, action.payload)) {
+    return state;
+  }
+
   return {
     ...state,
     next: getNext(action.payload, state.current),
