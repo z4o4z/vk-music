@@ -104,9 +104,7 @@ module.exports = {
       IS_LOC: JSON.stringify(IS_LOC),
       IS_DEV: JSON.stringify(IS_DEV),
       IS_PROD: JSON.stringify(IS_PROD),
-      'process.env': {
-        'NODE_ENV': JSON.stringify(IS_PROD ? 'production' : 'development')
-      }
+      'process.env.NODE_ENV': JSON.stringify(IS_PROD ? 'production' : 'development')
     }),
     new StyleLintPlugin({
       configFile: '.stylelintrc.js'
@@ -116,7 +114,8 @@ module.exports = {
     new ExtractTextPlugin('style.css'),
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'src', 'index.html'),
-      filename: 'index.html'
+      filename: 'index.html',
+      inject: false
     })
   ],
 
@@ -126,7 +125,7 @@ module.exports = {
     port: 8080, // default
     hot: true,
     historyApiFallback: {
-      index: '/index.html'
+      index: '/'
     },
     proxy: {
       '/audio-proxy/cs6-1v4.vk-cdn.net/*': {target: 'http://cs6-1v4.vk-cdn.net', rewrite},
