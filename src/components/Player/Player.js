@@ -24,8 +24,6 @@ export default class Player extends Component {
   }
 
   render() {
-    console.log(this.props.audio.aid);
-
     return (
       <div className={classes.component}>
 
