@@ -6,7 +6,7 @@ import {playerSetPlaylist, playerSetPlaylistPage, playerSetTrack, playerUpdatePl
 
 function setTack(store, next, action, lastResult) {
   let state = store.getState();
-  const playlistPage = state.routing.locationBeforeTransitions.pathname;
+  const playlistPage = window.location.pathname;
   let trackId;
 
   if (action.type !== AUDIOS_LOADED || state.player.current) {
@@ -26,7 +26,7 @@ function setPlaylist(store, next, action, lastResult) {
   let state = store.getState();
   let playlist;
 
-  if (action.type !== AUDIOS_LOADED || state.routing.locationBeforeTransitions.pathname !== state.player.playlistPage) {
+  if (action.type !== AUDIOS_LOADED || window.location.pathname !== state.player.playlistPage) {
     return lastResult;
   }
 
@@ -40,8 +40,9 @@ function setPlaylist(store, next, action, lastResult) {
 function updatePlaylist(store, next, action, lastResult) {
   let state = store.getState();
   let player = state.player;
+  let currentTrackPosition = player.playlist.length - player.playlist.indexOf(player.current);
 
-  if (action.type !== PLAYER_NEXT || player.playlist.length - player.playlist.indexOf(player.current) !== PLAYER_UPDATE_PLAYLIST_COUNT) {
+  if (action.type !== PLAYER_NEXT || currentTrackPosition !== PLAYER_UPDATE_PLAYLIST_COUNT) {
     return lastResult;
   }
 
