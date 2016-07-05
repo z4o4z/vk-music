@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {Router, Route, IndexRoute} from 'react-router';
+import {Router} from 'react-router';
 
 import {redirectTo} from '../actions/authorize';
 
@@ -17,15 +17,30 @@ class MyRouter extends Component {
     redirectTo: PropTypes.func.isRequired
   };
 
-  constructor(props) {
-    super(props);
-
-    this.checkAuth = this.checkAuth.bind(this);
-  }
+  routes = {
+    path: '/',
+    component: App,
+    indexRoute: {
+      component: MyAudios,
+      onEnter: (nextState, replace) => this.checkAuth(nextState, replace)
+    },
+    childRoutes: [{
+      path: '/friends',
+      component: Friends,
+      onEnter: (nextState, replace) => this.checkAuth(nextState, replace)
+    }, {
+      path: '/friend/:friendId',
+      component: FriendAudios,
+      onEnter: (nextState, replace) => this.checkAuth(nextState, replace)
+    }, {
+      path: '/authorise',
+      component: Authorize
+    }]
+  };
 
   checkAuth(nextState, replace) {
     if (this.props.authorized) {
-      return;
+      return nextState;
     }
 
     this.props.redirectTo(nextState.location.pathname);
@@ -35,14 +50,7 @@ class MyRouter extends Component {
 
   render() {
     return (
-      <Router history={this.props.history}>
-        <Route path="/" component={App}>
-          <IndexRoute component={MyAudios} onEnter={this.checkAuth}/>
-          <Route path="friends" component={Friends} onEnter={this.checkAuth}/>
-          <Route path="/friend/:friendId" component={FriendAudios} onEnter={this.checkAuth}/>
-          <Route path="/authorise" component={Authorize}/>
-        </Route>
-      </Router>
+      <Router history={this.props.history} routes={this.routes} />
     );
   }
 }
