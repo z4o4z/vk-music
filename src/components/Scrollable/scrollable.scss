@@ -10,11 +10,15 @@
 }
 
 .content {
-  display: block;
+  display: flex;
   width: 100%;
   max-width: $general-content-max-width;
   min-height: 100%;
   margin: 0 auto;
   padding: $general-content-padding 0;
   box-sizing: border-box;
+
+  > * {
+    width: 100%;
+  }
 }
