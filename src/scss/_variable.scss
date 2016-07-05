@@ -81,7 +81,6 @@ $ply-pause-button-big-size: 48px;
 $ply-pause-button-background: $accent-color;
 $ply-pause-button-box-shadow: $box-shadow-2;
 
-
 $friend-item-width: 33%;
 $friend-item-height: 100px;
 $friend-item-padding: $general-padding;
@@ -91,3 +90,13 @@ $friend-item-border-color: $divider-color;
 $friend-item-color: $primary-text-color;
 $friend-item-secondary-color: $secondary-text-color;
 $friend-item-background-color: $general-hover-background-color;
+
+$authorize-color-1: $primary-text-color;
+$authorize-color-2: $accent-color;
+$authorize-color-3: $primary-color-text;
+$authorize-margin: $general-margin * 1.5;
+$authorize-padding: $general-padding * 1.5;
+$authorize-button-background: $accent-color;
+$authorize-button-color: $primary-color-text;
+$authorize-button-shadow: $box-shadow-2;
+$authorize-button-font-size: 18px;

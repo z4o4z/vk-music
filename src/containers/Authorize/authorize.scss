@@ -1,3 +1,32 @@
-.component {
+@import "../../scss/variable";
+@import "../../scss/glitch";
 
+.component {
+  display: block;
+  height: 100%;
+  margin: auto;
+
+  text-align: center;
+}
+
+.title {
+  display: block;
+  width: 308px;
+  margin: 0 auto;
+
+  font-size: 72px;
+
+  @include textGlitch('title-glitch', 15, $authorize-color-1, #fff, $authorize-color-2, $authorize-color-3, 308, 86);
+}
+
+.button {
+  display: block;
+  padding: $authorize-padding;
+  margin: $authorize-margin auto 0 auto;
+
+  font-size: $authorize-button-font-size;
+  color: $authorize-button-color;
+
+  background-color: $authorize-button-background;
+  box-shadow: $authorize-button-shadow;
 }

@@ -11,9 +11,9 @@ import classes from './authorize.scss';
 
 class Authorize extends Component {
   static propTypes = {
-    authorized: PropTypes.bool.required,
-    redirectPage: PropTypes.string.required,
-    authorize: PropTypes.func.required
+    authorized: PropTypes.bool.isRequired,
+    redirectPage: PropTypes.string.isRequired,
+    authorize: PropTypes.func.isRequired
   };
 
   componentDidUpdate() {
@@ -26,8 +26,8 @@ class Authorize extends Component {
     return (
       <Scrollable>
         <div className={classes.component}>
-          <h1>Для использования приложения необходимо авторизоваться!</h1>
-          <RippleButton onClick={this.props.authorize}>
+          <h2 className={classes.title} data-text="VK Music">VK Music</h2>
+          <RippleButton className={classes.button} onClick={this.props.authorize}>
             <span>Авторизоваться</span>
           </RippleButton>
         </div>
