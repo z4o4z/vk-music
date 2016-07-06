@@ -5,9 +5,8 @@ import {Router} from 'react-router';
 import {redirectTo} from '../actions/authorize';
 
 import App from '../containers/App/App';
-import MyAudios from '../containers/MyAudios/MyAudios';
+import UserAudios from '../containers/UserAudios/UserAudios';
 import Friends from '../containers/Friends/Friends';
-import FriendAudios from '../containers/FriendAudios/FriendAudios';
 import Authorize from '../containers/Authorize/Authorize';
 
 class MyRouter extends Component {
@@ -21,16 +20,16 @@ class MyRouter extends Component {
     path: '/',
     component: App,
     indexRoute: {
-      component: MyAudios,
+      component: UserAudios,
       onEnter: (nextState, replace) => this.checkAuth(nextState, replace)
     },
     childRoutes: [{
-      path: '/friends',
+      path: '/friends(/:ownerId)',
       component: Friends,
       onEnter: (nextState, replace) => this.checkAuth(nextState, replace)
     }, {
-      path: '/friend/:friendId',
-      component: FriendAudios,
+      path: '/friend/:userId',
+      component: UserAudios,
       onEnter: (nextState, replace) => this.checkAuth(nextState, replace)
     }, {
       path: '/authorise',

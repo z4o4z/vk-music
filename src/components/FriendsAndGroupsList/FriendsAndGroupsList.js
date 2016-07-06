@@ -8,24 +8,25 @@ import FriendsAndGroupsItem from '../FriendsAndGroupsItem/FriendsAndGroupsItem';
 
 export default class FriendsAndGroupsList extends Component {
   static propTypes = {
-    items: PropTypes.object.isRequired,
-    ids: PropTypes.array.isRequired,
-    offset: PropTypes.number.isRequired,
+    all: PropTypes.object.isRequired,
+    owners: PropTypes.object.isRequired,
     fetchCount: PropTypes.number.isRequired,
     loading: PropTypes.bool.isRequired,
-    allLoaded: PropTypes.bool.isRequired,
     error: PropTypes.number.isRequired,
-    fetch: PropTypes.func.isRequired,
-    update: PropTypes.func.isRequired
+    currentUserId: PropTypes.number.isRequired,
+    params: PropTypes.object.isRequired,
+    fetch: PropTypes.func.isRequired
   };
 
   constructor(props) {
     super(props);
 
+    this.state = this.getUserData(this.props);
+
     this.renderItem = this.renderItem.bind(this);
     this.onScroll = this.onScroll.bind(this);
 
-    this.props.fetch(0, this.props.fetchCount);
+    this.fetch(this.props.fetchCount, this.props.params.ownerId);
   }
 
   render() {
@@ -33,7 +34,7 @@ export default class FriendsAndGroupsList extends Component {
       <Scrollable onScroll={this.onScroll}>
         <ReactList
           itemRenderer={this.renderItem}
-          length={this.props.ids.length}
+          length={this.state.ids.length}
           pageSize={this.props.fetchCount}
           useStaticSize={true}
           useTranslate3d={true}
@@ -42,16 +43,40 @@ export default class FriendsAndGroupsList extends Component {
     );
   }
 
-  shouldComponentUpdate(newProps) {
-    const {items, ids, offset, fetchCount, loading, error} = newProps;
+  shouldComponentUpdate(nextProps, nextState) {
+    const {all, fetchCount, loading, error, params} = nextProps;
+    const {ids, offset, allLoaded} = nextState;
 
-    return this.props.items !== items || this.props.ids !== ids ||
-      this.props.offset !== offset || this.props.fetchCount !== fetchCount ||
-      this.props.loading !== loading || this.props.error !== error;
+    return this.props.all !== all || this.props.fetchCount !== fetchCount ||
+      this.props.loading !== loading || this.props.error !== error ||
+      this.props.params.ownerId !== params.ownerId ||
+      this.state.ids !== ids || this.state.offset !== offset ||
+      this.state.allLoaded !== allLoaded;
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState(this.getUserData(nextProps));
+  }
+
+  componentWillUpdate(nextProps) {
+    if (this.props.params.ownerId !== nextProps.params.ownerId) {
+      this.fetch(this.props.fetchCount, nextProps.params.ownerId);
+    }
+  }
+
+  getUserData(props) {
+    const id = Number(props.params.ownerId) || props.currentUserId;
+    const owner = props.owners[id] || {};
+
+    return {
+      ids: owner.ids || [],
+      offset: owner.offset || 0,
+      allLoaded: owner.allLoaded || false
+    };
   }
 
   renderItem(index, key) {
-    const item = this.props.items[this.props.ids[index]];
+    const item = this.props.all[this.state.ids[index]];
 
     return (
       <FriendsAndGroupsItem
@@ -63,11 +88,24 @@ export default class FriendsAndGroupsList extends Component {
     );
   }
 
+  fetch(count, ownerId) {
+    const id = Number(ownerId) || this.props.currentUserId;
+
+    return this.props.fetch(0, count, id);
+  }
+
+  update(count, ownerId) {
+    const from = this.state.offset + count + 1;
+    const id = Number(ownerId) || this.props.currentUserId;
+
+    return this.props.fetch(from, count, id);
+  }
+
   onScroll(scrollTop, height, childHeight) {
     const updateHeight = childHeight - height - UI_SCROLL_UPDATE_HEIGHT;
 
-    if (scrollTop >= updateHeight && !this.props.loading && !this.props.allLoaded) {
-      this.props.update(this.props.offset + this.props.fetchCount + 1, this.props.fetchCount);
+    if (scrollTop >= updateHeight && !this.props.loading && !this.state.allLoaded) {
+      this.update(this.props.fetchCount, this.props.params.ownerId);
     }
   }
 }

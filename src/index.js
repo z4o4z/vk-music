@@ -10,11 +10,11 @@ import Root from './containers/Root/Root.js';
 import classes from './index.scss';
 
 let initialState = {
-  routing: {},
   initialized: false,
   authorize: {
     authorized: false,
     authError: false,
+    userId: 0,
     expire: 0,
     redirectPage: '/'
   },
@@ -24,21 +24,13 @@ let initialState = {
   },
   audio: {
     all: {},
-    my: {
-      offset: 0,
-      ids: [],
-      allLoaded: false
-    },
-    friends: {
-    },
+    users: {},
     loading: false,
     error: 0
   },
   friends: {
     all: {},
-    ids: [],
-    offset: 0,
-    allLoaded: false,
+    users: {},
     loading: false,
     error: 0
   },

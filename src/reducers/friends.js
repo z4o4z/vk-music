@@ -1,9 +1,7 @@
 import {
   FRIENDS_ERROR,
-  FRIENDS_LOADED,
   FRIENDS_LOADING,
-  FRIENDS_FETCHED,
-  FRIENDS_UPDATED
+  FRIENDS_FETCHED
 } from '../constants/friends';
 
 import isArrayStartFrom from '../helpers/isArrayStartFrom';
@@ -27,27 +25,23 @@ function loading(state) {
 }
 
 function fetched(state, action) {
-  let ids = state.ids;
+  let user = state.users[action.payload.id] || {};
+  let ids = user.ids || [];
   let newIds = action.payload.ids;
+  let allLoaded = ids.length === ids.length + action.payload.ids.length;
 
   return {
     ...state,
-    offset: action.payload.offset,
-    ids: isArrayStartFrom(ids, newIds) ? ids : newIds,
+    users: {
+      [action.payload.id]: {
+        offset: action.payload.offset,
+        ids: isArrayStartFrom(ids, newIds) ? ids : [...ids, ...newIds],
+        allLoaded
+      }
+    },
     all: getAllFriends(state.all, action.payload.normalized),
-    allLoaded: false
-  };
-}
-
-function updated(state, action) {
-  let isAllLoaded = state.ids.length === state.ids.length + action.payload.ids.length;
-
-  return {
-    ...state,
-    offset: action.payload.offset,
-    allLoaded: isAllLoaded,
-    ids: isAllLoaded ? state.ids : [...state.ids, ...action.payload.ids],
-    all: getAllFriends(state.all, action.payload.normalized)
+    loading: false,
+    error: 0
   };
 }
 
@@ -59,25 +53,14 @@ function error(state, action) {
   };
 }
 
-function loaded(state) {
-  return {
-    ...state,
-    loading: false
-  };
-}
-
 export default (state = {}, action = {}) => {
   switch (action.type) {
     case FRIENDS_LOADING:
       return loading(state);
     case FRIENDS_FETCHED:
       return fetched(state, action);
-    case FRIENDS_UPDATED:
-      return updated(state, action);
     case FRIENDS_ERROR:
       return error(state, action);
-    case FRIENDS_LOADED:
-      return loaded(state);
     default: return state;
   }
 };

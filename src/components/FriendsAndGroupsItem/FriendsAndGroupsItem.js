@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import {Link} from 'react-router';
 
 import RippleButton from '../RippleButton/RippleButton';
 
@@ -18,7 +19,10 @@ export default class FriendsAndGroupsItem extends Component {
           <img className={classes.photo} src={this.props.photo} alt=""/>
           <div className={classes.wrapper}>
             <span className={classes.name} >{this.props.name}</span>
-            <a className={classes.link} href={`//vk.com/id${this.props.id}`} target="_blank" onClick={this.onClick}>Профиль</a>
+            <div>
+              <Link className={classes.link} to={`/friends/${this.props.id}`} onClick={this.onClick} >Друзья</Link>
+              <Link className={classes.link} to={`//vk.com/id${this.props.id}`} target="_blank" onClick={this.onClick}>Профиль</Link>
+            </div>
           </div>
         </div>
       </RippleButton>

@@ -17,36 +17,32 @@ function error() {
   return {type: AUTHORIZE_ERROR};
 }
 
-const login = () => dispatch => {
+export const getLoginStatus = () => dispatch => {
+  window.VK.Auth.getLoginStatus(data => {
+    if (data.status === STATUS_CONNECTED) {
+      console.log(data.session);
+      return dispatch(authorized({
+        expire: data.session.expire * 1000,
+        userId: Number(data.session.mid)
+      }));
+    }
+  });
+};
+
+export const authorize = () => dispatch => {
+  dispatch(authorizing());
+
   window.VK.Auth.login(data => {
     if (data.status === STATUS_CONNECTED) {
-      return dispatch(authorized(data.session.expire * 1000));
+      console.log(data.session);
+      return dispatch(authorized({
+        expire: data.session.expire * 1000,
+        userId: Number(data.session.mid)
+      }));
     }
 
     return dispatch(error());
   }, 270346);
-};
-
-export const getLoginStatus = () => dispatch => {
-  window.VK.Auth.getLoginStatus(data => {
-    if (data.status === STATUS_CONNECTED) {
-      return dispatch(authorized(data.session.expire * 1000));
-    }
-
-    return dispatch(login());
-  });
-};
-
-export const authorize = expire => dispatch => {
-  const now = Date.now();
-
-  dispatch(authorizing());
-
-  if (now + 3600000 >= expire) {
-    return dispatch(login());
-  }
-
-  return dispatch(getLoginStatus());
 };
 
 export function redirectTo(page) {

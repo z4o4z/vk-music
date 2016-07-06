@@ -1,26 +1,19 @@
 import {
   FRIENDS_ERROR,
-  FRIENDS_LOADED,
   FRIENDS_LOADING,
-  FRIENDS_FETCHED,
-  FRIENDS_UPDATED
+  FRIENDS_FETCHED
 } from '../constants/friends';
 
 import normalizeBy from '../helpers/normalizeBy';
 
-function loading(offset, count) {
+function loading(offset, count, userId) {
   return {
     type: FRIENDS_LOADING,
     payload: {
       offset,
-      count
+      count,
+      userId
     }
-  };
-}
-
-function loaded() {
-  return {
-    type: FRIENDS_LOADED
   };
 }
 
@@ -31,33 +24,28 @@ function error(id) {
   };
 }
 
-function friendsFetched(offset, friends) {
+function friendsFetched(friends, offset, id) {
   return {
     type: FRIENDS_FETCHED,
     payload: {
       offset,
+      id,
       ...normalizeBy(friends, 'uid')
     }
   };
 }
 
-function friendsUpdated(offset, friends) {
-  return {
-    type: FRIENDS_UPDATED,
-    payload: {
-      offset,
-      ...normalizeBy(friends, 'uid')
-    }
-  };
-}
-
-function fetch(offset, count) {
+function fetch(offset, count, userId) {
   let params = {
     offset,
     count,
     fields: 'photo_100',
     order: 'hints'
   };
+
+  if (userId) {
+    params.user_id = userId;
+  }
 
   return new Promise((resolve, reject) => {
     window.VK.api("friends.get", params, data => {
@@ -74,20 +62,10 @@ function fetch(offset, count) {
   });
 }
 
-export const fetchFriends = (offset, count) => dispatch => {
-  dispatch(loading(offset, count));
+export const fetchFriends = (offset, count, userId) => dispatch => {
+  dispatch(loading(offset, count, userId));
 
-  fetch(offset, count)
-    .then(audios => dispatch(friendsFetched(offset, audios)))
-    .then(() => dispatch(loaded()))
-    .catch(id => dispatch(error(id)));
-};
-
-export const updateFriends = (offset, count) => dispatch => {
-  dispatch(loading(offset, count));
-
-  fetch(offset, count)
-    .then(audios => dispatch(friendsUpdated(offset, audios)))
-    .then(() => dispatch(loaded()))
+  fetch(offset, count, userId)
+    .then(friends => dispatch(friendsFetched(friends, offset, userId)))
     .catch(id => dispatch(error(id)));
 };

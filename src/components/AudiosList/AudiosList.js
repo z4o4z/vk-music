@@ -19,8 +19,9 @@ export default class AudiosList extends Component {
     playerCurrentTrack: PropTypes.number.isRequired,
     playerPlaying: PropTypes.bool.isRequired,
     allLoaded: PropTypes.bool.isRequired,
-    fetchAudio: PropTypes.func.isRequired,
-    updateAudio: PropTypes.func.isRequired,
+    params: PropTypes.object.isRequired,
+    currentUserId: PropTypes.number.isRequired,
+    fetch: PropTypes.func.isRequired,
     playTrack: PropTypes.func.isRequired,
     setTrack: PropTypes.func.isRequired,
     playPlayPause: PropTypes.func.isRequired
@@ -79,11 +80,16 @@ export default class AudiosList extends Component {
   }
 
   fetch(count) {
-    this.props.fetchAudio(0, count);
+    const userId = Number(this.props.params.userId) || this.props.currentUserId;
+
+    return this.props.fetch(0, count, userId);
   }
 
   update(count) {
-    this.props.updateAudio(this.props.offset + count + 1, count);
+    const from = this.props.offset + count + 1;
+    const userId = Number(this.props.params.userId) || this.props.currentUserId;
+
+    return this.props.fetch(from, count, userId);
   }
 
   onPlayClick(id) {

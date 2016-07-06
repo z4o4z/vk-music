@@ -1,31 +1,21 @@
 import {
   AUDIOS_ERROR,
-  AUDIOS_LOADED,
   AUDIOS_LOADING,
-  AUDIOS_MY_FETCHED,
-  AUDIOS_MY_UPDATED,
-  AUDIOS_FRIEND_FETCHED,
-  AUDIOS_FRIEND_UPDATED
+  AUDIOS_USER_FETCHED
 } from '../constants/audios';
 
 import normalizeBy from '../helpers/normalizeBy';
 
-function loading(ownerIs, albumId, audioIds, offset, count) {
+function loading(offset, count, ownerId, albumId, audioIds) {
   return {
     type: AUDIOS_LOADING,
     payload: {
-      ownerIs,
+      ownerId,
       albumId,
       audioIds,
       offset,
       count
     }
-  };
-}
-
-function loaded() {
-  return {
-    type: AUDIOS_LOADED
   };
 }
 
@@ -36,29 +26,9 @@ function error(id) {
   };
 }
 
-function myAudiosFetched(offset, audios) {
+function fetchedUserAudio(audios, offset, id) {
   return {
-    type: AUDIOS_MY_FETCHED,
-    payload: {
-      offset,
-      ...normalizeBy(audios, 'aid')
-    }
-  };
-}
-
-function myAudiosUpdated(offset, audios) {
-  return {
-    type: AUDIOS_MY_UPDATED,
-    payload: {
-      offset,
-      ...normalizeBy(audios, 'aid')
-    }
-  };
-}
-
-function friendAudiosFetched(id, offset, audios) {
-  return {
-    type: AUDIOS_FRIEND_FETCHED,
+    type: AUDIOS_USER_FETCHED,
     payload: {
       id,
       offset,
@@ -67,25 +37,14 @@ function friendAudiosFetched(id, offset, audios) {
   };
 }
 
-function friendAudiosUpdated(id, offset, audios) {
-  return {
-    type: AUDIOS_FRIEND_UPDATED,
-    payload: {
-      id,
-      offset,
-      ...normalizeBy(audios, 'aid')
-    }
-  };
-}
-
-function fetchAudios(ownerIs, albumId, audioIds, offset, count) {
+function fetch(offset, count, ownerId, albumId, audioIds) {
   let params = {
     offset,
     count
   };
 
-  if (ownerIs) {
-    params.owner_id = ownerIs;
+  if (ownerId) {
+    params.owner_id = ownerId;
   }
 
   if (albumId) {
@@ -111,38 +70,10 @@ function fetchAudios(ownerIs, albumId, audioIds, offset, count) {
   });
 }
 
-export const fetchMyAudio = (offset, count) => dispatch => {
-  dispatch(loading(undefined, undefined, undefined, offset, count));
+export const fetchUserAudio = (offset, count, ownerId) => dispatch => {
+  dispatch(loading(offset, count, ownerId));
 
-  fetchAudios(undefined, undefined, undefined, offset, count)
-    .then(audios => dispatch(myAudiosFetched(offset, audios)))
-    .then(() => dispatch(loaded()))
-    .catch(id => dispatch(error(id)));
-};
-
-export const updateMyAudio = (offset, count) => dispatch => {
-  dispatch(loading(undefined, undefined, undefined, offset, count));
-
-  fetchAudios(undefined, undefined, undefined, offset, count)
-    .then(audios => dispatch(myAudiosUpdated(offset, audios)))
-    .then(() => dispatch(loaded()))
-    .catch(id => dispatch(error(id)));
-};
-
-export const fetchFriendAudio = (id, offset, count) => dispatch => {
-  dispatch(loading(id, undefined, undefined, offset, count));
-
-  fetchAudios(id, undefined, undefined, offset, count)
-    .then(audios => dispatch(friendAudiosFetched(id, offset, audios)))
-    .then(() => dispatch(loaded()))
-    .catch(id => dispatch(error(id)));
-};
-
-export const updateFriendAudio = (id, offset, count) => dispatch => {
-  dispatch(loading(id, undefined, undefined, offset, count));
-
-  fetchAudios(id, undefined, undefined, offset, count)
-    .then(audios => dispatch(friendAudiosUpdated(id, offset, audios)))
-    .then(() => dispatch(loaded()))
-    .catch(id => dispatch(error(id)));
+  fetch(offset, count, ownerId)
+    .then(audios => dispatch(fetchedUserAudio(audios, offset, ownerId)))
+    .catch(errorId => dispatch(error(errorId)));
 };

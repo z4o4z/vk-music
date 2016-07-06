@@ -42,7 +42,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  authorize: expire => dispatch(authorize(expire))
+  authorize: () => dispatch(authorize())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Authorize);
