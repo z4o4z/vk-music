@@ -47,10 +47,12 @@ let initialState = {
 const store = configureStore(initialState);
 const root = window.document.createElement('div');
 
+/*
 if (!IS_PROD) {
   const whyDidYouUpdate = require('why-did-you-update').whyDidYouUpdate;
   whyDidYouUpdate(React);
 }
+*/
 
 root.classList.add(classes.root);
 

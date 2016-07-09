@@ -26,7 +26,7 @@ export default class FriendsAndGroupsList extends Component {
     this.renderItem = this.renderItem.bind(this);
     this.onScroll = this.onScroll.bind(this);
 
-    this.fetch(this.props.fetchCount, this.props.params.ownerId);
+    this.fetch(this.props.fetchCount);
   }
 
   render() {
@@ -43,24 +43,21 @@ export default class FriendsAndGroupsList extends Component {
     );
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    const {all, fetchCount, loading, error, params} = nextProps;
-    const {ids, offset, allLoaded} = nextState;
-
-    return this.props.all !== all || this.props.fetchCount !== fetchCount ||
-      this.props.loading !== loading || this.props.error !== error ||
-      this.props.params.ownerId !== params.ownerId ||
-      this.state.ids !== ids || this.state.offset !== offset ||
-      this.state.allLoaded !== allLoaded;
-  }
-
   componentWillReceiveProps(nextProps) {
     this.setState(this.getUserData(nextProps));
   }
 
-  componentWillUpdate(nextProps) {
-    if (this.props.params.ownerId !== nextProps.params.ownerId) {
-      this.fetch(this.props.fetchCount, nextProps.params.ownerId);
+  shouldComponentUpdate(nextProps, nextState) {
+    const {all, owners, loading, error} = nextProps;
+
+    return this.props.all !== all || this.props.owners !== owners ||
+      this.props.loading !== loading || this.props.error !== error ||
+      this.state !== nextState;
+  }
+
+  componentDidUpdate(nextProps, nextState) {
+    if (this.state.id !== nextState.id) {
+      this.fetch(this.props.fetchCount);
     }
   }
 
@@ -69,6 +66,7 @@ export default class FriendsAndGroupsList extends Component {
     const owner = props.owners[id] || {};
 
     return {
+      id,
       ids: owner.ids || [],
       offset: owner.offset || 0,
       allLoaded: owner.allLoaded || false
@@ -88,24 +86,21 @@ export default class FriendsAndGroupsList extends Component {
     );
   }
 
-  fetch(count, ownerId) {
-    const id = Number(ownerId) || this.props.currentUserId;
-
-    return this.props.fetch(0, count, id);
+  fetch(count) {
+    return this.props.fetch(0, count, this.state.id);
   }
 
-  update(count, ownerId) {
+  update(count) {
     const from = this.state.offset + count + 1;
-    const id = Number(ownerId) || this.props.currentUserId;
 
-    return this.props.fetch(from, count, id);
+    return this.props.fetch(from, count, this.state.id);
   }
 
   onScroll(scrollTop, height, childHeight) {
     const updateHeight = childHeight - height - UI_SCROLL_UPDATE_HEIGHT;
 
     if (scrollTop >= updateHeight && !this.props.loading && !this.state.allLoaded) {
-      this.update(this.props.fetchCount, this.props.params.ownerId);
+      this.update(this.props.fetchCount);
     }
   }
 }

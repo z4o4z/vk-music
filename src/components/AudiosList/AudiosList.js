@@ -12,13 +12,11 @@ import AudioItem from '../AudioItem/AudioItem';
 export default class AudiosList extends Component {
   static propTypes = {
     audios: PropTypes.object.isRequired,
-    ids: PropTypes.array.isRequired,
-    offset: PropTypes.number.isRequired,
-    audiosLoading: PropTypes.bool.isRequired,
-    audiosError: PropTypes.number.isRequired,
+    users: PropTypes.object.isRequired,
+    loading: PropTypes.bool.isRequired,
+    error: PropTypes.number.isRequired,
     playerCurrentTrack: PropTypes.number.isRequired,
     playerPlaying: PropTypes.bool.isRequired,
-    allLoaded: PropTypes.bool.isRequired,
     params: PropTypes.object.isRequired,
     currentUserId: PropTypes.number.isRequired,
     fetch: PropTypes.func.isRequired,
@@ -29,6 +27,8 @@ export default class AudiosList extends Component {
 
   constructor(props) {
     super(props);
+
+    this.state = this.getUserData(this.props);
 
     this.renderItem = this.renderItem.bind(this);
     this.onScroll = this.onScroll.bind(this);
@@ -42,7 +42,7 @@ export default class AudiosList extends Component {
     <Scrollable onScroll={this.onScroll}>
       <ReactList
         itemRenderer={this.renderItem}
-        length={this.props.ids.length}
+        length={this.state.ids.length}
         pageSize={AUDIOS_FETCH_COUNT}
         type="uniform"
         useStaticSize={true}
@@ -54,17 +54,39 @@ export default class AudiosList extends Component {
     );
   }
 
-  shouldComponentUpdate(newProps) {
-    const {audios, ids, offset, audiosLoading, audiosError, playerCurrentTrack, playerPlaying} = newProps;
+  componentWillReceiveProps(nextProps) {
+    this.setState(this.getUserData(nextProps));
+  }
 
-    return this.props.audios !== audios || this.props.ids !== ids ||
-      this.props.offset !== offset || this.props.audiosLoading !== audiosLoading ||
-      this.props.audiosError !== audiosError || this.props.playerCurrentTrack !== playerCurrentTrack ||
-      this.props.playerPlaying !== playerPlaying;
+  shouldComponentUpdate(newProps, nextState) {
+    const {audios, users, loading, error, playerCurrentTrack, playerPlaying} = newProps;
+
+    return this.props.audios !== audios || this.props.users !== users ||
+      this.props.loading !== loading || this.props.error !== error ||
+      this.props.playerCurrentTrack !== playerCurrentTrack ||
+      this.props.playerPlaying !== playerPlaying || this.state !== nextState;
+  }
+
+  componentDidUpdate(nextProps, nextState) {
+    if (this.state.id !== nextState.id) {
+      this.fetch(AUDIOS_FETCH_COUNT);
+    }
+  }
+
+  getUserData(props) {
+    const id = Number(props.params.userId) || props.currentUserId;
+    const owner = props.users[id] || {};
+
+    return {
+      id,
+      ids: owner.ids || [],
+      offset: owner.offset || 0,
+      allLoaded: owner.allLoaded || false
+    };
   }
 
   renderItem(index, key) {
-    const audio = this.props.audios[this.props.ids[index]];
+    const audio = this.props.audios[this.state.ids[index]];
 
     return (
       <AudioItem
@@ -80,16 +102,13 @@ export default class AudiosList extends Component {
   }
 
   fetch(count) {
-    const userId = Number(this.props.params.userId) || this.props.currentUserId;
-
-    return this.props.fetch(0, count, userId);
+    return this.props.fetch(0, count, this.state.id);
   }
 
   update(count) {
-    const from = this.props.offset + count + 1;
-    const userId = Number(this.props.params.userId) || this.props.currentUserId;
+    const from = this.state.offset + count + 1;
 
-    return this.props.fetch(from, count, userId);
+    return this.props.fetch(from, count, this.state.id);
   }
 
   onPlayClick(id) {
@@ -103,7 +122,7 @@ export default class AudiosList extends Component {
   onScroll(scrollTop, height, childHeight) {
     const updateHeight = childHeight - height - UI_SCROLL_UPDATE_HEIGHT;
 
-    if (scrollTop >= updateHeight && !this.props.audiosLoading && !this.props.allLoaded) {
+    if (scrollTop >= updateHeight && !this.props.loading && !this.state.allLoaded) {
       this.update(AUDIOS_FETCH_COUNT);
     }
   }

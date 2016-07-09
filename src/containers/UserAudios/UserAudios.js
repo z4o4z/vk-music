@@ -7,18 +7,13 @@ import AudiosList from '../../components/AudiosList/AudiosList';
 
 class UserAudios extends AudiosList {}
 
-const mapStateToProps = (state, ownProps) => {
-  const id = Number(ownProps.params.userId) || state.authorize.userId;
-  const user = state.audio.users[id] || {};
-
+const mapStateToProps = state => {
   return ({
     audios: state.audio.all,
+    users: state.audio.users,
     currentUserId: state.authorize.userId,
-    ids: user.ids || [],
-    offset: user.offset || 0,
-    audiosLoading: state.audio.loading,
-    audiosError: state.audio.error,
-    allLoaded: user.allLoaded || false,
+    loading: state.audio.loading,
+    error: state.audio.error,
     playerCurrentTrack: state.player.current,
     playerPlaying: state.player.playing
   });
