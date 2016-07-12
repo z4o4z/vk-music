@@ -4,9 +4,9 @@ import ReactList from 'react-list';
 import {UI_SCROLL_UPDATE_HEIGHT} from '../../constants/ui';
 
 import Scrollable from '../Scrollable/Scrollable';
-import FriendsAndGroupsItem from '../FriendsAndGroupsItem/FriendsAndGroupsItem';
+import FriendsAndGroupsItem from '../EssenceItem/EssenceItem';
 
-export default class FriendsAndGroupsList extends Component {
+export default class EssenceList extends Component {
   static propTypes = {
     all: PropTypes.object.isRequired,
     owners: PropTypes.object.isRequired,
@@ -77,12 +77,7 @@ export default class FriendsAndGroupsList extends Component {
     const item = this.props.all[this.state.ids[index]];
 
     return (
-      <FriendsAndGroupsItem
-        key={key}
-        id={item.uid}
-        name={this.getName(item)}
-        photo={item.photo_100}
-      />
+      <FriendsAndGroupsItem {...this.getItemProps(key, item)}/>
     );
   }
 

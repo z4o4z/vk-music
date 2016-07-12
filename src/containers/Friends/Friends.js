@@ -4,11 +4,25 @@ import {FRIENDS_FETCH_COUNT} from '../../constants/friends';
 
 import {fetchFriends} from '../../actions/friends';
 
-import FriendsAndGroupsList from '../../components/FriendsAndGroupsList/FriendsAndGroupsList';
+import EssenceList from '../../components/EssenceList/EssenceList';
 
-class Friends extends FriendsAndGroupsList {
-  getName(item) {
-    return `${item.first_name} ${item.last_name}`;
+class Friends extends EssenceList {
+  getItemProps(key, item) {
+    return {
+      key,
+      name: `${item.first_name} ${item.last_name}`,
+      photo: item.photo_100,
+      url: `/frined/${item.uid}`,
+      links: [{
+        to: `/friends/${item.uid}`,
+        blank: false,
+        name: 'Друзья'
+      }, {
+        to: `//vk.com/id${item.uid}`,
+        blank: true,
+        name: 'Профиль в VK'
+      }]
+    };
   }
 }
 

@@ -9,7 +9,7 @@
 
   position: relative;
 
-  border-top: 1px solid $friend-item-border-color;
+  border-bottom: 1px solid $friend-item-border-color;
 
   color: $friend-item-color;
 
@@ -20,10 +20,10 @@
     background-color: $friend-item-background-color;
   }
 
-  &:nth-child(1),
-  &:nth-child(2),
-  &:nth-child(3) {
-    border-top: none;
+  &:nth-last-child(1):nth-child(n + 2),
+  &:nth-last-child(2):nth-child(n + 3),
+  &:nth-last-child(3):nth-child(n + 4) {
+    border-bottom: none;
   }
 }
 
