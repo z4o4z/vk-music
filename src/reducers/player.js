@@ -3,7 +3,7 @@ import {
   PLAYER_PLAY_PAUSE,
   PLAYER_SET_TRACK,
   PLAYER_SET_PLAYLIST,
-  PLAYER_SET_PLAYLIST_PAGE,
+  PLAYER_SET_PAGE_ALBUM_ID_OWNER_ID,
   PLAYER_NEXT,
   PLAYER_PREV
 } from '../constants/player';
@@ -61,10 +61,12 @@ function setPlaylist(state, action) {
   };
 }
 
-function setPlaylistPage(state, action) {
+function setPageAlbumIdOwnerId(state, action) {
   return {
     ...state,
-    playlistPage: action.payload
+    page: action.payload.page,
+    ownerId: action.payload.ownerId,
+    albumId: action.payload.albumId
   };
 }
 
@@ -100,8 +102,8 @@ export default (state = {}, action = {}) => {
       return playPause(state);
     case PLAYER_SET_PLAYLIST:
       return setPlaylist(state, action);
-    case PLAYER_SET_PLAYLIST_PAGE:
-      return setPlaylistPage(state, action);
+    case PLAYER_SET_PAGE_ALBUM_ID_OWNER_ID:
+      return setPageAlbumIdOwnerId(state, action);
     case PLAYER_NEXT:
       return next(state);
     case PLAYER_PREV:

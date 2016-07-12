@@ -12,7 +12,7 @@ import AudioItem from '../AudioItem/AudioItem';
 export default class AudiosList extends Component {
   static propTypes = {
     audios: PropTypes.object.isRequired,
-    users: PropTypes.object.isRequired,
+    owners: PropTypes.object.isRequired,
     loading: PropTypes.bool.isRequired,
     error: PropTypes.number.isRequired,
     playerCurrentTrack: PropTypes.number.isRequired,
@@ -59,9 +59,9 @@ export default class AudiosList extends Component {
   }
 
   shouldComponentUpdate(newProps, nextState) {
-    const {audios, users, loading, error, playerCurrentTrack, playerPlaying} = newProps;
+    const {audios, owners, loading, error, playerCurrentTrack, playerPlaying} = newProps;
 
-    return this.props.audios !== audios || this.props.users !== users ||
+    return this.props.audios !== audios || this.props.owners !== owners ||
       this.props.loading !== loading || this.props.error !== error ||
       this.props.playerCurrentTrack !== playerCurrentTrack ||
       this.props.playerPlaying !== playerPlaying || this.state !== nextState;
@@ -74,11 +74,25 @@ export default class AudiosList extends Component {
   }
 
   getUserData(props) {
-    const id = Number(props.params.userId) || props.currentUserId;
-    const owner = props.users[id] || {};
+    const id = Number(props.params.ownerId) || props.currentUserId;
+    const albumId = Number(props.params.albumId);
+    const owner = props.owners[id] || {};
+
+    if (albumId) {
+      const currentAlbum = owner.albums && owner.albums[albumId] || {};
+
+      return {
+        id,
+        albumId,
+        ids: currentAlbum.ids || [],
+        offset: currentAlbum.offset || 0,
+        allLoaded: currentAlbum.allLoaded || false
+      };
+    }
 
     return {
       id,
+      albumId,
       ids: owner.ids || [],
       offset: owner.offset || 0,
       allLoaded: owner.allLoaded || false
@@ -102,13 +116,13 @@ export default class AudiosList extends Component {
   }
 
   fetch(count) {
-    return this.props.fetch(0, count, this.state.id);
+    return this.props.fetch(0, count, this.state.id, this.state.albumId);
   }
 
   update(count) {
     const from = this.state.offset + count + 1;
 
-    return this.props.fetch(from, count, this.state.id);
+    return this.props.fetch(from, count, this.state.id, this.state.albumId);
   }
 
   onPlayClick(id) {

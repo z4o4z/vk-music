@@ -6,13 +6,13 @@ import {
 
 import normalizeBy from '../helpers/normalizeBy';
 
-function loading(offset, count, userId) {
+function loading(offset, count, ownerId) {
   return {
     type: ALBUMS_LOADING,
     payload: {
       offset,
       count,
-      userId
+      ownerId
     }
   };
 }

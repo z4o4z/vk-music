@@ -4,7 +4,7 @@ import {
   PLAYER_SET_TRACK,
   PLAYER_SET_PLAYLIST,
   PLAYER_UPDATE_PLAYLIST,
-  PLAYER_SET_PLAYLIST_PAGE,
+  PLAYER_SET_PAGE_ALBUM_ID_OWNER_ID,
   PLAYER_NEXT,
   PLAYER_PREV
 } from '../constants/player';
@@ -42,10 +42,14 @@ export function playerUpdatePlaylist() {
   };
 }
 
-export function playerSetPlaylistPage(page) {
+export function playerSetPageAlbumIdOwnerId(page, ownerId, albumId) {
   return {
-    type: PLAYER_SET_PLAYLIST_PAGE,
-    payload: page
+    type: PLAYER_SET_PAGE_ALBUM_ID_OWNER_ID,
+    payload: {
+      page,
+      ownerId,
+      albumId
+    }
   };
 }
 

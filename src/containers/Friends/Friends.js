@@ -12,11 +12,15 @@ class Friends extends EssenceList {
       key,
       name: `${item.first_name} ${item.last_name}`,
       photo: item.photo_100,
-      url: `/frined/${item.uid}`,
+      url: `/friend/${item.uid}`,
       links: [{
         to: `/friends/${item.uid}`,
         blank: false,
         name: 'Друзья'
+      }, {
+        to: `/friend/${item.uid}/albums`,
+        blank: false,
+        name: 'Альбомы'
       }, {
         to: `//vk.com/id${item.uid}`,
         blank: true,
@@ -27,7 +31,7 @@ class Friends extends EssenceList {
 }
 
 const mapStateToProps = state => ({
-  currentUserId: state.authorize.userId,
+  currentUserId: state.authorize.ownerId,
   all: state.friends.all,
   owners: state.friends.users,
   fetchCount: FRIENDS_FETCH_COUNT,
@@ -36,7 +40,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetch: (offset, count, userId) => dispatch(fetchFriends(offset, count, userId))
+  fetch: (offset, count, ownerId) => dispatch(fetchFriends(offset, count, ownerId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Friends);

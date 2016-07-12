@@ -25,16 +25,32 @@ class MyRouter extends Component {
       onEnter: (nextState, replace) => this.checkAuth(nextState, replace)
     },
     childRoutes: [{
-      path: '/friends(/:ownerId)',
-      component: Friends,
+      path: '/albums',
+      component: Albums,
       onEnter: (nextState, replace) => this.checkAuth(nextState, replace)
     }, {
-      path: '/friend/:userId',
+      path: '/album/:albumId',
       component: UserAudios,
       onEnter: (nextState, replace) => this.checkAuth(nextState, replace)
     }, {
-      path: '/albums(/:ownerId)',
+      path: '/friends',
+      component: Friends,
+      onEnter: (nextState, replace) => this.checkAuth(nextState, replace)
+    }, {
+      path: '/friends/:ownerId',
+      component: Friends,
+      onEnter: (nextState, replace) => this.checkAuth(nextState, replace)
+    }, {
+      path: '/friend/:ownerId',
+      component: UserAudios,
+      onEnter: (nextState, replace) => this.checkAuth(nextState, replace)
+    }, {
+      path: '/friend/:ownerId/albums',
       component: Albums,
+      onEnter: (nextState, replace) => this.checkAuth(nextState, replace)
+    }, {
+      path: '/friend/:ownerId/album/:albumId',
+      component: UserAudios,
       onEnter: (nextState, replace) => this.checkAuth(nextState, replace)
     }, {
       path: '/authorise',

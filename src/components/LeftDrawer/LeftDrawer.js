@@ -25,7 +25,8 @@ export default class LeftDrawer extends Component {
       href: '/'
     }, {
       icon: <AvAlbum className={classes.icon} size={24} color="white" />,
-      text: 'Альбомы'
+      text: 'Альбомы',
+      href: '/albums'
     }, {
       icon: <SocialPerson className={classes.icon} size={24} color="white" />,
       text: 'Друзья',

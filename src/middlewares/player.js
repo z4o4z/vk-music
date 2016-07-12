@@ -1,58 +1,34 @@
-import {AUDIOS_USER_FETCHED, AUDIOS_FETCH_COUNT} from '../constants/audios';
+import {AUDIOS_FETCHED, AUDIOS_FETCH_COUNT} from '../constants/audios';
 import {PLAYER_NEXT, PLAYER_UPDATE_PLAYLIST_COUNT} from '../constants/player';
 
-import {fetchUserAudio} from '../actions/audios';
-import {playerSetPlaylist, playerSetPlaylistPage, playerSetTrack, playerUpdatePlaylist} from '../actions/player';
-
-function getIdFromUrl(url) {
-  const matches = url.match("/friend/(.*)");
-
-  return Number(matches[1]);
-}
-
-function checkPage(pageUrl) {
-  return Boolean(pageUrl.search('/friend/') + 1);
-}
+import {fetchAudio} from '../actions/audios';
+import {playerSetPlaylist, playerSetPageAlbumIdOwnerId, playerSetTrack, playerUpdatePlaylist} from '../actions/player';
 
 function setTack(store, next, action, lastResult) {
   const state = store.getState();
 
-  if (action.type !== AUDIOS_USER_FETCHED || state.player.current) {
+  if (action.type !== AUDIOS_FETCHED || state.player.current) {
     return lastResult;
   }
 
-  const playlistPage = window.location.pathname;
-  const currentUserId = state.authorize.userId;
-  const userId = getIdFromUrl(playlistPage);
-  let trackId;
-
-  if (checkPage(playlistPage)) {
-    trackId = state.audio.users[userId].ids[0];
-  } else {
-    trackId = state.audio.users[currentUserId].ids[0];
-  }
+  const page = window.location.pathname;
+  const trackId = action.payload.ids[0];
 
   next(playerSetTrack(trackId));
 
-  return next(playerSetPlaylistPage(playlistPage));
+  return next(playerSetPageAlbumIdOwnerId(page, action.payload.id, action.payload.albumId));
 }
 
 function setPlaylist(store, next, action, lastResult) {
   const state = store.getState();
 
-  if (action.type !== AUDIOS_USER_FETCHED || window.location.pathname !== state.player.playlistPage) {
+  if (action.type !== AUDIOS_FETCHED || window.location.pathname !== state.player.page) {
     return lastResult;
   }
 
-  const currentUserId = state.authorize.userId;
-  const userId = getIdFromUrl(state.player.playlistPage);
-  let playlist;
-
-  if (checkPage(state.player.playlistPage)) {
-    playlist = state.audio.users[userId].ids;
-  } else {
-    playlist = state.audio.users[currentUserId].ids;
-  }
+  const ownerId = action.payload.id;
+  const albumId = action.payload.albumId;
+  const playlist = albumId ? state.audio.owners[ownerId].albums[albumId].ids : state.audio.owners[ownerId].ids;
 
   return next(playerSetPlaylist(playlist));
 }
@@ -66,17 +42,12 @@ function updatePlaylist(store, next, action, lastResult) {
     return lastResult;
   }
 
-  const userId = getIdFromUrl(state.player.playlistPage);
-  const from = (state.audio.users[userId] || {}).offset + AUDIOS_FETCH_COUNT + 1;
+  const newFetchCount = AUDIOS_FETCH_COUNT + 1;
+  const ownerId = player.ownerId;
+  const albumId = player.albumId;
+  const from = albumId ? state.audio.owners[ownerId].albums[albumId].offset + newFetchCount : state.audio.owners[ownerId].offset + newFetchCount;
 
-  if (checkPage(state.player.playlistPage)) {
-    store.dispatch(fetchUserAudio(from, AUDIOS_FETCH_COUNT, userId));
-  } else {
-    const currentUserId = state.authorize.userId;
-    const currentFrom = state.audio.users[currentUserId].offset + AUDIOS_FETCH_COUNT + 1;
-
-    store.dispatch(fetchUserAudio(currentFrom, AUDIOS_FETCH_COUNT, currentUserId));
-  }
+  store.dispatch(fetchAudio(from, AUDIOS_FETCH_COUNT, ownerId, albumId));
 
   return next(playerUpdatePlaylist());
 }

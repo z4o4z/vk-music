@@ -6,13 +6,13 @@ import {
 
 import normalizeBy from '../helpers/normalizeBy';
 
-function loading(offset, count, userId) {
+function loading(offset, count, ownerId) {
   return {
     type: FRIENDS_LOADING,
     payload: {
       offset,
       count,
-      userId
+      ownerId
     }
   };
 }
@@ -35,7 +35,7 @@ function friendsFetched(friends, offset, id) {
   };
 }
 
-function fetch(offset, count, userId) {
+function fetch(offset, count, ownerId) {
   let params = {
     offset,
     count,
@@ -43,8 +43,8 @@ function fetch(offset, count, userId) {
     order: 'hints'
   };
 
-  if (userId) {
-    params.user_id = userId;
+  if (ownerId) {
+    params.user_id = ownerId;
   }
 
   return new Promise((resolve, reject) => {
@@ -62,10 +62,10 @@ function fetch(offset, count, userId) {
   });
 }
 
-export const fetchFriends = (offset, count, userId) => dispatch => {
-  dispatch(loading(offset, count, userId));
+export const fetchFriends = (offset, count, ownerId) => dispatch => {
+  dispatch(loading(offset, count, ownerId));
 
-  fetch(offset, count, userId)
-    .then(friends => dispatch(friendsFetched(friends, offset, userId)))
+  fetch(offset, count, ownerId)
+    .then(friends => dispatch(friendsFetched(friends, offset, ownerId)))
     .catch(id => dispatch(error(id)));
 };

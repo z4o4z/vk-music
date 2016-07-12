@@ -23,7 +23,7 @@ export const getLoginStatus = () => dispatch => {
       console.log(data.session);
       return dispatch(authorized({
         expire: data.session.expire * 1000,
-        userId: Number(data.session.mid)
+        ownerId: Number(data.session.mid)
       }));
     }
   });
@@ -37,7 +37,7 @@ export const authorize = () => dispatch => {
       console.log(data.session);
       return dispatch(authorized({
         expire: data.session.expire * 1000,
-        userId: Number(data.session.mid)
+        ownerId: Number(data.session.mid)
       }));
     }
 

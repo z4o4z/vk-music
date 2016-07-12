@@ -1,7 +1,7 @@
 import {
   AUDIOS_ERROR,
   AUDIOS_LOADING,
-  AUDIOS_USER_FETCHED
+  AUDIOS_FETCHED
 } from '../constants/audios';
 
 import normalizeBy from '../helpers/normalizeBy';
@@ -26,11 +26,12 @@ function error(id) {
   };
 }
 
-function fetchedUserAudio(audios, offset, id) {
+function fetchedAudio(audios, offset, id, albumId) {
   return {
-    type: AUDIOS_USER_FETCHED,
+    type: AUDIOS_FETCHED,
     payload: {
       id,
+      albumId,
       offset,
       ...normalizeBy(audios, 'aid')
     }
@@ -70,10 +71,10 @@ function fetch(offset, count, ownerId, albumId, audioIds) {
   });
 }
 
-export const fetchUserAudio = (offset, count, ownerId) => dispatch => {
-  dispatch(loading(offset, count, ownerId));
+export const fetchAudio = (offset, count, ownerId, albumId) => dispatch => {
+  dispatch(loading(offset, count, ownerId, albumId));
 
-  fetch(offset, count, ownerId)
-    .then(audios => dispatch(fetchedUserAudio(audios, offset, ownerId)))
+  fetch(offset, count, ownerId, albumId)
+    .then(audios => dispatch(fetchedAudio(audios, offset, ownerId, albumId)))
     .catch(errorId => dispatch(error(errorId)));
 };

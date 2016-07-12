@@ -14,7 +14,7 @@ let initialState = {
   authorize: {
     authorized: false,
     authError: false,
-    userId: 0,
+    ownerId: 0,
     expire: 0,
     redirectPage: '/'
   },
@@ -24,7 +24,7 @@ let initialState = {
   },
   audio: {
     all: {},
-    users: {},
+    owners: {},
     loading: false,
     error: 0
   },
@@ -42,7 +42,9 @@ let initialState = {
   },
   player: {
     playlist: [],
-    playlistPage: '',
+    page: '',
+    albumId: 0,
+    ownerId: 0,
     current: 0,
     next: 0,
     prev: 0,

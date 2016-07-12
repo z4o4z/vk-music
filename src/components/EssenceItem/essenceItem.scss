@@ -19,12 +19,6 @@
   &:hover {
     background-color: $friend-item-background-color;
   }
-
-  &:nth-last-child(1):nth-child(n + 2),
-  &:nth-last-child(2):nth-child(n + 3),
-  &:nth-last-child(3):nth-child(n + 4) {
-    border-bottom: none;
-  }
 }
 
 .content {

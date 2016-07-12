@@ -6,7 +6,7 @@ function authorized(state, action) {
     authorized: true,
     authError: false,
     expire: action.payload.expire,
-    userId: action.payload.userId
+    ownerId: action.payload.ownerId
   };
 }
 
