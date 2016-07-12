@@ -34,6 +34,12 @@ let initialState = {
     loading: false,
     error: 0
   },
+  albums: {
+    all: {},
+    users: {},
+    loading: false,
+    error: 0
+  },
   player: {
     playlist: [],
     playlistPage: '',

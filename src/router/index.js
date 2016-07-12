@@ -7,6 +7,7 @@ import {redirectTo} from '../actions/authorize';
 import App from '../containers/App/App';
 import UserAudios from '../containers/UserAudios/UserAudios';
 import Friends from '../containers/Friends/Friends';
+import Albums from '../containers/Albums/Albums';
 import Authorize from '../containers/Authorize/Authorize';
 
 class MyRouter extends Component {
@@ -30,6 +31,10 @@ class MyRouter extends Component {
     }, {
       path: '/friend/:userId',
       component: UserAudios,
+      onEnter: (nextState, replace) => this.checkAuth(nextState, replace)
+    }, {
+      path: '/albums(/:ownerId)',
+      component: Albums,
       onEnter: (nextState, replace) => this.checkAuth(nextState, replace)
     }, {
       path: '/authorise',
