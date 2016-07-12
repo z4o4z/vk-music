@@ -4,6 +4,16 @@ import {PLAYER_NEXT, PLAYER_UPDATE_PLAYLIST_COUNT} from '../constants/player';
 import {fetchUserAudio} from '../actions/audios';
 import {playerSetPlaylist, playerSetPlaylistPage, playerSetTrack, playerUpdatePlaylist} from '../actions/player';
 
+function getIdFromUrl(url) {
+  const matches = url.match("/friend/(.*)");
+
+  return Number(matches[1]);
+}
+
+function checkPage(pageUrl) {
+  return Boolean(pageUrl.search('/friend/') + 1);
+}
+
 function setTack(store, next, action, lastResult) {
   const state = store.getState();
 
@@ -12,11 +22,14 @@ function setTack(store, next, action, lastResult) {
   }
 
   const playlistPage = window.location.pathname;
-  const userId = state.authorize.userId;
+  const currentUserId = state.authorize.userId;
+  const userId = getIdFromUrl(playlistPage);
   let trackId;
 
-  switch (playlistPage) {
-    default: trackId = state.audio.users[userId].ids[0];
+  if (checkPage(playlistPage)) {
+    trackId = state.audio.users[userId].ids[0];
+  } else {
+    trackId = state.audio.users[currentUserId].ids[0];
   }
 
   next(playerSetTrack(trackId));
@@ -31,11 +44,14 @@ function setPlaylist(store, next, action, lastResult) {
     return lastResult;
   }
 
-  const userId = state.authorize.userId;
+  const currentUserId = state.authorize.userId;
+  const userId = getIdFromUrl(state.player.playlistPage);
   let playlist;
 
-  switch (state.player.page) {
-    default: playlist = state.audio.users[userId].ids;
+  if (checkPage(state.player.playlistPage)) {
+    playlist = state.audio.users[userId].ids;
+  } else {
+    playlist = state.audio.users[currentUserId].ids;
   }
 
   return next(playerSetPlaylist(playlist));
@@ -50,11 +66,16 @@ function updatePlaylist(store, next, action, lastResult) {
     return lastResult;
   }
 
-  const userId = state.authorize.userId;
-  const from = state.audio.users[userId].offset + AUDIOS_FETCH_COUNT + 1;
+  const userId = getIdFromUrl(state.player.playlistPage);
+  const from = (state.audio.users[userId] || {}).offset + AUDIOS_FETCH_COUNT + 1;
 
-  switch (state.player.page) {
-    default: store.dispatch(fetchUserAudio(from, AUDIOS_FETCH_COUNT, userId));
+  if (checkPage(state.player.playlistPage)) {
+    store.dispatch(fetchUserAudio(from, AUDIOS_FETCH_COUNT, userId));
+  } else {
+    const currentUserId = state.authorize.userId;
+    const currentFrom = state.audio.users[currentUserId].offset + AUDIOS_FETCH_COUNT + 1;
+
+    store.dispatch(fetchUserAudio(currentFrom, AUDIOS_FETCH_COUNT, currentUserId));
   }
 
   return next(playerUpdatePlaylist());
