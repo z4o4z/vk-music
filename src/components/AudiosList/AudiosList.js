@@ -13,6 +13,7 @@ export default class AudiosList extends Component {
   static propTypes = {
     audios: PropTypes.object.isRequired,
     owners: PropTypes.object.isRequired,
+    albums: PropTypes.object.isRequired,
     loading: PropTypes.bool.isRequired,
     error: PropTypes.number.isRequired,
     playerCurrentTrack: PropTypes.number.isRequired,
@@ -68,25 +69,24 @@ export default class AudiosList extends Component {
   }
 
   componentDidUpdate(nextProps, nextState) {
-    if (this.state.id !== nextState.id) {
+    if (this.state.id !== nextState.id || this.state.albumId !== nextState.albumId) {
       this.fetch(AUDIOS_FETCH_COUNT);
     }
   }
 
   getUserData(props) {
     const id = Number(props.params.ownerId) || props.currentUserId;
-    const albumId = Number(props.params.albumId);
+    const albumId = Number(props.params.albumId) || 0;
     const owner = props.owners[id] || {};
+    const album = props.albums[albumId] || {};
 
     if (albumId) {
-      const currentAlbum = owner.albums && owner.albums[albumId] || {};
-
       return {
         id,
         albumId,
-        ids: currentAlbum.ids || [],
-        offset: currentAlbum.offset || 0,
-        allLoaded: currentAlbum.allLoaded || false
+        ids: album.ids || [],
+        offset: album.offset || 0,
+        allLoaded: album.allLoaded || false
       };
     }
 

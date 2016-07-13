@@ -11,6 +11,7 @@ const mapStateToProps = state => {
   return ({
     audios: state.audio.all,
     owners: state.audio.owners,
+    albums: state.audio.albums,
     currentUserId: state.authorize.ownerId,
     loading: state.audio.loading,
     error: state.audio.error,

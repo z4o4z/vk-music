@@ -28,7 +28,7 @@ function setPlaylist(store, next, action, lastResult) {
 
   const ownerId = action.payload.id;
   const albumId = action.payload.albumId;
-  const playlist = albumId ? state.audio.owners[ownerId].albums[albumId].ids : state.audio.owners[ownerId].ids;
+  const playlist = albumId ? state.audio.albums[albumId].ids : state.audio.owners[ownerId].ids;
 
   return next(playerSetPlaylist(playlist));
 }
@@ -45,7 +45,7 @@ function updatePlaylist(store, next, action, lastResult) {
   const newFetchCount = AUDIOS_FETCH_COUNT + 1;
   const ownerId = player.ownerId;
   const albumId = player.albumId;
-  const from = albumId ? state.audio.owners[ownerId].albums[albumId].offset + newFetchCount : state.audio.owners[ownerId].offset + newFetchCount;
+  const from = albumId ? state.audio.albums[albumId].offset + newFetchCount : state.audio.owners[ownerId].offset + newFetchCount;
 
   store.dispatch(fetchAudio(from, AUDIOS_FETCH_COUNT, ownerId, albumId));
 

@@ -25,6 +25,7 @@ let initialState = {
   audio: {
     all: {},
     owners: {},
+    albums: {},
     loading: false,
     error: 0
   },

@@ -28,27 +28,21 @@ function fetchedAudio(state, action) {
   const ownerId = action.payload.id;
   const albumId = action.payload.albumId;
   const owner = state.owners[ownerId] || {};
+  const album = state.albums[albumId] || {};
   const newIds = action.payload.ids;
   const ids = owner.ids || [];
+  const albumIds = album.ids || [];
 
   if (albumId) {
-    const albumIds = owner.albums && owner.albums[albumId] && owner.albums[albumId].ids || [];
     const albumAllLoaded = albumIds.length === albumIds.length + action.payload.ids.length;
 
     return {
       ...state,
-      owners: {
-        [ownerId]: {
-          offset: owner.offset || 0,
-          ids: ids,
-          allLoaded: false,
-          albums: {
-            [albumId]: {
-              offset: action.payload.offset,
-              ids: isArrayStartFrom(albumIds, newIds) ? albumIds : [...albumIds, ...newIds],
-              allLoaded: albumAllLoaded
-            }
-          }
+      albums: {
+        [albumId]: {
+          offset: action.payload.offset,
+          ids: isArrayStartFrom(albumIds, newIds) ? albumIds : [...albumIds, ...newIds],
+          allLoaded: albumAllLoaded
         }
       },
       all: getAllAudios(state.all, action.payload.normalized),
