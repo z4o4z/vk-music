@@ -31,7 +31,7 @@ export default class RippleButton extends Component {
       <button className={this.getClassName()}
               ref="button"
               onMouseDown={this.onMouseDown}
-              onTouchstart={this.onMouseDown}
+              onTouchStart={this.onMouseDown}
               onClick={this.onClick}>
         {this.props.children}
         <Ripple cursorPos={this.state.cursorPos} />

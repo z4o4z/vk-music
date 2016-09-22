@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 
 import PlayerLeftControls from '../PlayerLeftControls/PlayerLeftControls';
+import PlayerTrack from '../PlayerTrack/PlayerTrack';
 import PlayerVisualization from '../PlayerVisualization/PlayerVisualization';
 import AudioInfo from '../AudioInfo/AudioInfo';
 
@@ -26,7 +27,6 @@ export default class Player extends Component {
   render() {
     return (
       <div className={classes.component}>
-
         <PlayerLeftControls
           playing={this.props.playing}
           onPlay={this.props.onPlay}
@@ -37,8 +37,16 @@ export default class Player extends Component {
           disabled={!this.props.audio.aid}
         />
 
-        {this.getPlayerVisualisation()}
+        {this.getPlayerTrack()}
 
+        <PlayerVisualization
+          playing={this.props.playing}
+          audioNode={this.refs.audio}
+        />
+
+        <div className={classes.visualisationContent}>
+          {this.getPlayerInfo()}
+        </div>
       </div>
     );
   }
@@ -47,19 +55,28 @@ export default class Player extends Component {
     return nextProps.playing !== this.props.playing || nextProps.audio.aid !== this.props.audio.aid;
   }
 
-  getPlayerVisualisation() {
-    const audio = this.props.audio;
-
-    if (!audio.aid) {
+  getPlayerTrack() {
+    if (!this.props.audio.aid) {
       return null;
     }
 
     return (
-      <PlayerVisualization audioFile={audio.url} playing={this.props.playing} onEnded={this.onEnded}>
-        <div className={classes.visualisationContent}>
-          <AudioInfo title={audio.title} artist={audio.artist} playerStyle={true}/>
-        </div>
-      </PlayerVisualization>
+      <PlayerTrack
+        audioFile={this.props.audio.url}
+        playing={this.props.playing}
+        onEnded={this.onEnded}
+        ref="audio"
+      />
+    );
+  }
+
+  getPlayerInfo() {
+    if (!this.props.audio.aid) {
+      return null;
+    }
+
+    return (
+      <AudioInfo title={this.props.audio.title} artist={this.props.audio.artist} playerStyle={true}/>
     );
   }
 
