@@ -8,87 +8,87 @@ import authorize from '../middlewares/authorize';
 import player from '../middlewares/player';
 
 let middlewares = [
-  authorize,
-  player,
-  thunk
+	authorize,
+	player,
+	thunk
 ];
 
 if (!IS_PROD) {
-  const createLogger = require('redux-logger');
+	const createLogger = require('redux-logger');
 
-  middlewares.push(createLogger());
+	middlewares.push(createLogger());
 }
 
 const includeInLocalStorage = [
-  'authorize.expire'
+	'authorize.expire'
 ];
 
 const include = (rule, state, initialState) => {
-  let newState = state;
-  let initState = initialState;
-  const keys = rule.split('.');
+	let newState = state;
+	let initState = initialState;
+	const keys = rule.split('.');
 
-  keys.forEach((key, index) => {
-    if (index === keys.length - 1) {
-      newState[key] = initState[key];
-    } else {
-      newState[key] = newState[key] || {};
-      initState = initState[key] || {};
-    }
+	keys.forEach((key, index) => {
+		if (index === keys.length - 1) {
+			newState[key] = initState[key];
+		} else {
+			newState[key] = newState[key] || {};
+			initState = initState[key] || {};
+		}
 
-    newState = newState[key];
-  });
+		newState = newState[key];
+	});
 };
 
 const slicer = () => state => {
-  let newState = {};
+	let newState = {};
 
-  includeInLocalStorage.forEach(rule => {
-    include(rule, newState, state);
-  });
+	includeInLocalStorage.forEach(rule => {
+		include(rule, newState, state);
+	});
 
-  return newState;
+	return newState;
 };
 
 const assignByRule = (rule, state, persistedState) => {
-  let newState = state;
-  let persistState = persistedState;
-  const keys = rule.split('.').slice(0, -1);
+	let newState = state;
+	let persistState = persistedState;
+	const keys = rule.split('.').slice(0, -1);
 
-  keys.forEach((key, index) => {
-    if (index === keys.length - 1) {
-      newState[key] = Object.assign({}, newState[key], persistState[key]);
-    } else {
-      newState[key] = newState[key] || {};
-      persistState = persistState[key] || {};
-    }
+	keys.forEach((key, index) => {
+		if (index === keys.length - 1) {
+			newState[key] = Object.assign({}, newState[key], persistState[key]);
+		} else {
+			newState[key] = newState[key] || {};
+			persistState = persistState[key] || {};
+		}
 
-    newState = newState[key];
-  });
+		newState = newState[key];
+	});
 };
 
 const merge = (initialState, persistedState) => {
-  if (!persistedState) {
-    return initialState;
-  }
+	if (!persistedState) {
+		return initialState;
+	}
 
-  let newState = Object.assign({}, initialState);
+	let newState = Object.assign({}, initialState);
 
-  includeInLocalStorage.forEach(rule => {
-    assignByRule(rule, newState, persistedState);
-  });
+	includeInLocalStorage.forEach(rule => {
+		assignByRule(rule, newState, persistedState);
+	});
 
-  return newState;
+	return newState;
 };
 
 const createPersistentStore = compose(
-  persistState('', {
-    key: 'vk-music',
-    slicer,
-    merge
-  }),
-  applyMiddleware(...middlewares),
-  window.devToolsExtension && !IS_PROD ? window.devToolsExtension() : f => f
+	persistState('', {
+		key: 'vk-music',
+		slicer,
+		merge
+	}),
+	applyMiddleware(...middlewares),
+	window.devToolsExtension && !IS_PROD ? window.devToolsExtension() : f => f
 )(createStore);
 
 export default (initialState = {}) => createPersistentStore(reducers, initialState);

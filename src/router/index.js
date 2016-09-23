@@ -11,76 +11,76 @@ import Albums from '../containers/Albums/Albums';
 import Authorize from '../containers/Authorize/Authorize';
 
 class MyRouter extends Component {
-  static propTypes = {
-    history: PropTypes.object.isRequired,
-    authorized: PropTypes.bool.isRequired,
-    redirectTo: PropTypes.func.isRequired
-  };
+	static propTypes = {
+		history: PropTypes.object.isRequired,
+		authorized: PropTypes.bool.isRequired,
+		redirectTo: PropTypes.func.isRequired
+	};
 
-  routes = {
-    path: '/',
-    component: App,
-    indexRoute: {
-      component: UserAudios,
-      onEnter: (nextState, replace) => this.checkAuth(nextState, replace)
-    },
-    childRoutes: [{
-      path: '/albums',
-      component: Albums,
-      onEnter: (nextState, replace) => this.checkAuth(nextState, replace)
-    }, {
-      path: '/album/:albumId',
-      component: UserAudios,
-      onEnter: (nextState, replace) => this.checkAuth(nextState, replace)
-    }, {
-      path: '/friends',
-      component: Friends,
-      onEnter: (nextState, replace) => this.checkAuth(nextState, replace)
-    }, {
-      path: '/friends/:ownerId',
-      component: Friends,
-      onEnter: (nextState, replace) => this.checkAuth(nextState, replace)
-    }, {
-      path: '/friend/:ownerId',
-      component: UserAudios,
-      onEnter: (nextState, replace) => this.checkAuth(nextState, replace)
-    }, {
-      path: '/friend/:ownerId/albums',
-      component: Albums,
-      onEnter: (nextState, replace) => this.checkAuth(nextState, replace)
-    }, {
-      path: '/friend/:ownerId/album/:albumId',
-      component: UserAudios,
-      onEnter: (nextState, replace) => this.checkAuth(nextState, replace)
-    }, {
-      path: '/authorise',
-      component: Authorize
-    }]
-  };
+	routes = {
+		path: '/',
+		component: App,
+		indexRoute: {
+			component: UserAudios,
+			onEnter: (nextState, replace) => this.checkAuth(nextState, replace)
+		},
+		childRoutes: [{
+			path: '/albums',
+			component: Albums,
+			onEnter: (nextState, replace) => this.checkAuth(nextState, replace)
+		}, {
+			path: '/album/:albumId',
+			component: UserAudios,
+			onEnter: (nextState, replace) => this.checkAuth(nextState, replace)
+		}, {
+			path: '/friends',
+			component: Friends,
+			onEnter: (nextState, replace) => this.checkAuth(nextState, replace)
+		}, {
+			path: '/friends/:ownerId',
+			component: Friends,
+			onEnter: (nextState, replace) => this.checkAuth(nextState, replace)
+		}, {
+			path: '/friend/:ownerId',
+			component: UserAudios,
+			onEnter: (nextState, replace) => this.checkAuth(nextState, replace)
+		}, {
+			path: '/friend/:ownerId/albums',
+			component: Albums,
+			onEnter: (nextState, replace) => this.checkAuth(nextState, replace)
+		}, {
+			path: '/friend/:ownerId/album/:albumId',
+			component: UserAudios,
+			onEnter: (nextState, replace) => this.checkAuth(nextState, replace)
+		}, {
+			path: '/authorise',
+			component: Authorize
+		}]
+	};
 
-  checkAuth(nextState, replace) {
-    if (this.props.authorized) {
-      return nextState;
-    }
+	checkAuth(nextState, replace) {
+		if (this.props.authorized) {
+			return nextState;
+		}
 
-    this.props.redirectTo(nextState.location.pathname);
+		this.props.redirectTo(nextState.location.pathname);
 
-    replace('/authorise');
-  }
+		replace('/authorise');
+	}
 
-  render() {
-    return (
-      <Router history={this.props.history} routes={this.routes} />
-    );
-  }
+	render() {
+		return (
+			<Router history={this.props.history} routes={this.routes} />
+		);
+	}
 }
 
 const mapStateToProps = state => ({
-  authorized: state.authorize.authorized
+	authorized: state.authorize.authorized
 });
 
 const mapDispatchToProps = dispatch => ({
-  redirectTo: page => dispatch(redirectTo(page))
+	redirectTo: page => dispatch(redirectTo(page))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyRouter);

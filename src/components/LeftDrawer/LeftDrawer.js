@@ -14,56 +14,56 @@ import LeftDrawerList from '../LeftDrawerList/LeftDrawerList';
 import classes from './leftDrawer.scss';
 
 export default class LeftDrawer extends Component {
-  static propTypes = {
-    open: PropTypes.bool.isRequired
-  };
+	static propTypes = {
+		open: PropTypes.bool.isRequired
+	};
 
-  state = {
-    topList: [{
-      icon: <AvLibraryMusic className={classes.icon} size={24} color="white" />,
-      text: 'Аудиозаписи',
-      href: '/'
-    }, {
-      icon: <AvAlbum className={classes.icon} size={24} color="white" />,
-      text: 'Альбомы',
-      href: '/albums'
-    }, {
-      icon: <SocialPerson className={classes.icon} size={24} color="white" />,
-      text: 'Друзья',
-      href: '/friends'
-    }, {
-      icon: <SocialPeople className={classes.icon} size={24} color="white" />,
-      text: 'Группы'
-    }, {
-      icon: <SocialWhatshot className={classes.icon} size={24} color="white" />,
-      text: 'Обновления'
-    }, {
-      icon: <SocialNotifications className={classes.icon} size={24} color="white" />,
-      text: 'Рекомендации'
-    }, {
-      icon: <ActionThumbUp className={classes.icon} size={24} color="white" />,
-      text: 'Популярные'
-    }],
-    bottomList: [{
-      icon: <ActionSettings className={classes.icon} size={24} color="white" />,
-      text: 'Настройки'
-    }]
-  };
+	state = {
+		topList: [{
+			icon: <AvLibraryMusic className={classes.icon} size={24} color="white" />,
+			text: 'Аудиозаписи',
+			href: '/'
+		}, {
+			icon: <AvAlbum className={classes.icon} size={24} color="white" />,
+			text: 'Альбомы',
+			href: '/albums'
+		}, {
+			icon: <SocialPerson className={classes.icon} size={24} color="white" />,
+			text: 'Друзья',
+			href: '/friends'
+		}, {
+			icon: <SocialPeople className={classes.icon} size={24} color="white" />,
+			text: 'Группы'
+		}, {
+			icon: <SocialWhatshot className={classes.icon} size={24} color="white" />,
+			text: 'Обновления'
+		}, {
+			icon: <SocialNotifications className={classes.icon} size={24} color="white" />,
+			text: 'Рекомендации'
+		}, {
+			icon: <ActionThumbUp className={classes.icon} size={24} color="white" />,
+			text: 'Популярные'
+		}],
+		bottomList: [{
+			icon: <ActionSettings className={classes.icon} size={24} color="white" />,
+			text: 'Настройки'
+		}]
+	};
 
-  render() {
-    return (
-      <aside className={this.getClassName()}>
-        <LeftDrawerList items={this.state.topList}/>
-        <LeftDrawerList items={this.state.bottomList}/>
-      </aside>
-    );
-  }
+	render() {
+		return (
+			<aside className={this.getClassName()}>
+				<LeftDrawerList items={this.state.topList}/>
+				<LeftDrawerList items={this.state.bottomList}/>
+			</aside>
+		);
+	}
 
-  shouldComponentUpdate(nextProps) {
-    return this.props.open !== nextProps.open;
-  }
+	shouldComponentUpdate(nextProps) {
+		return this.props.open !== nextProps.open;
+	}
 
-  getClassName() {
-    return `${classes.component} ${this.props.open ? classes.componentOpen : ''}`;
-  }
+	getClassName() {
+		return `${classes.component} ${this.props.open ? classes.componentOpen : ''}`;
+	}
 }

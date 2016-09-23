@@ -10,39 +10,39 @@ import RippleButton from '../../components/RippleButton/RippleButton';
 import classes from './authorize.scss';
 
 class Authorize extends Component {
-  static propTypes = {
-    authorized: PropTypes.bool.isRequired,
-    redirectPage: PropTypes.string.isRequired,
-    authorize: PropTypes.func.isRequired
-  };
+	static propTypes = {
+		authorized: PropTypes.bool.isRequired,
+		redirectPage: PropTypes.string.isRequired,
+		authorize: PropTypes.func.isRequired
+	};
 
-  componentDidUpdate() {
-    if (this.props.authorized) {
-      browserHistory.push(this.props.redirectPage);
-    }
-  }
+	componentDidUpdate() {
+		if (this.props.authorized) {
+			browserHistory.push(this.props.redirectPage);
+		}
+	}
 
-  render() {
-    return (
-      <Scrollable>
-        <div className={classes.component}>
-          <h2 className={classes.title} data-text="VK Music">VK Music</h2>
-          <RippleButton className={classes.button} onClick={this.props.authorize}>
-            <span>Авторизоваться</span>
-          </RippleButton>
-        </div>
-      </Scrollable>
-    );
-  }
+	render() {
+		return (
+			<Scrollable>
+				<div className={classes.component}>
+					<h2 className={classes.title} data-text="VK Music">VK Music</h2>
+					<RippleButton className={classes.button} onClick={this.props.authorize}>
+						<span>Авторизоваться</span>
+					</RippleButton>
+				</div>
+			</Scrollable>
+		);
+	}
 }
 
 const mapStateToProps = state => ({
-  authorized: state.authorize.authorized,
-  redirectPage: state.authorize.redirectPage
+	authorized: state.authorize.authorized,
+	redirectPage: state.authorize.redirectPage
 });
 
 const mapDispatchToProps = dispatch => ({
-  authorize: () => dispatch(authorize())
+	authorize: () => dispatch(authorize())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Authorize);

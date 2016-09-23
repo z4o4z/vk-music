@@ -9,11 +9,11 @@ import authorize from './authorize';
 import initialize from './initialize';
 
 export default combineReducers({
-  ui,
-  audio,
-  player,
-  albums,
-  friends,
-  authorize,
-  initialized: initialize
+	ui,
+	audio,
+	player,
+	albums,
+	friends,
+	authorize,
+	initialized: initialize
 });

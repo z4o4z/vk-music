@@ -1,23 +1,23 @@
 @import '../../scss/variable';
 
 .component {
-  display: flex;
-  align-items: center;
+	display: flex;
+	align-items: center;
 }
 
 .prev,
 .next {
-  display: block;
-  width: $player-control-size;
-  height: $player-control-size;
+	display: block;
+	width: $player-control-size;
+	height: $player-control-size;
 
-  transition: background $animation-duration $animation-function, box-shadow $animation-duration $animation-function;
+	transition: background $animation-duration $animation-function, box-shadow $animation-duration $animation-function;
 
-  &:hover {
-    box-shadow: $player-control-box-shadow;
-  }
+	&:hover {
+		box-shadow: $player-control-box-shadow;
+	}
 }
 
 .play {
-  margin: 0 6px;
+	margin: 0 6px;
 }
