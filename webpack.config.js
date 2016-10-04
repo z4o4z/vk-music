@@ -5,7 +5,6 @@ let args = require('yargs').argv;
 let webpack = require('webpack');
 let HtmlWebpackPlugin = require('html-webpack-plugin');
 let ExtractTextPlugin = require('extract-text-webpack-plugin');
-let StyleLintPlugin = require('stylelint-webpack-plugin');
 let autoprefixer = require('autoprefixer');
 
 const PATH_DIST = path.join(__dirname, 'dist');
@@ -175,10 +174,6 @@ if (IS_LOC) {
 	});
 
 	config.plugins.push(new webpack.HotModuleReplacementPlugin());
-	config.plugins.push(new StyleLintPlugin({
-		configFile: './.stylelintrc.js',
-		files: '**/*.scss'
-	}));
 }
 
 if (!IS_LOC) {
