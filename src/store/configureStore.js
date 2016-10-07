@@ -1,94 +1,126 @@
 import {createStore, applyMiddleware, compose} from 'redux';
 import thunk from 'redux-thunk';
+import createSagaMiddleware from 'redux-saga';
 import persistState from 'redux-localstorage';
+import assignIn from 'lodash/assignIn';
+import isObject from 'lodash/isObject';
 
-import reducers from '../reducers/index.js';
+import reducers from '../reducers/index';
 
 import authorize from '../middlewares/authorize';
 import player from '../middlewares/player';
 
+const sagaMiddleware = createSagaMiddleware();
+
 let middlewares = [
-  authorize,
-  player,
-  thunk
+	sagaMiddleware,
+	authorize,
+	player,
+	thunk
 ];
 
 if (!IS_PROD) {
-  const createLogger = require('redux-logger');
+	const createLogger = require('redux-logger');
 
-  middlewares.push(createLogger());
+	middlewares.push(createLogger());
 }
 
 const includeInLocalStorage = [
-  'authorize.expire'
+	'authorize.expire'
 ];
 
-const include = (rule, state, initialState) => {
-  let newState = state;
-  let initState = initialState;
-  const keys = rule.split('.');
+export default initialState => {
+	const store = createStore(reducers, initialState, getEnhancer());
 
-  keys.forEach((key, index) => {
-    if (index === keys.length - 1) {
-      newState[key] = initState[key];
-    } else {
-      newState[key] = newState[key] || {};
-      initState = initState[key] || {};
-    }
+	store.runSaga = sagaMiddleware.run;
 
-    newState = newState[key];
-  });
+	if (module.hot) {
+		module.hot.accept('../reducers', () =>
+			store.replaceReducer(require('../reducers').default)
+		);
+	}
+
+	return store;
 };
 
-const slicer = () => state => {
-  let newState = {};
+function getEnhancer() {
+	let devTools = f => f;
 
-  includeInLocalStorage.forEach(rule => {
-    include(rule, newState, state);
-  });
+	if (!IS_PROD && window.devToolsExtension) {
+		devTools = window.devToolsExtension();
+	}
 
-  return newState;
-};
+	return compose(
+		applyMiddleware(...middlewares),
+		persistState('', {
+			key: 'vk-music',
+			slicer,
+			merge
+		}),
+		devTools
+	);
+}
 
-const assignByRule = (rule, state, persistedState) => {
-  let newState = state;
-  let persistState = persistedState;
-  const keys = rule.split('.').slice(0, -1);
+function include(rule, state, initialState) {
+	let newState = state;
+	let initState = initialState;
+	let keys = rule.split('.');
 
-  keys.forEach((key, index) => {
-    if (index === keys.length - 1) {
-      newState[key] = Object.assign({}, newState[key], persistState[key]);
-    } else {
-      newState[key] = newState[key] || {};
-      persistState = persistState[key] || {};
-    }
+	keys.forEach((key, index) => {
+		if (index === keys.length - 1) {
+			newState[key] = initState[key];
+		} else {
+			newState[key] = newState[key] || {};
+			initState = initState[key] || {};
+		}
 
-    newState = newState[key];
-  });
-};
+		newState = newState[key];
+	});
+}
 
-const merge = (initialState, persistedState) => {
-  if (!persistedState) {
-    return initialState;
-  }
+function slicer() {
+	return state => {
+		let newState = {};
 
-  let newState = Object.assign({}, initialState);
+		includeInLocalStorage.forEach(rule => {
+			include(rule, newState, state);
+		});
 
-  includeInLocalStorage.forEach(rule => {
-    assignByRule(rule, newState, persistedState);
-  });
+		return newState;
+	};
+}
 
-  return newState;
-};
+function assignByRule(rule, state, persistedState) {
+	let newState = state;
+	let persistState = persistedState;
+	let keys = rule.split('.');
 
-const createPersistentStore = compose(
-  persistState('', {
-    key: 'vk-music',
-    slicer,
-    merge
-  }),
-  applyMiddleware(...middlewares),
-  window.devToolsExtension && !IS_PROD ? window.devToolsExtension() : f => f
-)(createStore);
+	keys.forEach((key, index) => {
+		if (index === keys.length - 1) {
+			if (isObject(newState[key])) {
+				newState[key] = assignIn({}, newState[key], persistState[key]);
+			} else {
+				newState[key] = persistState[key];
+			}
+		} else {
+			newState[key] = newState[key] || {};
+			persistState = persistState[key] || {};
+		}
 
-export default (initialState = {}) => createPersistentStore(reducers, initialState);
+		newState = newState[key];
+	});
+}
+
+function merge(initialState, persistedState) {
+	if (!persistedState) {
+		return initialState;
+	}
+
+	let newState = assignIn({}, initialState);
+
+	includeInLocalStorage.forEach(rule => {
+		assignByRule(rule, newState, persistedState);
+	});
+
+	return newState;
+}

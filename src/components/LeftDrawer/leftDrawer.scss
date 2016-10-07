@@ -1,65 +1,65 @@
 @import "../../scss/variable";
 
 .component {
-  display: flex;
-  width: $left-drawer-width;
-  align-items: center;
-  flex-direction: column;
-  justify-content: space-between;
+	display: flex;
+	width: $left-drawer-width;
+	align-items: center;
+	flex-direction: column;
+	justify-content: space-between;
 
-  position: fixed;
-  left: 0;
-  top: $left-drawer-top;
-  bottom: $left-drawer-bottom;
+	position: fixed;
+	left: 0;
+	top: $left-drawer-top;
+	bottom: $left-drawer-bottom;
 
-  background-color: $left-drawer-background;
-  box-shadow: $left-drawer-box-shadow;
+	background-color: $left-drawer-background;
+	box-shadow: $left-drawer-box-shadow;
 
-  z-index: 1;
-  transform: translateX(-$left-drawer-width) translateZ(0);
-  transition: transform $animation-duration $animation-function;
+	z-index: 1;
+	transform: translateX(-$left-drawer-width) translateZ(0);
+	transition: transform $animation-duration $animation-function;
 
-  &.componentOpen {
-    transform: translateX(0) translateZ(0);
-  }
+	&.componentOpen {
+		transform: translateX(0) translateZ(0);
+	}
 }
 
 .list {
-  display: block;
-  width: 100%;
-  margin: 0;
-  padding: $left-drawer-padding 0;
+	display: block;
+	width: 100%;
+	margin: 0;
+	padding: $left-drawer-padding 0;
 
-  list-style: none;
+	list-style: none;
 }
 
 .item {
-  display: block;
-  width: 100%;
+	display: block;
+	width: 100%;
 }
 
 .button {
-  display: block;
-  width: 100%;
-  height: $left-drawer-btn-height;
-  padding: 0 $left-drawer-padding;
+	display: block;
+	width: 100%;
+	height: $left-drawer-btn-height;
+	padding: 0 $left-drawer-padding;
 
-  text-align: left;
+	text-align: left;
 }
 
 .buttonContent {
-  display: flex;
-  align-items: center;
+	display: flex;
+	align-items: center;
 }
 
 .icon {
-  display: inline-block;
-  padding: 0 $left-drawer-padding;
+	display: inline-block;
+	padding: 0 $left-drawer-padding;
 }
 
 .text {
-  display: inline-block;
-  margin-left: $left-drawer-margin;
+	display: inline-block;
+	margin-left: $left-drawer-margin;
 
-  color: $left-drawer-color;
+	color: $left-drawer-color;
 }

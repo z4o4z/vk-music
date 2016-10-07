@@ -1,7 +1,9 @@
-export const VK_AUTHORIZING = 'VK_AUTHORIZING';
+export const AUTHORIZING = 'AUTHORIZING';
 
-export const VK_AUTHORIZED = 'VK_AUTHORIZED';
+export const AUTHORIZED = 'AUTHORIZED';
 
-export const VK_AUTHORIZE_ERROR = 'VK_AUTHORIZE_ERROR';
+export const AUTHORIZE_ERROR = 'AUTHORIZE_ERROR';
 
-export const VK_STATUS_CONNECTED = 'connected';
+export const SET_REDIRECT_PAGE = 'SET_REDIRECT_PAGE';
+
+export const STATUS_CONNECTED = 'connected';

@@ -1,5 +1,4 @@
 import React, {Component, PropTypes} from 'react';
-import {select} from 'd3';
 
 import classes from './playerVisualization.scss';
 
@@ -12,130 +11,104 @@ const BAR_GREEN_COLOR = 0.4117647058823529;
 const BAR_BLUE_COLOR = 0.4666666666666667;
 
 export default class PlayerVisualization extends Component {
-  static propTypes = {
-    audioFile: PropTypes.string,
-    playing: PropTypes.bool.isRequired,
-    onEnded: PropTypes.func.isRequired,
-    children: PropTypes.element.isRequired
-  };
+	static propTypes = {
+		playing: PropTypes.bool.isRequired,
+		audioNode: PropTypes.node.isRequired
+	};
 
-  withoutVisualisation = false;
-  audioCtx = null;
-  frequencyData = null;
-  audioSrc = null;
-  analyser = null;
-  graph = null;
+	audioCtx = null;
+	frequencyData = null;
+	mediaElementSrc = null;
+	analyser = null;
 
-  constructor(props) {
-    super(props);
+	constructor(props) {
+		super(props);
 
-    const Context = window.AudioContext || window.webkitAudioContext;
+		const Context = window.AudioContext || window.webkitAudioContext;
 
-    if (!Context) {
-      this.withoutVisualisation = true;
+		if (!Context) {
+			return;
+		}
 
-      return;
-    }
+		this.audioCtx = new Context();
+	}
 
-    this.audioCtx = new Context();
-    this.renderChart = this.renderChart.bind(this);
-  }
+	render() {
+		return (
+			<div className={classes.component}>
+				<canvas className={classes.canvas} ref="canvas" />
+			</div>
+		);
+	}
 
-  render() {
-    return (
-      <div className={classes.component}>
-        <audio src={this.getProxyUrl(this.props.audioFile)} ref="audio" onEnded={this.props.onEnded} crossOrigin="anonymous"/>
-        <div className={classes.graph} ref="graph"></div>
-        {this.props.children}
-      </div>
-    );
-  }
+	componentDidMount() {
+		if (!this.audioCtx) {
+			return;
+		}
 
-  componentDidMount() {
-    if (this.withoutVisualisation) {
-      return;
-    }
+		const canvas = this.refs.canvas;
 
-    this.audioSrc = this.audioCtx.createMediaElementSource(this.refs.audio);
-    this.analyser = this.audioCtx.createAnalyser();
+		this.context = canvas.getContext('2d');
+		this.mediaElementSrc = this.audioCtx.createMediaElementSource(this.props.audioNode);
+		this.analyser = this.audioCtx.createAnalyser();
 
-    this.audioSrc.connect(this.analyser);
-    this.audioSrc.connect(this.audioCtx.destination);
+		this.mediaElementSrc.connect(this.analyser);
+		this.mediaElementSrc.connect(this.audioCtx.destination);
 
-    const graph = this.refs.graph;
-    const graphWidth = graph.offsetWidth;
+		this.frequencyData = new Uint8Array(Math.floor(canvas.offsetWidth / 4));
+		this.barWidth = Math.floor(canvas.offsetWidth / this.frequencyData.length) -
+			(this.frequencyData.length - 1) * BAR_PADDING;
+	}
 
-    this.graph = this.createSvg(graph, CHART_HEIGHT);
+	shouldComponentUpdate(nextProps) {
+		return this.props.playing !== nextProps.playing || this.props.audioNode !== nextProps.audioNode;
+	}
 
-    this.frequencyData = new Uint8Array(Math.floor(graphWidth / 4));
+	componentDidUpdate() {
+		if (!this.audioCtx) {
+			return;
+		}
 
-    this.createBars(this.frequencyData, graphWidth, BAR_PADDING);
-  }
+		if (this.props.playing) {
+			this.visualize();
+		} else {
+			this.stop();
+		}
+	}
 
-  componentDidUpdate() {
-    if (this.props.playing) {
-      this.refs.audio.play();
-      this.renderChart();
-    } else {
-      this.refs.audio.pause();
-      this.cancelRAF();
-    }
-  }
+	componentWillUnmount() {
+		this.start();
+	}
 
-  componentWillUnmount() {
-    this.cancelRAF();
-  }
+	getColor(i) {
+		const green = Math.floor(BAR_GREEN_INIT_COLOR + i * BAR_GREEN_COLOR);
+		const blue = Math.floor(BAR_BLUE_INIT_COLOR + i * BAR_BLUE_COLOR);
 
-  getProxyUrl(url) {
-    if (url.search('psv4.vk.me/') + 1) {
-      return url;
-    }
+		return `rgb(${i}, ${green}, ${blue})`;
+	}
 
-    let urlArr = url.split('/');
-    urlArr[0] = 'http:';
-    urlArr.splice(2, 0, window.location.host, 'audio-proxy');
+	visualize() {
+		this.analyser.getByteFrequencyData(this.frequencyData);
 
-    return urlArr.join('/');
-  }
+		this.context.lineWidth = this.barWidth;
 
-  createSvg(parent, height) {
-    return select(parent)
-      .append('svg')
-      .attr('height', height)
-      .attr('width', '100%');
-  }
+		for (let i = 0; i < this.frequencyData.length; i++) {
+			let x = i * this.barWidth + i * BAR_PADDING;
+			let y = CHART_HEIGHT - i * BAR_MIN_HEIGHT;
 
-  createBars(frequencyData, parentWidth, padding) {
-    this.graph.selectAll('rect')
-      .data(frequencyData)
-      .enter()
-      .append('rect')
-      .attr('x', (d, i) => i * (parentWidth / frequencyData.length))
-      .attr('width', parentWidth / frequencyData.length - padding);
-  }
+			this.context.beginPath();
+			this.context.moveTo(x, y);
+			this.context.lineTo(x, CHART_HEIGHT);
+			this.context.strokeStyle = this.getColor(i);
+			this.context.stroke();
+		}
 
-  getColor(d) {
-    const green = Math.floor(BAR_GREEN_INIT_COLOR + d * BAR_GREEN_COLOR);
-    const blue = Math.floor(BAR_BLUE_INIT_COLOR + d * BAR_BLUE_COLOR);
+		this.raf = window.requestAnimationFrame(this.visualize);
+	}
 
-    return `rgb(${d}, ${green}, ${blue})`;
-  }
-
-  renderChart() {
-    this.analyser.getByteFrequencyData(this.frequencyData);
-
-    this.graph.selectAll('rect')
-      .data(this.frequencyData)
-      .attr('y', d => CHART_HEIGHT - d * BAR_MIN_HEIGHT)
-      .attr('height', d => d * BAR_MIN_HEIGHT)
-      .attr('fill', this.getColor);
-
-    this.raf = window.requestAnimationFrame(this.renderChart);
-  }
-
-  cancelRAF() {
-    if (this.raf) {
-      window.cancelAnimationFrame(this.raf);
-    }
-  }
+	stop() {
+		if (this.raf) {
+			window.cancelAnimationFrame(this.raf);
+		}
+	}
 }

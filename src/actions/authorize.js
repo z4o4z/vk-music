@@ -1,50 +1,53 @@
-import {VK_AUTHORIZING, VK_AUTHORIZED, VK_AUTHORIZE_ERROR, VK_STATUS_CONNECTED} from '../constants/authorize';
+import {AUTHORIZING, AUTHORIZED, AUTHORIZE_ERROR, STATUS_CONNECTED, SET_REDIRECT_PAGE} from '../constants/authorize';
 
 function authorizing() {
-  return {
-    type: VK_AUTHORIZING
-  };
+	return {
+		type: AUTHORIZING
+	};
 }
 
 function authorized(expire) {
-  return {
-    type: VK_AUTHORIZED,
-    payload: expire
-  };
+	return {
+		type: AUTHORIZED,
+		payload: expire
+	};
 }
 
 function error() {
-  return {type: VK_AUTHORIZE_ERROR};
+	return {type: AUTHORIZE_ERROR};
 }
 
-const login = () => dispatch => {
-  window.VK.Auth.login(data => {
-    if (data.status === VK_STATUS_CONNECTED) {
-      return dispatch(authorized(data.session.expire * 1000));
-    }
-
-    return dispatch(error());
-  });
+export const getLoginStatus = () => dispatch => {
+	window.VK.Auth.getLoginStatus(data => {
+		if (data.status === STATUS_CONNECTED) {
+			console.log(data.session);
+			return dispatch(authorized({
+				expire: data.session.expire * 1000,
+				ownerId: Number(data.session.mid)
+			}));
+		}
+	});
 };
 
-const getLoginStatus = () => dispatch => {
-  window.VK.Auth.getLoginStatus(data => {
-    if (data.status === VK_STATUS_CONNECTED) {
-      return dispatch(authorized(data.session.expire * 1000));
-    }
+export const authorize = () => dispatch => {
+	dispatch(authorizing());
 
-    return dispatch(login());
-  });
+	window.VK.Auth.login(data => {
+		if (data.status === STATUS_CONNECTED) {
+			console.log(data.session);
+			return dispatch(authorized({
+				expire: data.session.expire * 1000,
+				ownerId: Number(data.session.mid)
+			}));
+		}
+
+		return dispatch(error());
+	}, 270346);
 };
 
-export const authorize = expire => dispatch => {
-  const now = Date.now();
-
-  dispatch(authorizing());
-
-  if (now + 3600000 >= expire) {
-    return dispatch(login());
-  }
-
-  return dispatch(getLoginStatus());
-};
+export function redirectTo(page) {
+	return {
+		type: SET_REDIRECT_PAGE,
+		payload: page
+	};
+}

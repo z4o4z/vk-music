@@ -40,9 +40,7 @@ $player-margin: $general-margin;
 $player-background: $secondary-text-color;
 $player-box-shadow: $box-shadow-1;
 
-$player-control-size: 48px;
-$player-control-size-small: 34px;
-$player-control-background: $accent-color;
+$player-control-size: 34px;
 $player-control-box-shadow: $box-shadow-2;
 
 $left-drawer-width: 256px;
@@ -77,3 +75,28 @@ $audio-info-secondary-player-color: $primary-color-light;
 $audio-info-padding: $general-padding;
 $audio-info-margin: $general-margin;
 $audio-info-player-background: transparentize($secondary-text-color, 0.2);
+
+$ply-pause-button-size: 40px;
+$ply-pause-button-big-size: 48px;
+$ply-pause-button-background: $accent-color;
+$ply-pause-button-box-shadow: $box-shadow-2;
+
+$friend-item-width: 33%;
+$friend-item-height: 100px;
+$friend-item-padding: $general-padding;
+$friend-item-margin: $general-margin;
+$friend-item-photo-size: 80px;
+$friend-item-border-color: $divider-color;
+$friend-item-color: $primary-text-color;
+$friend-item-secondary-color: $secondary-text-color;
+$friend-item-background-color: $general-hover-background-color;
+
+$authorize-color-1: $primary-text-color;
+$authorize-color-2: $accent-color;
+$authorize-color-3: $primary-color-text;
+$authorize-margin: $general-margin * 1.5;
+$authorize-padding: $general-padding * 1.5;
+$authorize-button-background: $accent-color;
+$authorize-button-color: $primary-color-text;
+$authorize-button-shadow: $box-shadow-2;
+$authorize-button-font-size: 18px;

@@ -1,39 +1,27 @@
 @import "../../scss/variable";
 
 .component {
-  display: flex;
-  width: 100%;
-  height: $audio-item-height;
-  padding: $audio-item-padding;
-  box-sizing: border-box;
+	display: flex;
+	width: 100%;
+	height: $audio-item-height;
+	padding: $audio-item-padding;
+	box-sizing: border-box;
 
-  color: $audio-item-color;
+	color: $audio-item-color;
 
-  cursor: pointer;
+	cursor: pointer;
 
-  transition: background $animation-duration $animation-function;
+	transition: background $animation-duration $animation-function;
 
-  &:hover {
-    background-color: darken($audio-item-background-color, 15%);
-  }
+	&:hover {
+		background-color: darken($audio-item-background-color, 15%);
+	}
 
-  &.active {
-    background-color: darken($audio-item-background-color, 30%);
-  }
+	&.active {
+		background-color: darken($audio-item-background-color, 30%);
+	}
 
-  & + & {
-    border-top: 1px solid $audio-item-border-color;
-  }
-}
-
-.button {
-  display: block;
-  width: $audio-item-btn-size;
-  height: $audio-item-btn-size;
-  min-width: $audio-item-btn-size;
-  min-height: $audio-item-btn-size;
-
-  box-shadow: $audio-item-btn-box-shadow;
-
-  background-color: $audio-item-btn-background;
+	& + & {
+		border-top: 1px solid $audio-item-border-color;
+	}
 }

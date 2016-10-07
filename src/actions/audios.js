@@ -1,119 +1,80 @@
 import {
-  AUDIO_ERROR,
-  AUDIO_LOADED,
-  AUDIO_LOADING,
-  AUDIO_MY_FETCHED,
-  AUDIO_MY_UPDATED
+	AUDIOS_ERROR,
+	AUDIOS_LOADING,
+	AUDIOS_FETCHED
 } from '../constants/audios';
 
-function normalizeAudios(audios) {
-  let normalized = {};
-  let ids = [];
+import normalizeBy from '../helpers/normalizeBy';
 
-  audios.forEach(audio => {
-    ids.push(audio.aid);
-    normalized[audio.aid] = audio;
-  });
-
-  return {
-    normalized,
-    ids
-  };
-}
-
-function loading(ownerIs, albumId, audioIds, offset, count) {
-  return {
-    type: AUDIO_LOADING,
-    payload: {
-      ownerIs,
-      albumId,
-      audioIds,
-      offset,
-      count
-    }
-  };
-}
-
-function loaded() {
-  return {
-    type: AUDIO_LOADED
-  };
+function loading(offset, count, ownerId, albumId, audioIds) {
+	return {
+		type: AUDIOS_LOADING,
+		payload: {
+			ownerId,
+			albumId,
+			audioIds,
+			offset,
+			count
+		}
+	};
 }
 
 function error(id) {
-  return {
-    type: AUDIO_ERROR,
-    payload: id
-  };
+	return {
+		type: AUDIOS_ERROR,
+		payload: id
+	};
 }
 
-function myAudioFetched(offset, audios) {
-  return {
-    type: AUDIO_MY_FETCHED,
-    payload: {
-      offset,
-      ...normalizeAudios(audios)
-    }
-  };
+function fetchedAudio(audios, offset, id, albumId) {
+	return {
+		type: AUDIOS_FETCHED,
+		payload: {
+			id,
+			albumId,
+			offset,
+			...normalizeBy(audios, 'aid')
+		}
+	};
 }
 
-function myAudioUpdated(offset, audios) {
-  return {
-    type: AUDIO_MY_UPDATED,
-    payload: {
-      offset,
-      ...normalizeAudios(audios)
-    }
-  };
+function fetch(offset, count, ownerId, albumId, audioIds) {
+	let params = {
+		offset,
+		count
+	};
+
+	if (ownerId) {
+		params.owner_id = ownerId;
+	}
+
+	if (albumId) {
+		params.album_id = albumId;
+	}
+
+	if (audioIds) {
+		params.audio_ids = audioIds;
+	}
+
+	return new Promise((resolve, reject) => {
+		window.VK.api("audio.get", params, data => {
+			if (data.error) {
+				if (!IS_PROD) {
+					console.error(data.error);
+				}
+
+				return reject(data.error.error_code);
+			}
+
+			return resolve(data.response);
+		});
+	});
 }
 
-function fetchAudio(ownerIs, albumId, audioIds, offset, count) {
-  let params = {
-    offset,
-    count
-  };
+export const fetchAudio = (offset, count, ownerId, albumId) => dispatch => {
+	dispatch(loading(offset, count, ownerId, albumId));
 
-  if (ownerIs) {
-    params.owner_id = ownerIs;
-  }
-
-  if (albumId) {
-    params.album_id = albumId;
-  }
-
-  if (audioIds) {
-    params.audio_ids = audioIds;
-  }
-
-  return new Promise((resolve, reject) => {
-    window.VK.api("audio.get", params, data => {
-      if (data.error) {
-        if (!IS_PROD) {
-          console.error(data.error);
-        }
-
-        return reject(data.error.error_code);
-      }
-
-      return resolve(data.response);
-    });
-  });
-}
-
-export const fetchMyAudio = (offset, count) => dispatch => {
-  dispatch(loading(undefined, undefined, undefined, offset, count));
-
-  fetchAudio(undefined, undefined, undefined, offset, count)
-    .then(audios => dispatch(myAudioFetched(offset, audios)))
-    .then(() => dispatch(loaded()))
-    .catch(id => dispatch(error(id)));
-};
-
-export const updateMyAudio = (offset, count) => dispatch => {
-  dispatch(loading());
-
-  fetchAudio(undefined, undefined, undefined, offset, count)
-    .then(audios => dispatch(myAudioUpdated(offset, audios)))
-    .then(() => dispatch(loaded()))
-    .catch(id => dispatch(error(id)));
+	fetch(offset, count, ownerId, albumId)
+		.then(audios => dispatch(fetchedAudio(audios, offset, ownerId, albumId)))
+		.catch(errorId => dispatch(error(errorId)));
 };

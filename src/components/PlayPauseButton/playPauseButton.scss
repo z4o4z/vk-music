@@ -1,0 +1,20 @@
+@import "../../scss/variable";
+
+.component {
+	display: block;
+	width: $ply-pause-button-size;
+	height: $ply-pause-button-size;
+	min-width: $ply-pause-button-size;
+	min-height: $ply-pause-button-size;
+
+	box-shadow: $ply-pause-button-box-shadow;
+
+	background-color: $ply-pause-button-background;
+
+	&.big {
+		width: $ply-pause-button-big-size;
+		height: $ply-pause-button-big-size;
+		min-width: $ply-pause-button-big-size;
+		min-height: $ply-pause-button-big-size;
+	}
+}

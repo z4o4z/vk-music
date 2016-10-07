@@ -1,17 +1,19 @@
 import {combineReducers} from 'redux';
-import {routerReducer} from 'react-router-redux';
 
+import vk from './vk';
 import ui from './ui';
 import audio from './audios';
+import albums from './albums';
 import player from './player';
+import friends from './friends';
 import authorize from './authorize';
-import initialize from './initialize';
 
 export default combineReducers({
-  ui,
-  audio,
-  player,
-  authorize,
-  initialized: initialize,
-  routing: routerReducer
+	vk,
+	ui,
+	audio,
+	player,
+	albums,
+	friends,
+	authorize
 });

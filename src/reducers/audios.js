@@ -1,73 +1,90 @@
 import {
-  AUDIO_ERROR,
-  AUDIO_LOADED,
-  AUDIO_LOADING,
-  AUDIO_MY_FETCHED,
-  AUDIO_MY_UPDATED
+	AUDIOS_ERROR,
+	AUDIOS_LOADING,
+	AUDIOS_FETCHED
 } from '../constants/audios';
 
-function audioLoading(state) {
-  return {
-    ...state,
-    loading: true
-  };
+import isArrayStartFrom from '../helpers/isArrayStartFrom';
+import getDifferencesByKeys from '../helpers/getDifferencesByKeys';
+
+function getAllAudios(allAudios, newAudios) {
+	const differentAudios = getDifferencesByKeys(allAudios, newAudios, 'title', 'artist', 'genre');
+
+	if (differentAudios) {
+		return {...allAudios, ...differentAudios};
+	}
+
+	return allAudios;
 }
 
-function myAudioFetched(state, action) {
-  return {
-    ...state,
-    my: {
-      offset: action.payload.offset,
-      ids: action.payload.ids
-    },
-    all: {
-      ...state.all,
-      ...action.payload.normalized
-    }
-  };
+function loading(state) {
+	return {
+		...state,
+		loading: true
+	};
 }
 
-function myAudioUpdated(state, action) {
-  return {
-    ...state,
-    my: {
-      offset: action.payload.offset,
-      ids: [...state.my.ids, ...action.payload.ids]
-    },
-    all: {
-      ...state.all,
-      ...action.payload.normalized
-    }
-  };
+function fetchedAudio(state, action) {
+	const ownerId = action.payload.id;
+	const albumId = action.payload.albumId;
+	const owner = state.owners[ownerId] || {};
+	const album = state.albums[albumId] || {};
+	const newIds = action.payload.ids;
+	const ids = owner.ids || [];
+	const albumIds = album.ids || [];
+
+	if (albumId) {
+		const albumAllLoaded = albumIds.length === albumIds.length + action.payload.ids.length;
+
+		return {
+			...state,
+			albums: {
+				[albumId]: {
+					offset: action.payload.offset,
+					ids: isArrayStartFrom(albumIds, newIds) ? albumIds : [...albumIds, ...newIds],
+					allLoaded: albumAllLoaded
+				}
+			},
+			all: getAllAudios(state.all, action.payload.normalized),
+			loading: false,
+			error: 0
+		};
+	}
+
+	const allLoaded = ids.length === ids.length + action.payload.ids.length;
+
+	return {
+		...state,
+		owners: {
+			[ownerId]: {
+				offset: action.payload.offset,
+				ids: isArrayStartFrom(ids, newIds) ? ids : [...ids, ...newIds],
+				allLoaded,
+				albums: {}
+			}
+		},
+		all: getAllAudios(state.all, action.payload.normalized),
+		loading: false,
+		error: 0
+	};
 }
 
-function audioError(state, action) {
-  return {
-    ...state,
-    loading: false,
-    error: action.payload
-  };
-}
-
-function audioLoaded(state) {
-  return {
-    ...state,
-    loading: false
-  };
+function error(state, action) {
+	return {
+		...state,
+		loading: false,
+		error: action.payload
+	};
 }
 
 export default (state = {}, action = {}) => {
-  switch (action.type) {
-    case AUDIO_LOADING:
-      return audioLoading(state);
-    case AUDIO_MY_FETCHED:
-      return myAudioFetched(state, action);
-    case AUDIO_MY_UPDATED:
-      return myAudioUpdated(state, action);
-    case AUDIO_ERROR:
-      return audioError(state, action);
-    case AUDIO_LOADED:
-      return audioLoaded(state);
-    default: return state;
-  }
+	switch (action.type) {
+		case AUDIOS_LOADING:
+			return loading(state);
+		case AUDIOS_FETCHED:
+			return fetchedAudio(state, action);
+		case AUDIOS_ERROR:
+			return error(state, action);
+		default: return state;
+	}
 };
