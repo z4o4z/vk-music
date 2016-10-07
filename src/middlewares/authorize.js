@@ -1,4 +1,4 @@
-import {VK_INITIALIZED} from '../constants/initialize';
+import {VK_INITIALIZED} from '../constants/vk';
 
 import {getLoginStatus} from '../actions/authorize';
 

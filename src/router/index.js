@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {Router} from 'react-router';
+import {Router, Route} from 'react-router';
 
 import {redirectTo} from '../actions/authorize';
 
@@ -59,18 +59,24 @@ class MyRouter extends Component {
 	};
 
 	checkAuth(nextState, replace) {
-		if (this.props.authorized) {
-			return nextState;
+		if (this.props && this.props.authorized) {
+			return;
 		}
 
-		this.props.redirectTo(nextState.location.pathname);
-
-		replace('/authorise');
+		replace({
+			pathname: '/authorise',
+			state: nextState.location.pathname
+		});
 	}
 
 	render() {
 		return (
-			<Router history={this.props.history} routes={this.routes} />
+			<Router history={this.props.history} >
+				<Route path="/" component={App}>
+					<Route path="albums" component={Albums} onEnter={this.checkAuth} />
+					<Route path="authorise" component={Authorize} />
+				</Route>
+			</Router>
 		);
 	}
 }

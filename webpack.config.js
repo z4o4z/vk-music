@@ -125,32 +125,6 @@ let config = {
 		hot: true,
 		historyApiFallback: {
 			index: '/'
-		},
-		proxy: {
-			'/audio-proxy/cs6-1v4.vk-cdn.net/*': {target: 'http://cs6-1v4.vk-cdn.net', rewrite},
-			'/audio-proxy/cs6-2v4.vk-cdn.net/*': {target: 'http://cs6-2v4.vk-cdn.net', rewrite},
-			'/audio-proxy/cs6-3v4.vk-cdn.net/*': {target: 'http://cs6-3v4.vk-cdn.net', rewrite},
-			'/audio-proxy/cs6-4v4.vk-cdn.net/*': {target: 'http://cs6-4v4.vk-cdn.net', rewrite},
-			'/audio-proxy/cs6-5v4.vk-cdn.net/*': {target: 'http://cs6-5v4.vk-cdn.net', rewrite},
-			'/audio-proxy/cs6-6v4.vk-cdn.net/*': {target: 'http://cs6-6v4.vk-cdn.net', rewrite},
-			'/audio-proxy/cs6-7v4.vk-cdn.net/*': {target: 'http://cs6-7v4.vk-cdn.net', rewrite},
-			'/audio-proxy/cs6-8v4.vk-cdn.net/*': {target: 'http://cs6-8v4.vk-cdn.net', rewrite},
-			'/audio-proxy/cs6-9v4.vk-cdn.net/*': {target: 'http://cs6-9v4.vk-cdn.net', rewrite},
-			'/audio-proxy/cs6-10v4.vk-cdn.net/*': {target: 'http://cs6-10v4.vk-cdn.net', rewrite},
-			'/audio-proxy/cs6-11v4.vk-cdn.net/*': {target: 'http://cs6-11v4.vk-cdn.net', rewrite},
-			'/audio-proxy/cs6-12v4.vk-cdn.net/*': {target: 'http://cs6-12v4.vk-cdn.net', rewrite},
-			'/audio-proxy/cs9-1v4.vk.me/*': {target: 'http://cs9-1v4.vk.me', rewrite},
-			'/audio-proxy/cs9-2v4.vk.me/*': {target: 'http://cs9-2v4.vk.me', rewrite},
-			'/audio-proxy/cs9-3v4.vk.me/*': {target: 'http://cs9-3v4.vk.me', rewrite},
-			'/audio-proxy/cs9-4v4.vk.me/*': {target: 'http://cs9-4v4.vk.me', rewrite},
-			'/audio-proxy/cs9-5v4.vk.me/*': {target: 'http://cs9-5v4.vk.me', rewrite},
-			'/audio-proxy/cs9-6v4.vk.me/*': {target: 'http://cs9-6v4.vk.me', rewrite},
-			'/audio-proxy/cs9-7v4.vk.me/*': {target: 'http://cs9-7v4.vk.me', rewrite},
-			'/audio-proxy/cs9-8v4.vk.me/*': {target: 'http://cs9-8v4.vk.me', rewrite},
-			'/audio-proxy/cs9-9v4.vk.me/*': {target: 'http://cs9-9v4.vk.me', rewrite},
-			'/audio-proxy/cs9-10v4.vk.me/*': {target: 'http://cs9-10v4.vk.me', rewrite},
-			'/audio-proxy/cs9-11v4.vk.me/*': {target: 'http://cs9-11v4.vk.me', rewrite},
-			'/audio-proxy/cs9-12v4.vk.me/*': {target: 'http://cs9-12v4.vk.me', rewrite}
 		}
 	}
 };
@@ -215,10 +189,3 @@ if (IS_PROD || IS_QA) {
 }
 
 module.exports = config;
-
-
-function rewrite(req) {
-	let array = req.url.split('/');
-	array.splice(0, 3);
-	req.url = array.join('/');
-}

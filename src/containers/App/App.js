@@ -2,7 +2,6 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 
 import {uiLeftMenuOpen} from '../../actions/ui';
-import {initialize} from '../../actions/initialize';
 import {playerPlayPause, playerNext, playerPrev} from '../../actions/player';
 
 import Header from '../../components/Header/Header';
@@ -19,18 +18,11 @@ class App extends Component {
 		player: PropTypes.object.isRequired,
 		audios: PropTypes.object.isRequired,
 		uiLeftMenuOpen: PropTypes.func.isRequired,
-		initialize: PropTypes.func.isRequired,
 		playPlayPause: PropTypes.func.isRequired,
 		playerNext: PropTypes.func.isRequired,
 		playerPrev: PropTypes.func.isRequired,
 		children: PropTypes.element.isRequired
 	};
-
-	constructor(props) {
-		super(props);
-
-		this.props.initialize();
-	}
 
 	render() {
 		return (
@@ -89,16 +81,15 @@ class App extends Component {
 	}
 }
 
-const mapStateToProps = state => ({
-	leftMenuOpen: state.ui.leftMenuOpen,
-	initialized: state.initialized,
-	player: state.player,
-	audios: state.audio.all
+const mapStateToProps = ({vk, ui, audio, player}) => ({
+	leftMenuOpen: ui.leftMenuOpen,
+	initialized: vk.initialized,
+	player: player,
+	audios: audio.all
 });
 
 const mapDispatchToProps = dispatch => ({
 	uiLeftMenuOpen: () => dispatch(uiLeftMenuOpen()),
-	initialize: () => dispatch(initialize()),
 	playPlayPause: () => dispatch(playerPlayPause()),
 	playerNext: () => dispatch(playerNext()),
 	playerPrev: () => dispatch(playerPrev())

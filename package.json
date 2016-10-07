@@ -11,8 +11,9 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.9.1",
-    "d3": "^4.2.5",
+    "classnames": "^2.2.5",
     "lodash": "^4.16.1",
+    "raf": "^3.3.0",
     "react": "^15.1.0",
     "react-dom": "^15.1.0",
     "react-icons": "^2.1.0",
@@ -20,8 +21,11 @@
     "react-redux": "^4.4.5",
     "react-router": "^2.4.1",
     "redux": "^3.5.2",
+    "redux-actions": "^0.12.0",
     "redux-localstorage": "^0.4.0",
-    "redux-thunk": "^2.1.0"
+    "redux-saga": "^0.12.0",
+    "redux-thunk": "^2.1.0",
+    "reset-css": "^2.2.0"
   },
   "devDependencies": {
     "autoprefixer": "^6.3.6",

@@ -1,5 +1,6 @@
 import {createStore, applyMiddleware, compose} from 'redux';
 import thunk from 'redux-thunk';
+import createSagaMiddleware from 'redux-saga';
 import persistState from 'redux-localstorage';
 import assignIn from 'lodash/assignIn';
 import isObject from 'lodash/isObject';
@@ -9,7 +10,10 @@ import reducers from '../reducers/index';
 import authorize from '../middlewares/authorize';
 import player from '../middlewares/player';
 
+const sagaMiddleware = createSagaMiddleware();
+
 let middlewares = [
+	sagaMiddleware,
 	authorize,
 	player,
 	thunk
@@ -27,6 +31,8 @@ const includeInLocalStorage = [
 
 export default initialState => {
 	const store = createStore(reducers, initialState, getEnhancer());
+
+	store.runSaga = sagaMiddleware.run;
 
 	if (module.hot) {
 		module.hot.accept('../reducers', () =>
