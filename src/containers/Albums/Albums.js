@@ -30,8 +30,8 @@ class Albums extends EssenceList {
 
 const mapStateToProps = state => ({
 	currentUserId: state.authorize.ownerId,
-	all: state.albums.all,
-	owners: state.albums.users,
+	all: state,
+	owners: state,
 	fetchCount: ALBUMS_FETCH_COUNT,
 	loading: state.albums.loading,
 	error: state.albums.error

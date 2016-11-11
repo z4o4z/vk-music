@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import shallowCompare from 'react-addons-shallow-compare';
 import {Link} from 'react-router';
 
 import RippleButton from '../RippleButton/RippleButton';
@@ -29,10 +30,8 @@ export default class FriendsAndGroupsItem extends Component {
 		);
 	}
 
-	shouldComponentUpdate(nextProps) {
-		const {url, name, photo, links} = this.props;
-
-		return url !== nextProps.url || name !== nextProps.name || photo !== nextProps.photo || links !== nextProps.links;
+	shouldComponentUpdate(nextProps, nextState) {
+		return shallowCompare(this, nextProps, nextState);
 	}
 
 	getLinks() {
@@ -40,7 +39,7 @@ export default class FriendsAndGroupsItem extends Component {
 			<Link
 				className={classes.link}
 				to={link.to}
-				target={link.blank ? "_blank" : ""}
+				target={link.blank ? '_blank' : ''}
 				key={index}
 				onClick={this.onClick}
 			>

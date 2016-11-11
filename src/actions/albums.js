@@ -46,7 +46,7 @@ function fetch(offset, count, ownerId) {
 	}
 
 	return new Promise((resolve, reject) => {
-		window.VK.api("audio.getAlbums", params, data => {
+		window.VK.api('audio.getAlbums', params, data => {
 			if (data.error) {
 				if (!IS_PROD) {
 					console.error(data.error);

@@ -1,4 +1,6 @@
 import React, {Component, PropTypes} from 'react';
+import shallowCompare from 'react-addons-shallow-compare';
+import cns from 'classnames';
 
 import PlayArrow from 'react-icons/lib/md/play-arrow';
 import Pause from 'react-icons/lib/md/pause';
@@ -30,7 +32,7 @@ export default class PlayPauseButton extends Component {
 	render() {
 		return (
 			<RippleButton
-				className={this.getClassName()}
+				className={cns(classes.component, this.props.className, {[classes.big]: this.props.big})}
 				disabled={this.props.disabled}
 				rounded={true}
 				onClick={this.onClick}
@@ -40,22 +42,8 @@ export default class PlayPauseButton extends Component {
 		);
 	}
 
-	shouldComponentUpdate(nextProps) {
-		return this.props.playing !== nextProps.playing || this.props.disabled !== nextProps.disabled;
-	}
-
-	getClassName() {
-		let _classes = [classes.component];
-
-		if (this.props.className) {
-			_classes.push(this.props.className);
-		}
-
-		if (this.props.big) {
-			_classes.push(classes.big);
-		}
-
-		return _classes.join(' ');
+	shouldComponentUpdate(nextProps, nextState) {
+		return shallowCompare(this, nextProps, nextState);
 	}
 
 	getIcon() {

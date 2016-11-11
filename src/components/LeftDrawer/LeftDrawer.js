@@ -1,4 +1,6 @@
 import React, {Component, PropTypes} from 'react';
+import shallowCompare from 'react-addons-shallow-compare';
+import cns from 'classnames';
 
 import AvLibraryMusic from 'react-icons/lib/md/library-music';
 import AvAlbum from 'react-icons/lib/md/album';
@@ -52,18 +54,14 @@ export default class LeftDrawer extends Component {
 
 	render() {
 		return (
-			<aside className={this.getClassName()}>
+			<aside className={cns(classes.component, {[classes.componentOpen]: this.props.open})}>
 				<LeftDrawerList items={this.state.topList}/>
 				<LeftDrawerList items={this.state.bottomList}/>
 			</aside>
 		);
 	}
 
-	shouldComponentUpdate(nextProps) {
-		return this.props.open !== nextProps.open;
-	}
-
-	getClassName() {
-		return `${classes.component} ${this.props.open ? classes.componentOpen : ''}`;
+	shouldComponentUpdate(nextProps, nextState) {
+		return shallowCompare(this, nextProps, nextState);
 	}
 }

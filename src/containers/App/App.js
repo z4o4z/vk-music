@@ -1,12 +1,13 @@
 import React, {Component, PropTypes} from 'react';
+import shallowCompare from 'react-addons-shallow-compare';
 import {connect} from 'react-redux';
+import {browserHistory} from 'react-router';
 
 import {uiLeftMenuOpen} from '../../actions/ui';
 import {playerPlayPause, playerNext, playerPrev} from '../../actions/player';
 
 import Header from '../../components/Header/Header';
 import LeftDrawer from '../../components/LeftDrawer/LeftDrawer';
-import Loader from '../../components/Loader/Loader';
 import Player from '../../components/Player/Player';
 
 import classes from './app.scss';
@@ -14,7 +15,6 @@ import classes from './app.scss';
 class App extends Component {
 	static propTypes = {
 		leftMenuOpen: PropTypes.bool.isRequired,
-		initialized: PropTypes.bool.isRequired,
 		player: PropTypes.object.isRequired,
 		audios: PropTypes.object.isRequired,
 		uiLeftMenuOpen: PropTypes.func.isRequired,
@@ -24,68 +24,55 @@ class App extends Component {
 		children: PropTypes.element.isRequired
 	};
 
+	static childContextTypes = {
+		routerPush: PropTypes.func.isRequired
+	};
+
+	getChildContext() {
+		return {
+			routerPush: browserHistory.push
+		};
+	}
+
 	render() {
 		return (
 			<section className={classes.component}>
 				<Header onMenuClick={this.props.uiLeftMenuOpen} open={this.props.leftMenuOpen}/>
+
 				<LeftDrawer open={this.props.leftMenuOpen}/>
-				{this.getContent()}
+
+				<main className={classes.content}>
+					{this.props.children}
+				</main>
+
 				{this.getPlayer()}
-				{this.getLoader()}
 			</section>
 		);
 	}
 
-	getContent() {
-		if (!this.isAppStarted()) {
-			return null;
-		}
-
-		return (
-			<main className={classes.content}>
-				{this.props.children}
-			</main>
-		);
-	}
-
-	getAudio(id) {
-		return this.props.audios[id] || {};
+	shouldComponentUpdate(nextProps, nextState) {
+		return shallowCompare(this, nextProps, nextState);
 	}
 
 	getPlayer() {
-		if (!this.isAppStarted()) {
-			return null;
-		}
-
-		return <Player
-			playing={this.props.player.playing}
-			audio={this.getAudio(this.props.player.current)}
-			hasNext={Boolean(this.props.player.next)}
-			hasPrev={Boolean(this.props.player.prev)}
-			onPlay={this.props.playPlayPause}
-			onNext={this.props.playerNext}
-			onPrev={this.props.playerPrev}
-		/>;
-	}
-
-	getLoader() {
-		if (this.isAppStarted()) {
-			return null;
-		}
-
-		return <Loader />;
-	}
-
-	isAppStarted() {
-		return this.props.initialized;
+		return (
+			<Player
+				playing={this.props.player.playing}
+				audio={this.props.audios[this.props.player.current]}
+				hasNext={Boolean(this.props.player.next)}
+				hasPrev={Boolean(this.props.player.prev)}
+				onPlay={this.props.playPlayPause}
+				onNext={this.props.playerNext}
+				onPrev={this.props.playerPrev}
+			/>
+		);
 	}
 }
 
-const mapStateToProps = ({vk, ui, audio, player}) => ({
+const mapStateToProps = ({vk, ui, audios, player}) => ({
 	leftMenuOpen: ui.leftMenuOpen,
-	initialized: vk.initialized,
 	player: player,
-	audios: audio.all
+	audios: audios
 });
 
 const mapDispatchToProps = dispatch => ({

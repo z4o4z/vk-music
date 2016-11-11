@@ -48,7 +48,7 @@ function fetch(offset, count, ownerId) {
 	}
 
 	return new Promise((resolve, reject) => {
-		window.VK.api("friends.get", params, data => {
+		window.VK.api('friends.get', params, data => {
 			if (data.error) {
 				if (!IS_PROD) {
 					console.error(data.error);

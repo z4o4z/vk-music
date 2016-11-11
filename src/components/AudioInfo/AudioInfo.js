@@ -1,4 +1,6 @@
 import React, {Component, PropTypes} from 'react';
+import shallowCompare from 'react-addons-shallow-compare';
+import cns from 'classnames';
 
 import classes from './audioInfo.scss';
 
@@ -12,7 +14,7 @@ export default class AudioItem extends Component {
 
 	render() {
 		return (
-			<div className={`${classes.component} ${this.props.playerStyle ? classes.componentPLayer : ''}`}>
+			<div className={cns(classes.component, {[classes.componentPlayer]: this.props.playerStyle})} >
 				<span className={classes.title}>{this.props.title}</span>
 				<div className={classes.infoFooter}>
 					<span className={classes.artist}>{this.props.artist}</span>
@@ -22,13 +24,7 @@ export default class AudioItem extends Component {
 		);
 	}
 
-	shouldComponentUpdate(nextProps) {
-		return !this.checkProps(nextProps);
-	}
-
-	checkProps(nextProps) {
-		const {title, artist, genre} = this.props;
-
-		return title === nextProps.title && artist === nextProps.artist && genre === nextProps.genre;
+	shouldComponentUpdate(nextProps, nextState) {
+		return shallowCompare(this, nextProps, nextState);
 	}
 }

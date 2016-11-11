@@ -1,42 +1,22 @@
 export default {
 	vk: {
-		initialized: false
-	},
-
-	authorize: {
+		initialized: false,
 		authorized: false,
-		authError: false,
-		ownerId: 0,
-		expire: 0,
-		redirectPage: '/'
+		authorizing: false,
+		authorizeError: null,
+		userId: null,
+		expire: 0
 	},
 
 	ui: {
-		leftMenuOpen: false,
-		showLoader: false
+		leftMenuOpen: false
 	},
 
-	audio: {
-		all: {},
-		owners: {},
-		albums: {},
-		loading: false,
-		error: 0
-	},
+	audios: {},
 
-	friends: {
-		all: {},
-		users: {},
-		loading: false,
-		error: 0
-	},
+	users: {},
 
-	albums: {
-		all: {},
-		users: {},
-		loading: false,
-		error: 0
-	},
+	albums: {},
 
 	player: {
 		playlist: [],

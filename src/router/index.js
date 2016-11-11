@@ -1,8 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {Router, Route} from 'react-router';
-
-import {redirectTo} from '../actions/authorize';
+import {Router} from 'react-router';
 
 import App from '../containers/App/App';
 import UserAudios from '../containers/UserAudios/UserAudios';
@@ -13,48 +11,31 @@ import Authorize from '../containers/Authorize/Authorize';
 class MyRouter extends Component {
 	static propTypes = {
 		history: PropTypes.object.isRequired,
-		authorized: PropTypes.bool.isRequired,
-		redirectTo: PropTypes.func.isRequired
+		authorized: PropTypes.bool.isRequired
 	};
 
 	routes = {
 		path: '/',
-		component: App,
-		indexRoute: {
-			component: UserAudios,
-			onEnter: (nextState, replace) => this.checkAuth(nextState, replace)
-		},
 		childRoutes: [{
-			path: '/albums',
-			component: Albums,
-			onEnter: (nextState, replace) => this.checkAuth(nextState, replace)
-		}, {
-			path: '/album/:albumId',
-			component: UserAudios,
-			onEnter: (nextState, replace) => this.checkAuth(nextState, replace)
-		}, {
-			path: '/friends',
-			component: Friends,
-			onEnter: (nextState, replace) => this.checkAuth(nextState, replace)
-		}, {
-			path: '/friends/:ownerId',
-			component: Friends,
-			onEnter: (nextState, replace) => this.checkAuth(nextState, replace)
-		}, {
-			path: '/friend/:ownerId',
-			component: UserAudios,
-			onEnter: (nextState, replace) => this.checkAuth(nextState, replace)
-		}, {
-			path: '/friend/:ownerId/albums',
-			component: Albums,
-			onEnter: (nextState, replace) => this.checkAuth(nextState, replace)
-		}, {
-			path: '/friend/:ownerId/album/:albumId',
-			component: UserAudios,
-			onEnter: (nextState, replace) => this.checkAuth(nextState, replace)
-		}, {
-			path: '/authorise',
+			path: 'authorise',
 			component: Authorize
+		}, {
+			path: ':userId',
+			component: App,
+			onEnter: (nextState, replace) => this.checkAuth(nextState, replace),
+			indexRoute: {
+				component: UserAudios
+			},
+			childRoutes: [{
+				path: '/albums',
+				component: Albums
+			}, {
+				path: '/albums/:albumId',
+				component: UserAudios
+			}, {
+				path: '/friends',
+				component: Friends
+			}]
 		}]
 	};
 
@@ -71,22 +52,13 @@ class MyRouter extends Component {
 
 	render() {
 		return (
-			<Router history={this.props.history} >
-				<Route path="/" component={App}>
-					<Route path="albums" component={Albums} onEnter={this.checkAuth} />
-					<Route path="authorise" component={Authorize} />
-				</Route>
-			</Router>
+			<Router history={this.props.history} routes={this.routes} />
 		);
 	}
 }
 
 const mapStateToProps = state => ({
-	authorized: state.authorize.authorized
+	authorized: state.vk.authorized
 });
 
-const mapDispatchToProps = dispatch => ({
-	redirectTo: page => dispatch(redirectTo(page))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(MyRouter);
+export default connect(mapStateToProps)(MyRouter);

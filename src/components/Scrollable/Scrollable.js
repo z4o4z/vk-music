@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import shallowCompare from 'react-addons-shallow-compare';
 
 import classes from './scrollable.scss';
 
@@ -7,12 +8,6 @@ export default class Scrollable extends Component {
 		onScroll: PropTypes.func,
 		children: PropTypes.element.isRequired
 	};
-
-	constructor(props) {
-		super(props);
-
-		this.onScroll = this.onScroll.bind(this);
-	}
 
 	render() {
 		return (
@@ -24,11 +19,11 @@ export default class Scrollable extends Component {
 		);
 	}
 
-	shouldComponentUpdate(newProps) {
-		return this.props.onScroll !== newProps.onScroll || this.props.children !== newProps.children;
+	shouldComponentUpdate(nextProps, nextState) {
+		return shallowCompare(this, nextProps, nextState);
 	}
 
-	onScroll() {
+	onScroll = () => {
 		if (!this.props.onScroll) {
 			return;
 		}

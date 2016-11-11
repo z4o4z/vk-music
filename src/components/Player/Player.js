@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import shallowCompare from 'react-addons-shallow-compare';
 
 import PlayerLeftControls from '../PlayerLeftControls/PlayerLeftControls';
 import PlayerTrack from '../PlayerTrack/PlayerTrack';
@@ -8,7 +9,7 @@ import classes from './player.scss';
 
 export default class Player extends Component {
 	static propTypes = {
-		audio: PropTypes.object.isRequired,
+		audio: PropTypes.object,
 		playing: PropTypes.bool.isRequired,
 		onPlay: PropTypes.func.isRequired,
 		onNext: PropTypes.func.isRequired,
@@ -16,12 +17,6 @@ export default class Player extends Component {
 		hasNext: PropTypes.bool.isRequired,
 		hasPrev: PropTypes.bool.isRequired
 	};
-
-	constructor(props) {
-		super(props);
-
-		this.onEnded = this.onEnded.bind(this);
-	}
 
 	render() {
 		return (
@@ -33,24 +28,22 @@ export default class Player extends Component {
 					onPrev={this.props.onPrev}
 					hasNext={this.props.hasNext}
 					hasPrev={this.props.hasPrev}
-					disabled={!this.props.audio.aid}
+					disabled={!this.props.audio}
 				/>
 
-				{this.getPlayerTrack()}
+				{this.getPlayerInfo()}
 
-				<div className={classes.visualisationContent}>
-					{this.getPlayerInfo()}
-				</div>
+				{this.getPlayerTrack()}
 			</div>
 		);
 	}
 
-	shouldComponentUpdate(nextProps) {
-		return nextProps.playing !== this.props.playing || nextProps.audio.aid !== this.props.audio.aid;
+	shouldComponentUpdate(nextProps, nextState) {
+		return shallowCompare(this, nextProps, nextState);
 	}
 
 	getPlayerTrack() {
-		if (!this.props.audio.aid) {
+		if (!this.props.audio) {
 			return null;
 		}
 
@@ -65,16 +58,16 @@ export default class Player extends Component {
 	}
 
 	getPlayerInfo() {
-		if (!this.props.audio.aid) {
+		if (!this.props.audio) {
 			return null;
 		}
 
 		return (
-			<AudioInfo title={this.props.audio.title} artist={this.props.audio.artist} playerStyle={true}/>
+			<AudioInfo title={this.props.audio.title} artist={this.props.audio.artist} playerStyle={true} />
 		);
 	}
 
-	onEnded() {
+	onEnded = () => {
 		if (this.props.hasNext) {
 			this.props.onNext();
 		} else {

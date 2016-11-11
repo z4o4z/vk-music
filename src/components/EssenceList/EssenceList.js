@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import shallowCompare from 'react-addons-shallow-compare';
 import ReactList from 'react-list';
 
 import {UI_SCROLL_UPDATE_HEIGHT} from '../../constants/ui';
@@ -48,11 +49,7 @@ export default class EssenceList extends Component {
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
-		const {all, owners, loading, error} = nextProps;
-
-		return this.props.all !== all || this.props.owners !== owners ||
-			this.props.loading !== loading || this.props.error !== error ||
-			this.state !== nextState;
+		return shallowCompare(this, nextProps, nextState);
 	}
 
 	componentDidUpdate(nextProps, nextState) {

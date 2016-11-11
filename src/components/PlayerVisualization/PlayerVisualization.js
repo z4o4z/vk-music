@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import shallowCompare from 'react-addons-shallow-compare';
 
 import classes from './playerVisualization.scss';
 
@@ -60,8 +61,8 @@ export default class PlayerVisualization extends Component {
 			(this.frequencyData.length - 1) * BAR_PADDING;
 	}
 
-	shouldComponentUpdate(nextProps) {
-		return this.props.playing !== nextProps.playing || this.props.audioNode !== nextProps.audioNode;
+	shouldComponentUpdate(nextProps, nextState) {
+		return shallowCompare(this, nextProps, nextState);
 	}
 
 	componentDidUpdate() {
