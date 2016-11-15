@@ -43,7 +43,25 @@ class VK {
 		_params.album_id = params.albumId;
 		_params.audio_ids = params.audioIds;
 
-		return this.api('audio.get', params);
+		return this.api('audio.get', _params);
+	};
+
+	fetchAlbums = params => {
+		const _params = {...params};
+
+		_params.owner_id = params.userId;
+
+		return this.api('audio.getAlbums', _params);
+	};
+
+	fetchFriends = params => {
+		const _params = {...params};
+
+		_params.order = 'hints';
+		_params.fields = 'photo_100';
+		_params.user_id = params.userId;
+
+		return this.api('friends.get', _params);
 	};
 
 	getUsers = ids => {
@@ -54,8 +72,18 @@ class VK {
 	};
 
 	api = (name, params) => {
+		const _params = {...params};
+
+		Object.keys(_params).forEach(key => {
+			const param = _params[key];
+
+			if (!param && (typeof param !== 'number' || isNaN(param))) {
+				delete _params[key];
+			}
+		});
+
 		return new Promise((resolve, reject) => {
-			this._VK.api(name, {...params, v: VK_API_VERSION}, data => {
+			this._VK.api(name, {..._params, v: VK_API_VERSION}, data => {
 				if (data.error) {
 					return reject(data.error.error_code);
 				}

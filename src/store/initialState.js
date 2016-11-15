@@ -12,11 +12,9 @@ export default {
 		leftMenuOpen: false
 	},
 
-	audios: {},
-
 	users: {},
 
-	albums: {},
+	entities: {},
 
 	player: {
 		playlist: [],

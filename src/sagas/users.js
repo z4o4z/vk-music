@@ -4,32 +4,95 @@ import {call, put} from 'redux-saga/effects';
 import normalizeBy from '../helpers/normalizeBy';
 import vk from '../helpers/vk';
 
-import {audiosAdd} from '../actions/audios';
-import {usersFetchAudios, usersSetAudios, usersAddAudios} from '../actions/users';
+import {usersAddMultiple} from '../actions/users';
+import {entitiesSet, entitiesReset, entitiesFetch, entitiesError} from '../actions/entities';
+import {usersFetchAudios, usersFetchAlbums, usersFetchFriends} from '../actions/users';
 
-function* fetchAudio({payload}) {
-	const userId = payload.userId;
-	const data = yield call(vk.fetchAudio, payload);
-	const audios = normalizeBy(data.items, 'id');
+function* fetchAudios({payload}) {
+	const {userId, albumId} = payload;
+	const entityId = `${albumId || userId}-audios`;
 
-	yield put(audiosAdd(audios.normalized));
+	yield put(entitiesFetch(entityId));
 
-	if (payload.offset === 0) {
-		yield put(usersSetAudios({
+	try {
+		const data = yield call(vk.fetchAudio, payload);
+		const newPayload = {
 			userId,
-			audios: audios.ids,
+			albumId,
+			id: entityId,
+			items: data.items,
 			count: data.count,
 			offset: payload.offset + payload.count
-		}));
-	} else {
-		yield put(usersAddAudios({
+		};
+
+		if (payload.offset === 0) {
+			yield put(entitiesReset(newPayload));
+		} else {
+			yield put(entitiesSet(newPayload));
+		}
+	} catch (e) {
+		yield put(entitiesError(e));
+	}
+}
+
+function* fetchAlbums({payload}) {
+	const userId = payload.userId;
+	const entityId = `${userId}-albums`;
+
+	yield put(entitiesFetch(entityId));
+
+	try {
+		const data = yield call(vk.fetchAlbums, payload);
+
+		const newPayload = {
 			userId,
-			audios: audios.ids,
+			id: entityId,
+			items: data.items,
+			count: data.count,
 			offset: payload.offset + payload.count
-		}));
+		};
+
+		if (payload.offset === 0) {
+			yield put(entitiesReset(newPayload));
+		} else {
+			yield put(entitiesSet(newPayload));
+		}
+	} catch (e) {
+		yield put(entitiesError(e));
+	}
+}
+
+function* fetchFriends({payload}) {
+	const userId = payload.userId;
+	const entityId = `${userId}-friends`;
+
+	yield put(entitiesFetch(entityId));
+
+	try {
+		const data = yield call(vk.fetchFriends, payload);
+		const friends = normalizeBy(data.items, 'id');
+
+		yield put(usersAddMultiple(friends.normalized));
+
+		const newPayload = {
+			id: entityId,
+			items: friends.ids,
+			count: data.count,
+			offset: payload.offset + payload.count
+		};
+
+		if (payload.offset === 0) {
+			yield put(entitiesReset(newPayload));
+		} else {
+			yield put(entitiesSet(newPayload));
+		}
+	} catch (e) {
+		yield put(entitiesError(e));
 	}
 }
 
 export default function* () {
-	yield takeEvery(usersFetchAudios.toString(), fetchAudio);
+	yield takeEvery(usersFetchAudios.toString(), fetchAudios);
+	yield takeEvery(usersFetchAlbums.toString(), fetchAlbums);
+	yield takeEvery(usersFetchFriends.toString(), fetchFriends);
 }

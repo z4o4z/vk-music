@@ -8,11 +8,11 @@ import AudioItem from '../AudioItem/AudioItem';
 
 export default class AudiosList extends Component {
 	static propTypes = {
-		audios: PropTypes.object.isRequired,
-		filterBy: PropTypes.array.isRequired,
+		audios: PropTypes.array.isRequired,
+		userId: PropTypes.number.isRequired,
 		pageSize: PropTypes.number.isRequired,
-		currentTrackId: PropTypes.number,
-		isPlayerPlaying: PropTypes.bool.isRequired,
+		activeAudioId: PropTypes.number,
+		isAudioPlaying: PropTypes.bool.isRequired,
 		onPlayClick: PropTypes.func.isRequired
 	};
 
@@ -20,13 +20,13 @@ export default class AudiosList extends Component {
 		return (
 			<ReactList
 				itemRenderer={this.renderItem}
-				length={this.props.filterBy.length}
+				length={this.props.audios.length}
 				pageSize={this.props.pageSize}
 				type="uniform"
 				useStaticSize={true}
 				useTranslate3d={true}
-				currentTrackId={this.props.currentTrackId}
-				isPlayerPlaying={this.props.isPlayerPlaying}
+				activeAudioId={this.props.activeAudioId}
+				isAudioPlaying={this.props.isAudioPlaying}
 			/>
 		);
 	}
@@ -36,7 +36,7 @@ export default class AudiosList extends Component {
 	}
 
 	renderItem = (index, key) => {
-		const audio = this.props.audios[this.props.filterBy[index]];
+		const audio = this.props.audios[index];
 
 		return (
 			<AudioItem
@@ -46,9 +46,13 @@ export default class AudiosList extends Component {
 				artist={audio.artist}
 				genre={getGenreById(audio.genre)}
 				onPlayClick={this.props.onPlayClick}
-				playing={this.props.isPlayerPlaying && audio.id === this.props.currentTrackId}
+				playing={this.isAudioPlying(audio)}
 			/>
 		);
 	};
+
+	isAudioPlying(audio) {
+		return this.props.isAudioPlaying && audio.id === this.props.activeAudioId && audio.owner_id === this.props.userId;
+	}
 }
 

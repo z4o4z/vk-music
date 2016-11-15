@@ -18,15 +18,16 @@ function* tryToLogin() {
 
 	try {
 		const data = yield call(vk.getLoginStatus);
+		const {userId} = data;
 		yield put(vkAuthorized(data));
 
-		const users = yield call(vk.getUsers, [data.userId]);
+		const users = yield call(vk.getUsers, [userId]);
 		yield put(usersAdd({
-			userId: data.userId,
-			info: users[0]
+			id: userId,
+			...users[0]
 		}));
 
-		yield put(push(`/${data.userId}`));
+		yield put(push(`/${userId}`));
 	} catch (e) {
 		yield put(vkAuthorizeError(e));
 	}

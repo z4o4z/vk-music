@@ -2,16 +2,14 @@ import {createActions} from 'redux-actions';
 
 export const {
 	usersAdd,
-
-	usersFetchAudiosError,
+	usersAddMultiple,
 	usersFetchAudios,
-	usersSetAudios,
-	usersAddAudios
+	usersFetchAlbums,
+	usersFetchFriends
 } = createActions(
 	'USERS_ADD',
-
-	'USERS_FETCH_AUDIOS_ERROR',
+	'USERS_ADD_MULTIPLE',
 	'USERS_FETCH_AUDIOS',
-	'USERS_SET_AUDIOS',
-	'USERS_ADD_AUDIOS'
+	'USERS_FETCH_ALBUMS',
+	'USERS_FETCH_FRIENDS'
 );

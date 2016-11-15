@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {Router} from 'react-router';
 
 import App from '../containers/App/App';
-import UserAudios from '../containers/UserAudios/UserAudios';
+import Audios from '../containers/Audios/Audios';
 import Friends from '../containers/Friends/Friends';
 import Albums from '../containers/Albums/Albums';
 import Authorize from '../containers/Authorize/Authorize';
@@ -24,16 +24,16 @@ class MyRouter extends Component {
 			component: App,
 			onEnter: (nextState, replace) => this.checkAuth(nextState, replace),
 			indexRoute: {
-				component: UserAudios
+				component: Audios
 			},
 			childRoutes: [{
-				path: '/albums',
+				path: 'albums',
 				component: Albums
 			}, {
-				path: '/albums/:albumId',
-				component: UserAudios
+				path: 'albums/:albumId',
+				component: Audios
 			}, {
-				path: '/friends',
+				path: 'friends',
 				component: Friends
 			}]
 		}]

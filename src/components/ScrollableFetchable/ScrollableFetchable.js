@@ -10,10 +10,8 @@ export default class ScrollableFetchable extends Component {
 		children: PropTypes.element.isRequired
 	};
 
-	constructor(props) {
-		super(props);
-
-		this.props.fetch();
+	componentWillMount() {
+		this.props.fetch(true);
 	}
 
 	render() {

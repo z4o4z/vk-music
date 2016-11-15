@@ -8,12 +8,13 @@ import {playerPlayPause, playerNext, playerPrev} from '../../actions/player';
 
 import Header from '../../components/Header/Header';
 import LeftDrawer from '../../components/LeftDrawer/LeftDrawer';
-import Player from '../../components/Player/Player';
+// import Player from '../../components/Player/Player';
 
 import classes from './app.scss';
 
 class App extends Component {
 	static propTypes = {
+		userId: PropTypes.number.isRequired,
 		leftMenuOpen: PropTypes.bool.isRequired,
 		player: PropTypes.object.isRequired,
 		audios: PropTypes.object.isRequired,
@@ -39,7 +40,7 @@ class App extends Component {
 			<section className={classes.component}>
 				<Header onMenuClick={this.props.uiLeftMenuOpen} open={this.props.leftMenuOpen}/>
 
-				<LeftDrawer open={this.props.leftMenuOpen}/>
+				<LeftDrawer open={this.props.leftMenuOpen} urlPrefix={String(this.props.userId)} />
 
 				<main className={classes.content}>
 					{this.props.children}
@@ -55,7 +56,9 @@ class App extends Component {
 	}
 
 	getPlayer() {
-		return (
+		return null;
+
+		/* return (
 			<Player
 				playing={this.props.player.playing}
 				audio={this.props.audios[this.props.player.current]}
@@ -65,14 +68,15 @@ class App extends Component {
 				onNext={this.props.playerNext}
 				onPrev={this.props.playerPrev}
 			/>
-		);
+		); */
 	}
 }
 
-const mapStateToProps = ({vk, ui, audios, player}) => ({
+const mapStateToProps = ({vk, ui, player}) => ({
+	userId: vk.userId,
 	leftMenuOpen: ui.leftMenuOpen,
 	player: player,
-	audios: audios
+	audios: {}
 });
 
 const mapDispatchToProps = dispatch => ({
