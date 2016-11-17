@@ -1,3 +1,1 @@
-export const UI_LEFT_MENU_OPEN = 'UI_LEFT_MENU_OPEN';
-
 export const UI_SCROLL_UPDATE_HEIGHT = 600;

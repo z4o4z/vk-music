@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import shallowCompare from 'react-addons-shallow-compare';
 
 import classes from './scrollable.scss';
 
@@ -8,15 +9,9 @@ export default class Scrollable extends Component {
 		children: PropTypes.element.isRequired
 	};
 
-	constructor(props) {
-		super(props);
-
-		this.onScroll = this.onScroll.bind(this);
-	}
-
 	render() {
 		return (
-			<div className={classes.component} ref="scrollable" onScroll={this.onScroll}>
+			<div className={classes.component} ref={div => this.scrollable = div} onScroll={this.onScroll}>
 				<div className={classes.content}>
 					{this.props.children}
 				</div>
@@ -24,17 +19,17 @@ export default class Scrollable extends Component {
 		);
 	}
 
-	shouldComponentUpdate(newProps) {
-		return this.props.onScroll !== newProps.onScroll || this.props.children !== newProps.children;
+	shouldComponentUpdate(nextProps, nextState) {
+		return shallowCompare(this, nextProps, nextState);
 	}
 
-	onScroll() {
+	onScroll = () => {
 		if (!this.props.onScroll) {
 			return;
 		}
 
-		const scrollable = this.refs.scrollable;
+		const {scrollTop,	offsetHeight,	firstChild} = this.scrollable;
 
-		this.props.onScroll(scrollable.scrollTop, scrollable.offsetHeight, scrollable.firstChild.offsetHeight);
+		this.props.onScroll(scrollTop, offsetHeight, firstChild.offsetHeight);
 	}
 }

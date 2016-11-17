@@ -1,5 +1,7 @@
-import {UI_LEFT_MENU_OPEN} from '../constants/ui';
+import {createActions} from 'redux-actions';
 
-export function uiLeftMenuOpen() {
-	return {type: UI_LEFT_MENU_OPEN};
-}
+export const {
+	uiLeftMenuOpen
+} = createActions(
+	'UI_LEFT_MENU_OPEN'
+);

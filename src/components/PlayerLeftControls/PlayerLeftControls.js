@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import shallowCompare from 'react-addons-shallow-compare';
 
 import FastForward from 'react-icons/lib/md/fast-forward';
 import FastRewind from 'react-icons/lib/md/fast-rewind';
@@ -52,5 +53,9 @@ export default class PlayerLeftControls extends Component {
 
 			</div>
 		);
+	}
+
+	shouldComponentUpdate(nextProps, nextState) {
+		return shallowCompare(this, nextProps, nextState);
 	}
 }

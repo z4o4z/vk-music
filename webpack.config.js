@@ -36,7 +36,7 @@ if (IS_LOC) {
 let config = {
 	entry,
 
-	devtool: (!IS_PROD) ? 'cheap-inline-module-source-map' : '',
+	devtool: (!IS_PROD) ? 'eval-source-map' : '',
 
 	watch: IS_LOC,
 

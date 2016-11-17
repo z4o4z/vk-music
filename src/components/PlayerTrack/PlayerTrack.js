@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import shallowCompare from 'react-addons-shallow-compare';
 
 export default class PlayerTrack extends Component {
 	static propTypes = {
@@ -9,15 +10,33 @@ export default class PlayerTrack extends Component {
 
 	render() {
 		return (
-			<audio src={this.props.audioFile} ref="audio" onEnded={this.props.onEnded} crossOrigin="anonymous"/>
+			<audio
+				src={this.props.audioFile}
+				onEnded={this.props.onEnded}
+				ref={audio => this.audioNode = audio}
+			/>
 		);
+	}
+
+	componentDidMount() {
+		if (this.props.playing) {
+			this.audioNode.play();
+		}
+	}
+
+	shouldComponentUpdate(nextProps, nextState) {
+		return shallowCompare(this, nextProps, nextState);
+	}
+
+	componentWillUpdate(prevProps) {
+		if (prevProps.audioFile !== this.props.audioFile || !this.props.playing) {
+			this.audioNode.pause();
+		}
 	}
 
 	componentDidUpdate() {
 		if (this.props.playing) {
-			this.refs.audio.play();
-		} else {
-			this.refs.audio.pause();
+			this.audioNode.play();
 		}
 	}
 }

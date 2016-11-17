@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {browserHistory} from 'react-router';
+import shallowCompare from 'react-addons-shallow-compare';
 
 import Ripple from './Ripple.js';
 
@@ -13,6 +13,10 @@ export default class RippleButton extends Component {
 		disabled: PropTypes.bool,
 		href: PropTypes.string,
 		children: PropTypes.element.isRequired
+	};
+
+	static contextTypes = {
+		router: PropTypes.object.isRequired
 	};
 
 	state = {
@@ -40,7 +44,7 @@ export default class RippleButton extends Component {
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
-		return !this.checkPropsAndState(nextProps, nextState);
+		return shallowCompare(this, nextProps, nextState);
 	}
 
 	getClassName() {
@@ -61,17 +65,6 @@ export default class RippleButton extends Component {
 		return _classes.join(' ');
 	}
 
-	checkPropsAndState(nextProps, nextState) {
-		const {children, onClick, rounded, disabled, className} = this.props;
-
-		return children === nextProps.children &&
-			onClick === nextProps.onClick &&
-			rounded === nextProps.rounded &&
-			className === nextProps.className &&
-			disabled === nextProps.disabled &&
-			nextState === this.state;
-	}
-
 	onMouseDown(e) {
 		this.setState({
 			cursorPos: {
@@ -83,12 +76,14 @@ export default class RippleButton extends Component {
 	}
 
 	onClick() {
-		if (this.props.href) {
-			browserHistory.push(this.props.href);
-		}
+		let stopPreventDefault;
 
 		if (this.props.onClick) {
-			this.props.onClick();
+			stopPreventDefault = this.props.onClick();
+		}
+
+		if (!stopPreventDefault && this.props.href) {
+			this.context.router.push(this.props.href);
 		}
 	}
 }

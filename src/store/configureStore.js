@@ -1,22 +1,16 @@
 import {createStore, applyMiddleware, compose} from 'redux';
-import thunk from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga';
+import {routerMiddleware} from 'react-router-redux';
 import persistState from 'redux-localstorage';
 import assignIn from 'lodash/assignIn';
 import isObject from 'lodash/isObject';
 
 import reducers from '../reducers/index';
 
-import authorize from '../middlewares/authorize';
-import player from '../middlewares/player';
-
 const sagaMiddleware = createSagaMiddleware();
 
 let middlewares = [
-	sagaMiddleware,
-	authorize,
-	player,
-	thunk
+	sagaMiddleware
 ];
 
 if (!IS_PROD) {
@@ -26,10 +20,12 @@ if (!IS_PROD) {
 }
 
 const includeInLocalStorage = [
-	'authorize.expire'
+	'vk.expire'
 ];
 
-export default initialState => {
+export default (initialState, browserHistory) => {
+	middlewares.push(routerMiddleware(browserHistory));
+
 	const store = createStore(reducers, initialState, getEnhancer());
 
 	store.runSaga = sagaMiddleware.run;

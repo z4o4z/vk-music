@@ -1,7 +1,1 @@
-export const AUDIOS_FETCHED = "AUDIOS_FETCHED";
-
-export const AUDIOS_LOADING = "AUDIOS_LOADING";
-
-export const AUDIOS_ERROR = "AUDIOS_ERROR";
-
 export const AUDIOS_FETCH_COUNT = 50;

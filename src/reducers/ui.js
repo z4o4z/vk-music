@@ -1,9 +1,10 @@
-import {UI_LEFT_MENU_OPEN} from '../constants/ui';
+import {handleActions} from 'redux-actions';
 
-export default (state = {}, action = {}) => {
-	switch (action.type) {
-		case UI_LEFT_MENU_OPEN:
-			return {...state, leftMenuOpen: !state.leftMenuOpen};
-		default: return state;
-	}
-};
+import {
+	uiLeftMenuOpen
+} from '../actions/ui';
+import defaultState from '../store/initialState';
+
+export default handleActions({
+	[uiLeftMenuOpen]: state => ({...state, leftMenuOpen: !state.leftMenuOpen})
+}, defaultState.ui);

@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import shallowCompare from 'react-addons-shallow-compare';
 
 import Close from 'react-icons/lib/md/close';
 import Menu from 'react-icons/lib/md/menu';
@@ -27,8 +28,8 @@ export default class Header extends Component {
 		);
 	}
 
-	shouldComponentUpdate(nextProps) {
-		return this.props.open !== nextProps.open;
+	shouldComponentUpdate(nextProps, nextState) {
+		return shallowCompare(this, nextProps, nextState);
 	}
 
 	getIcon() {

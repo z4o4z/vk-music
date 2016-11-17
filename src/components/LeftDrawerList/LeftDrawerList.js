@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import shallowCompare from 'react-addons-shallow-compare';
 
 import RippleButton from '../RippleButton/RippleButton';
 
@@ -17,8 +18,8 @@ export default class LeftDrawerList extends Component {
 		);
 	}
 
-	shouldComponentUpdate(nextProps) {
-		return this.props.items !== nextProps.items;
+	shouldComponentUpdate(nextProps, nextState) {
+		return shallowCompare(this, nextProps, nextState);
 	}
 
 	getItems() {

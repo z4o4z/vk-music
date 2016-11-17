@@ -1,4 +1,6 @@
 import React, {Component, PropTypes} from 'react';
+import shallowCompare from 'react-addons-shallow-compare';
+import cns from 'classnames';
 
 import PlayPauseButton from '../PlayPauseButton/PlayPauseButton';
 import AudioInfo from '../AudioInfo/AudioInfo';
@@ -23,33 +25,18 @@ export default class AudioItem extends Component {
 
 	render() {
 		return (
-			<div className={this.getClassName()} onClick={this.onPlay}>
-				<PlayPauseButton playing={this.props.playing}/>
+			<div className={classes.component} onClick={this.onPlay}>
+				<div className={cns(classes.content, {[classes.active]: this.props.playing})}>
+					<PlayPauseButton playing={this.props.playing}/>
 
-				<AudioInfo title={this.props.title} artist={this.props.artist} genre={this.props.genre} />
+					<AudioInfo title={this.props.title} artist={this.props.artist} genre={this.props.genre} />
+				</div>
 			</div>
 		);
 	}
 
-	shouldComponentUpdate(nextProps) {
-		return !this.checkProps(nextProps);
-	}
-
-	getClassName() {
-		let _classes = [classes.component];
-
-		if (this.props.playing) {
-			_classes.push(classes.active);
-		}
-
-		return _classes.join(' ');
-	}
-
-	checkProps(nextProps) {
-		const {title, artist, genre, id, playing} = this.props;
-
-		return title === nextProps.title && artist === nextProps.artist &&
-			genre === nextProps.genre && id === nextProps.id && playing === nextProps.playing;
+	shouldComponentUpdate(nextProps, nextState) {
+		return shallowCompare(this, nextProps, nextState);
 	}
 
 	onPlay() {

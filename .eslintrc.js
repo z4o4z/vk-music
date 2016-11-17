@@ -16,7 +16,10 @@ module.exports = {
 			"properties": "never"
 		}],
 		"require-jsdoc": 0,
-		"no-debugger": 1
+		"no-debugger": 1,
+		"comma-dangle": 0,
+		"arrow-parens": 0,
+		"no-invalid-this": 0
 	},
 	"env": {
 		"browser": true,

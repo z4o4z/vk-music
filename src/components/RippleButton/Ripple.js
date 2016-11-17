@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import shallowCompare from 'react-addons-shallow-compare';
 
 import classes from './ripple.scss';
 
@@ -37,7 +38,7 @@ export default class Ripple extends Component {
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
-		return this.state !== nextState;
+		return shallowCompare(this, nextProps, nextState);
 	}
 
 	getStyle() {
