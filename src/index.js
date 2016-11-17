@@ -1,7 +1,7 @@
 // Libs
 import React from 'react';
 import {render} from 'react-dom';
-import {browserHistory} from 'react-router';
+import {hashHistory} from 'react-router';
 import {syncHistoryWithStore} from 'react-router-redux';
 
 import initialState from './store/initialState';
@@ -13,8 +13,8 @@ import Root from './containers/Root/Root.js';
 
 import classes from './index.scss';
 
-const store = configureStore(initialState, browserHistory);
-const history = syncHistoryWithStore(browserHistory, store);
+const store = configureStore(initialState, hashHistory);
+const history = syncHistoryWithStore(hashHistory, store);
 const root = window.document.createElement('div');
 
 store.runSaga(rootSaga);

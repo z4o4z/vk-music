@@ -10,21 +10,25 @@ export default class PlayerTrack extends Component {
 
 	render() {
 		return (
-			<audio src={this.props.audioFile} ref="audio" onEnded={this.props.onEnded} />
+			<audio
+				src={this.props.audioFile}
+				onEnded={this.props.onEnded}
+				ref={audio => this.audioNode = audio}
+			/>
 		);
 	}
 
 	componentDidMount() {
 		if (this.props.playing) {
-			this.refs.audio.play();
+			this.audioNode.play();
 		}
 	}
 
 	componentDidUpdate() {
 		if (this.props.playing) {
-			this.refs.audio.play();
+			this.audioNode.play();
 		} else {
-			this.refs.audio.pause();
+			this.audioNode.pause();
 		}
 	}
 

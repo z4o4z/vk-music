@@ -1,7 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
 import {connect} from 'react-redux';
-import {browserHistory} from 'react-router';
 
 import {uiLeftMenuOpen} from '../../actions/ui';
 
@@ -18,16 +17,6 @@ class App extends Component {
 		uiLeftMenuOpen: PropTypes.func.isRequired,
 		children: PropTypes.element.isRequired
 	};
-
-	static childContextTypes = {
-		routerPush: PropTypes.func.isRequired
-	};
-
-	getChildContext() {
-		return {
-			routerPush: browserHistory.push
-		};
-	}
 
 	render() {
 		return (

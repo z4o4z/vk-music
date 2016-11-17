@@ -45,6 +45,16 @@ class Player extends Component {
 		return shallowCompare(this, nextProps, nextState);
 	}
 
+	getPlayerInfo() {
+		if (!this.props.audio) {
+			return null;
+		}
+
+		return (
+			<AudioInfo title={this.props.audio.title} artist={this.props.audio.artist} playerStyle={true} />
+		);
+	}
+
 	getPlayerTrack() {
 		if (!this.props.audio) {
 			return null;
@@ -55,18 +65,7 @@ class Player extends Component {
 				audioFile={this.props.audio.url}
 				playing={this.props.playing}
 				onEnded={this.onEnded}
-				ref="audio"
 			/>
-		);
-	}
-
-	getPlayerInfo() {
-		if (!this.props.audio) {
-			return null;
-		}
-
-		return (
-			<AudioInfo title={this.props.audio.title} artist={this.props.audio.artist} playerStyle={true} />
 		);
 	}
 

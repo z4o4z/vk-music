@@ -2,7 +2,7 @@ export default {
 	vk: {
 		initialized: false,
 		authorized: false,
-		authorizing: false,
+		authorizing: true,
 		authorizeError: null,
 		userId: null,
 		expire: 0

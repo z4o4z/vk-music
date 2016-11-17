@@ -16,7 +16,7 @@ export default class RippleButton extends Component {
 	};
 
 	static contextTypes = {
-		routerPush: PropTypes.func.isRequired
+		router: PropTypes.object.isRequired
 	};
 
 	state = {
@@ -83,7 +83,7 @@ export default class RippleButton extends Component {
 		}
 
 		if (!stopPreventDefault && this.props.href) {
-			this.context.routerPush(this.props.href);
+			this.context.router.push(this.props.href);
 		}
 	}
 }

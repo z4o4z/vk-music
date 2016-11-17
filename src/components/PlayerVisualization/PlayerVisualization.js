@@ -14,7 +14,7 @@ const BAR_BLUE_COLOR = 0.4666666666666667;
 export default class PlayerVisualization extends Component {
 	static propTypes = {
 		playing: PropTypes.bool.isRequired,
-		audioNode: PropTypes.node.isRequired
+		audioNode: PropTypes.object.isRequired
 	};
 
 	audioCtx = null;
