@@ -25,10 +25,12 @@ export default class AudioItem extends Component {
 
 	render() {
 		return (
-			<div className={cns(classes.component, {[classes.active]: this.props.playing})} onClick={this.onPlay}>
-				<PlayPauseButton playing={this.props.playing}/>
+			<div className={classes.component} onClick={this.onPlay}>
+				<div className={cns(classes.content, {[classes.active]: this.props.playing})}>
+					<PlayPauseButton playing={this.props.playing}/>
 
-				<AudioInfo title={this.props.title} artist={this.props.artist} genre={this.props.genre} />
+					<AudioInfo title={this.props.title} artist={this.props.artist} genre={this.props.genre} />
+				</div>
 			</div>
 		);
 	}

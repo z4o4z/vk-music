@@ -77,7 +77,8 @@ class Audios extends Component {
 			this.props.playTrack({
 				id: id,
 				playlist: [...this.props.ids],
-				entityId: this.props.entityId
+				entityId: this.props.entityId,
+				offset: this.props.offset
 			});
 		}
 	};

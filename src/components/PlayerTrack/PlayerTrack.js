@@ -24,15 +24,19 @@ export default class PlayerTrack extends Component {
 		}
 	}
 
-	componentDidUpdate() {
-		if (this.props.playing) {
-			this.audioNode.play();
-		} else {
+	shouldComponentUpdate(nextProps, nextState) {
+		return shallowCompare(this, nextProps, nextState);
+	}
+
+	componentWillUpdate(prevProps) {
+		if (prevProps.audioFile !== this.props.audioFile || !this.props.playing) {
 			this.audioNode.pause();
 		}
 	}
 
-	shouldComponentUpdate(nextProps, nextState) {
-		return shallowCompare(this, nextProps, nextState);
+	componentDidUpdate() {
+		if (this.props.playing) {
+			this.audioNode.play();
+		}
 	}
 }

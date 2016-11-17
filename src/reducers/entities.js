@@ -2,6 +2,7 @@ import {handleActions} from 'redux-actions';
 
 import {
 	entitiesSet,
+	entitiesSetItems,
 	entitiesReset,
 	entitiesFetch,
 	entitiesError
@@ -19,6 +20,13 @@ export default handleActions({
 			items: {...(state[payload.id] && state[payload.id].items || {}), ...(payload.items || {})},
 			fetching: false,
 			error: null
+		}
+	}),
+	[entitiesSetItems]: (state, {payload}) => ({
+		...state,
+		[payload.id]: {
+			...state[payload.id],
+			items: {...(state[payload.id] && state[payload.id].items || {}), ...(payload.items || {})}
 		}
 	}),
 	[entitiesReset]: (state, {payload}) => ({

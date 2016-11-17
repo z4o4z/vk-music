@@ -78,7 +78,6 @@ class Player extends Component {
 	}
 }
 
-
 const mapStateToProps = ({player, entities}) => {
 	const {playing, next, prev, current, entityId} = player;
 	const entity = entities[entityId];

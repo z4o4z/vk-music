@@ -9,7 +9,7 @@ import {entitiesSet, entitiesReset, entitiesFetch, entitiesError} from '../actio
 import {usersFetchAudios, usersFetchAlbums, usersFetchFriends} from '../actions/users';
 
 function* fetchAudios({payload}) {
-	const {userId, albumId} = payload;
+	const {userId, albumId, offset, count} = payload;
 	const entityId = `${albumId || userId}-audios`;
 
 	yield put(entitiesFetch(entityId));
@@ -25,7 +25,7 @@ function* fetchAudios({payload}) {
 			ids: audios.ids,
 			items: audios.normalized,
 			count: data.count,
-			offset: payload.offset + payload.count
+			offset: offset + count
 		};
 
 		if (payload.offset === 0) {
@@ -39,7 +39,7 @@ function* fetchAudios({payload}) {
 }
 
 function* fetchAlbums({payload}) {
-	const userId = payload.userId;
+	const {userId, offset, count} = payload;
 	const entityId = `${userId}-albums`;
 
 	yield put(entitiesFetch(entityId));
@@ -54,7 +54,7 @@ function* fetchAlbums({payload}) {
 			ids: albums.ids,
 			items: albums.normalized,
 			count: data.count,
-			offset: payload.offset + payload.count
+			offset: offset + count
 		};
 
 		if (payload.offset === 0) {
@@ -68,7 +68,7 @@ function* fetchAlbums({payload}) {
 }
 
 function* fetchFriends({payload}) {
-	const userId = payload.userId;
+	const {userId, offset, count} = payload;
 	const entityId = `${userId}-friends`;
 
 	yield put(entitiesFetch(entityId));
@@ -83,7 +83,7 @@ function* fetchFriends({payload}) {
 			id: entityId,
 			ids: friends.ids,
 			count: data.count,
-			offset: payload.offset + payload.count
+			offset: offset + count
 		};
 
 		if (payload.offset === 0) {
