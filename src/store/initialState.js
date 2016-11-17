@@ -18,9 +18,6 @@ export default {
 
 	player: {
 		playlist: [],
-		page: '',
-		albumId: 0,
-		ownerId: 0,
 		current: 0,
 		next: 0,
 		prev: 0,

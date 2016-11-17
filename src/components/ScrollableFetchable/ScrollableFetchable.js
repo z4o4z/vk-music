@@ -7,6 +7,7 @@ export default class ScrollableFetchable extends Component {
 	static propTypes = {
 		fetch: PropTypes.func.isRequired,
 		updateHeight: PropTypes.number.isRequired,
+		scrollToTopIfChange: PropTypes.any.isRequired,
 		children: PropTypes.element.isRequired
 	};
 
@@ -16,10 +17,16 @@ export default class ScrollableFetchable extends Component {
 
 	render() {
 		return (
-			<Scrollable onScroll={this.onScroll}>
+			<Scrollable onScroll={this.onScroll} ref={instance => this.scrollable = instance && instance.scrollable}>
 				{this.props.children}
 			</Scrollable>
 		);
+	}
+
+	componentWillUpdate(prevProps) {
+		if (prevProps.scrollToTopIfChange !== this.props.scrollToTopIfChange) {
+			this.scrollable.scrollTop = 0;
+		}
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {

@@ -13,12 +13,15 @@ import AudiosList from '../../components/AudiosList/AudiosList';
 
 class Audios extends Component {
 	static propTypes = {
-		items: PropTypes.array,
+		ids: PropTypes.array,
+		items: PropTypes.object,
 		fetching: PropTypes.bool,
 		error: PropTypes.number,
 		offset: PropTypes.number,
 		count: PropTypes.number,
+		entityId: PropTypes.string,
 		activeAudioId: PropTypes.number,
+		activeAudioOwnerId: PropTypes.number,
 		isAudioPlaying: PropTypes.bool.isRequired,
 		userId: PropTypes.number.isRequired,
 		albumId: PropTypes.number,
@@ -29,15 +32,23 @@ class Audios extends Component {
 
 	render() {
 		return (
-			<ScrollableFetchable fetch={this.fetch} updateHeight={UI_SCROLL_UPDATE_HEIGHT} >
-				{this.props.items ? <AudiosList
-					audios={this.props.items}
-					userId={this.props.userId}
-					pageSize={AUDIOS_FETCH_COUNT}
-					activeAudioId={this.props.activeAudioId}
-					isAudioPlaying={this.props.isAudioPlaying}
-					onPlayClick={this.onPlayClick}
-				/> : <div></div>}
+			<ScrollableFetchable
+				fetch={this.fetch}
+				updateHeight={UI_SCROLL_UPDATE_HEIGHT}
+				scrollToTopIfChange={this.props.userId}
+			>
+				{
+					this.props.ids ? <AudiosList
+							ids={this.props.ids}
+							audios={this.props.items}
+							pageSize={AUDIOS_FETCH_COUNT}
+							activeAudioId={this.props.activeAudioId}
+							activeAudioOwnerId={this.props.activeAudioOwnerId}
+							isAudioPlaying={this.props.isAudioPlaying}
+							onPlayClick={this.onPlayClick}
+						/> :
+						<div></div>
+				}
 			</ScrollableFetchable>
 		);
 	}
@@ -65,7 +76,8 @@ class Audios extends Component {
 		} else {
 			this.props.playTrack({
 				id: id,
-				userId: this.props.userId
+				playlist: [...this.props.ids],
+				entityId: this.props.entityId
 			});
 		}
 	};
@@ -75,12 +87,20 @@ const mapStateToProps = ({player, entities}, ownProps) => {
 	const userId = Number(ownProps.params.userId);
 	const albumId = Number(ownProps.params.albumId);
 	const entityId = `${albumId || userId}-audios`;
+	const {ids, items, fetching, error, offset, count} = entities[entityId] || {};
 
 	return ({
-		...entities[entityId],
-		userId: userId,
-		albumId: albumId,
+		entityId,
+		ids,
+		items,
+		fetching,
+		error,
+		offset,
+		count,
+		userId,
+		albumId,
 		activeAudioId: player.current,
+		activeAudioOwnerId: (entities[player.entityId] || {}).userId,
 		isAudioPlaying: player.playing
 	});
 };

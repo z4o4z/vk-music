@@ -14,7 +14,8 @@ import albumsLogo from './album.svg';
 
 class Albums extends Component {
 	static propTypes = {
-		items: PropTypes.array,
+		ids: PropTypes.array,
+		items: PropTypes.object,
 		fetching: PropTypes.bool,
 		error: PropTypes.number,
 		offset: PropTypes.number,
@@ -25,13 +26,22 @@ class Albums extends Component {
 
 	render() {
 		return (
-			<ScrollableFetchable fetch={this.fetch} updateHeight={UI_SCROLL_UPDATE_HEIGHT} >
-				{this.props.items ? <EssencesList
-					userId={this.props.userId}
-					essences={this.props.items}
-					pageSize={ALBUMS_FETCH_COUNT}
-					getItemProps={this.getItemProps}
-				/> : <div></div>}
+			<ScrollableFetchable
+				fetch={this.fetch}
+				updateHeight={UI_SCROLL_UPDATE_HEIGHT}
+				scrollToTopIfChange={this.props.userId}
+			>
+				{
+					this.props.items ?
+						<EssencesList
+							ids={this.props.ids}
+							essences={this.props.items}
+							pageSize={ALBUMS_FETCH_COUNT}
+							userId={this.props.userId}
+							getItemProps={this.getItemProps}
+						/> :
+						<div></div>
+				}
 			</ScrollableFetchable>
 		);
 	}
@@ -76,9 +86,15 @@ class Albums extends Component {
 const mapStateToProps = ({entities}, ownProps) => {
 	const userId = Number(ownProps.params.userId);
 	const entityId = `${userId}-albums`;
+	const {ids, items, fetching, error, offset, count} = entities[entityId] || {};
 
 	return ({
-		...entities[entityId],
+		ids,
+		items,
+		fetching,
+		error,
+		offset,
+		count,
 		userId: userId
 	});
 };

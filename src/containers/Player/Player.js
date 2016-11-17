@@ -1,21 +1,24 @@
 import React, {Component, PropTypes} from 'react';
+import {connect} from 'react-redux';
 import shallowCompare from 'react-addons-shallow-compare';
 
-import PlayerLeftControls from '../PlayerLeftControls/PlayerLeftControls';
-import PlayerTrack from '../PlayerTrack/PlayerTrack';
-import AudioInfo from '../AudioInfo/AudioInfo';
+import {playerPlayPause, playerNext, playerPrev} from '../../actions/player';
+
+import PlayerLeftControls from '../../components/PlayerLeftControls/PlayerLeftControls';
+import PlayerTrack from '../../components/PlayerTrack/PlayerTrack';
+import AudioInfo from '../../components/AudioInfo/AudioInfo';
 
 import classes from './player.scss';
 
-export default class Player extends Component {
+class Player extends Component {
 	static propTypes = {
 		audio: PropTypes.object,
+		next: PropTypes.number,
+		prev: PropTypes.number,
 		playing: PropTypes.bool.isRequired,
 		onPlay: PropTypes.func.isRequired,
 		onNext: PropTypes.func.isRequired,
-		onPrev: PropTypes.func.isRequired,
-		hasNext: PropTypes.bool.isRequired,
-		hasPrev: PropTypes.bool.isRequired
+		onPrev: PropTypes.func.isRequired
 	};
 
 	render() {
@@ -26,8 +29,8 @@ export default class Player extends Component {
 					onPlay={this.props.onPlay}
 					onNext={this.props.onNext}
 					onPrev={this.props.onPrev}
-					hasNext={this.props.hasNext}
-					hasPrev={this.props.hasPrev}
+					hasNext={Boolean(this.props.next)}
+					hasPrev={Boolean(this.props.prev)}
 					disabled={!this.props.audio}
 				/>
 
@@ -68,10 +71,32 @@ export default class Player extends Component {
 	}
 
 	onEnded = () => {
-		if (this.props.hasNext) {
+		if (this.props.next) {
 			this.props.onNext();
 		} else {
 			this.props.onPlay();
 		}
 	}
 }
+
+
+const mapStateToProps = ({player, entities}) => {
+	const {playing, next, prev, current, entityId} = player;
+	const entity = entities[entityId];
+
+	return {
+		playing,
+		next,
+		prev,
+		audio: entity && entity.items && entity.items[current]
+	};
+};
+
+const mapDispatchToProps = dispatch => ({
+	uiLeftMenuOpen: () => dispatch(uiLeftMenuOpen()),
+	onPlay: () => dispatch(playerPlayPause()),
+	onNext: () => dispatch(playerNext()),
+	onPrev: () => dispatch(playerPrev())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Player);

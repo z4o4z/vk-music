@@ -11,7 +11,7 @@ export default class Scrollable extends Component {
 
 	render() {
 		return (
-			<div className={classes.component} ref="scrollable" onScroll={this.onScroll}>
+			<div className={classes.component} ref={div => this.scrollable = div} onScroll={this.onScroll}>
 				<div className={classes.content}>
 					{this.props.children}
 				</div>
@@ -28,8 +28,8 @@ export default class Scrollable extends Component {
 			return;
 		}
 
-		const scrollable = this.refs.scrollable;
+		const {scrollTop,	offsetHeight,	firstChild} = this.scrollable;
 
-		this.props.onScroll(scrollable.scrollTop, scrollable.offsetHeight, scrollable.firstChild.offsetHeight);
+		this.props.onScroll(scrollTop, offsetHeight, firstChild.offsetHeight);
 	}
 }

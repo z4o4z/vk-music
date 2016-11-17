@@ -10,7 +10,7 @@ export default class PlayerTrack extends Component {
 
 	render() {
 		return (
-			<audio src={this.props.audioFile} ref="audio" onEnded={this.props.onEnded} crossOrigin="anonymous"/>
+			<audio src={this.props.audioFile} ref="audio" onEnded={this.props.onEnded} />
 		);
 	}
 

@@ -15,7 +15,8 @@ export default handleActions({
 			...state[payload.id],
 			count: payload.count,
 			offset: payload.offset,
-			items: [...(state[payload.id] && state[payload.id].items || []), ...payload.items],
+			ids: [...(state[payload.id] && state[payload.id].ids || []), ...(payload.ids || [])],
+			items: {...(state[payload.id] && state[payload.id].items || {}), ...(payload.items || {})},
 			fetching: false,
 			error: null
 		}

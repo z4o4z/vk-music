@@ -10,10 +10,10 @@ import {usersFetchFriends} from '../../actions/users';
 import ScrollableFetchable from '../../components/ScrollableFetchable/ScrollableFetchable';
 import EssencesList from '../../components/EssencesList/EssencesList';
 
-class Albums extends Component {
+class Friends extends Component {
 	static propTypes = {
-		users: PropTypes.object.isRequired,
-		items: PropTypes.array,
+		ids: PropTypes.array,
+		items: PropTypes.object.isRequired,
 		fetching: PropTypes.bool,
 		error: PropTypes.number,
 		offset: PropTypes.number,
@@ -24,13 +24,22 @@ class Albums extends Component {
 
 	render() {
 		return (
-			<ScrollableFetchable fetch={this.fetch} updateHeight={UI_SCROLL_UPDATE_HEIGHT} >
-				{this.props.items ? <EssencesList
-					userId={this.props.userId}
-					essences={this.getEssences()}
-					pageSize={FRIENDS_FETCH_COUNT}
-					getItemProps={this.getItemProps}
-				/> : <div></div>}
+			<ScrollableFetchable
+				fetch={this.fetch}
+				updateHeight={UI_SCROLL_UPDATE_HEIGHT}
+				scrollToTopIfChange={this.props.userId}
+			>
+				{
+					this.props.ids ?
+						<EssencesList
+							ids={this.props.ids}
+							essences={this.props.items}
+							pageSize={FRIENDS_FETCH_COUNT}
+							userId={this.props.userId}
+							getItemProps={this.getItemProps}
+						/> :
+						<div></div>
+				}
 			</ScrollableFetchable>
 		);
 	}
@@ -43,14 +52,6 @@ class Albums extends Component {
 		if (this.props.userId !== oldProps.userId) {
 			this.fetch(true);
 		}
-	}
-
-	getEssences() {
-		if (!this.props.items) {
-			return [];
-		}
-
-		return this.props.items.map(id => this.props.users[id]);
 	}
 
 	fetch = isOnInitialize => {
@@ -92,12 +93,16 @@ class Albums extends Component {
 
 const mapStateToProps = ({users, entities}, ownProps) => {
 	const userId = Number(ownProps.params.userId);
-	const entityId = `${userId}-friends`;
+	const {ids, fetching, error, offset, count} = entities[`${userId}-friends`] || {};
 
 	return ({
-		users: users,
-		...entities[entityId],
-		userId: userId
+		ids,
+		fetching,
+		error,
+		offset,
+		count,
+		userId,
+		items: users
 	});
 };
 
@@ -105,4 +110,4 @@ const mapDispatchToProps = dispatch => ({
 	fetch: params => dispatch(usersFetchFriends(params))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Albums);
+export default connect(mapStateToProps, mapDispatchToProps)(Friends);

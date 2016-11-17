@@ -6,7 +6,8 @@ import EssenceItem from '../EssenceItem/EssenceItem';
 
 export default class EssencesList extends Component {
 	static propTypes = {
-		essences: PropTypes.array.isRequired,
+		ids: PropTypes.array.isRequired,
+		essences: PropTypes.object.isRequired,
 		pageSize: PropTypes.number.isRequired,
 		userId: PropTypes.number.isRequired,
 		getItemProps: PropTypes.func.isRequired
@@ -16,7 +17,7 @@ export default class EssencesList extends Component {
 		return (
 			<ReactList
 				itemRenderer={this.renderItem}
-				length={this.props.essences.length}
+				length={this.props.ids.length}
 				pageSize={this.props.pageSize}
 				useStaticSize={true}
 				useTranslate3d={true}
@@ -29,7 +30,7 @@ export default class EssencesList extends Component {
 	}
 
 	renderItem = (index, key) => {
-		const item = this.props.essences[index];
+		const item = this.props.essences[this.props.ids[index]];
 
 		return <EssenceItem {...this.props.getItemProps(key, item)}/>;
 	};

@@ -16,11 +16,14 @@ function* fetchAudios({payload}) {
 
 	try {
 		const data = yield call(vk.fetchAudio, payload);
+		const audios = normalizeBy(data.items, 'id');
+
 		const newPayload = {
 			userId,
 			albumId,
 			id: entityId,
-			items: data.items,
+			ids: audios.ids,
+			items: audios.normalized,
 			count: data.count,
 			offset: payload.offset + payload.count
 		};
@@ -43,11 +46,13 @@ function* fetchAlbums({payload}) {
 
 	try {
 		const data = yield call(vk.fetchAlbums, payload);
+		const albums = normalizeBy(data.items, 'id');
 
 		const newPayload = {
 			userId,
 			id: entityId,
-			items: data.items,
+			ids: albums.ids,
+			items: albums.normalized,
 			count: data.count,
 			offset: payload.offset + payload.count
 		};
@@ -76,7 +81,7 @@ function* fetchFriends({payload}) {
 
 		const newPayload = {
 			id: entityId,
-			items: friends.ids,
+			ids: friends.ids,
 			count: data.count,
 			offset: payload.offset + payload.count
 		};

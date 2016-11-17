@@ -3,8 +3,6 @@ import {handleActions} from 'redux-actions';
 import {
 	playerPlayTrack,
 	playerPlayPause,
-	playerSetTrack,
-	playerSetPlaylist,
 	playerNext,
 	playerPrev
 } from '../actions/player';
@@ -13,22 +11,16 @@ import defaultState from '../store/initialState';
 export default handleActions({
 	[playerPlayTrack]: (state, {payload}) => ({
 		...state,
-		current: payload,
-		next: getNext(state.playlist, payload),
-		prev: getPrev(state.playlist, payload),
+		current: payload.id,
+		playlist: payload.playlist,
+		entityId: payload.entityId,
+		next: getNext(payload.playlist, payload.id),
+		prev: getPrev(payload.playlist, payload.id),
 		playing: true
 	}),
 	[playerPlayPause]: state =>({
 		...state,
 		playing: !state.playing
-	}),
-	[playerSetTrack]: (state, {payload}) =>({
-		...state,
-		current: payload
-	}),
-	[playerSetPlaylist]: (state, {payload}) =>({
-		...state,
-		playlist: [...payload]
 	}),
 	[playerNext]: state =>({
 		...state,

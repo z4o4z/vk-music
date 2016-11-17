@@ -1,7 +1,1 @@
-export const FRIENDS_FETCHED = 'FRIENDS_FETCHED';
-
-export const FRIENDS_LOADING = 'FRIENDS_LOADING';
-
-export const FRIENDS_ERROR = 'FRIENDS_ERROR';
-
 export const FRIENDS_FETCH_COUNT = 50;

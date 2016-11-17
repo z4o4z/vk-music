@@ -8,10 +8,11 @@ import AudioItem from '../AudioItem/AudioItem';
 
 export default class AudiosList extends Component {
 	static propTypes = {
-		audios: PropTypes.array.isRequired,
-		userId: PropTypes.number.isRequired,
+		ids: PropTypes.array.isRequired,
+		audios: PropTypes.object.isRequired,
 		pageSize: PropTypes.number.isRequired,
 		activeAudioId: PropTypes.number,
+		activeAudioOwnerId: PropTypes.number.isRequired,
 		isAudioPlaying: PropTypes.bool.isRequired,
 		onPlayClick: PropTypes.func.isRequired
 	};
@@ -20,12 +21,13 @@ export default class AudiosList extends Component {
 		return (
 			<ReactList
 				itemRenderer={this.renderItem}
-				length={this.props.audios.length}
+				length={this.props.ids.length}
 				pageSize={this.props.pageSize}
 				type="uniform"
 				useStaticSize={true}
 				useTranslate3d={true}
 				activeAudioId={this.props.activeAudioId}
+				activeAudioOwnerId={this.props.activeAudioId}
 				isAudioPlaying={this.props.isAudioPlaying}
 			/>
 		);
@@ -36,7 +38,7 @@ export default class AudiosList extends Component {
 	}
 
 	renderItem = (index, key) => {
-		const audio = this.props.audios[index];
+		const audio = this.props.audios[this.props.ids[index]];
 
 		return (
 			<AudioItem
@@ -52,7 +54,9 @@ export default class AudiosList extends Component {
 	};
 
 	isAudioPlying(audio) {
-		return this.props.isAudioPlaying && audio.id === this.props.activeAudioId && audio.owner_id === this.props.userId;
+		return this.props.isAudioPlaying &&
+			audio.id === this.props.activeAudioId &&
+			audio.owner_id === this.props.activeAudioOwnerId;
 	}
 }
 
