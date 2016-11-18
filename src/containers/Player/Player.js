@@ -2,10 +2,12 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import shallowCompare from 'react-addons-shallow-compare';
 
+import ReactSlider from 'react-slider';
+
 import {playerPlayPause, playerNext, playerPrev} from '../../actions/player';
 
 import PlayerLeftControls from '../../components/PlayerLeftControls/PlayerLeftControls';
-import PlayerTrack from '../../components/PlayerTrack/PlayerTrack';
+import Audio from '../../components/Audio/Audio';
 import AudioInfo from '../../components/AudioInfo/AudioInfo';
 
 import classes from './player.scss';
@@ -21,7 +23,13 @@ class Player extends Component {
 		onPrev: PropTypes.func.isRequired
 	};
 
+	state = {
+		currentTime: 0
+	};
+
 	render() {
+		const audio = this.props.audio;
+
 		return (
 			<div className={classes.component}>
 				<PlayerLeftControls
@@ -31,12 +39,14 @@ class Player extends Component {
 					onPrev={this.props.onPrev}
 					hasNext={Boolean(this.props.next)}
 					hasPrev={Boolean(this.props.prev)}
-					disabled={!this.props.audio}
+					disabled={!audio}
 				/>
 
-				{this.getPlayerInfo()}
+				{this.getSlider(audio)}
 
-				{this.getPlayerTrack()}
+				{this.getPlayerInfo(audio)}
+
+				{this.getAudio(audio)}
 			</div>
 		);
 	}
@@ -45,26 +55,49 @@ class Player extends Component {
 		return shallowCompare(this, nextProps, nextState);
 	}
 
-	getPlayerInfo() {
-		if (!this.props.audio) {
-			return null;
-		}
-
+	getSlider(audio) {
 		return (
-			<AudioInfo title={this.props.audio.title} artist={this.props.audio.artist} playerStyle={true} />
+			<div className={classes.sliderWrapper}>
+				<ReactSlider
+					className={classes.slider}
+					handleClassName={classes.handle}
+					handleActiveClassName ={classes.handleActive}
+					barClassName ={classes.bar}
+					value={this.state.currentTime}
+					withBars={true}
+					max={audio ? audio.duration : 0}
+					onChange={this.onTimeUpdate}
+				/>
+			</div>
 		);
 	}
 
-	getPlayerTrack() {
-		if (!this.props.audio) {
+	getPlayerInfo(audio) {
+		if (!audio) {
 			return null;
 		}
 
 		return (
-			<PlayerTrack
-				audioFile={this.props.audio.url}
-				playing={this.props.playing}
-				onEnded={this.onEnded}
+			<AudioInfo
+				title={audio.title}
+				artist={audio.artist}
+				playerStyle={true}
+			/>
+		);
+	}
+
+	getAudio(audio) {
+		if (!audio) {
+			return null;
+		}
+
+		return (
+			<Audio
+				source={audio.url}
+				isPlaying={this.props.playing}
+				currentTime={this.state.currentTime}
+				onTimeUpdate={this.onTimeUpdate}
+				onEnd={this.onEnded}
 			/>
 		);
 	}
@@ -75,7 +108,13 @@ class Player extends Component {
 		} else {
 			this.props.onPlay();
 		}
-	}
+	};
+
+	onTimeUpdate = currentTime => {
+		this.setState({
+			currentTime: currentTime
+		});
+	};
 }
 
 const mapStateToProps = ({player, entities}) => {
