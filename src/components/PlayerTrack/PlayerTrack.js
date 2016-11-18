@@ -28,8 +28,8 @@ export default class PlayerTrack extends Component {
 		return shallowCompare(this, nextProps, nextState);
 	}
 
-	componentWillUpdate(prevProps) {
-		if (prevProps.audioFile !== this.props.audioFile || !this.props.playing) {
+	componentWillUpdate(newProps) {
+		if (newProps.audioFile !== this.props.audioFile || !newProps.playing) {
 			this.audioNode.pause();
 		}
 	}
