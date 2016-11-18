@@ -94,7 +94,7 @@ export default class Audio extends Component {
 		this.audioNode.load();
 
 		if (this.props.isPlaying) {
-			node.play();
+			this.audioNode.play();
 		}
 	}
 }
