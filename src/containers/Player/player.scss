@@ -51,6 +51,7 @@
 .bar:first-child {
 	height: $player-slider-height;
 	background-color: $player-slider-background-accent;
+	transition: right 0.9s linear;
 }
 
 .handle {
@@ -65,7 +66,7 @@
 	background-color: $player-slider-background-accent;
 
 	transform: translate(-$player-slider-height, -$player-slider-height / 2) scale(0);
-	transition: transform $animation-duration $animation-function;
+	transition: transform $animation-duration $animation-function, left 1s linear;
 }
 
 .visualisationContent {
