@@ -4,9 +4,9 @@
   "description": "Audio player for vk.com",
   "main": "src/index.js",
   "scripts": {
-    "development": "webpack-dev-server --env=loc",
-    "build-dev": "webpack --env=dev --progress",
-    "build-prod": "webpack --env=prod --progress",
+    "development": "rm -rf ./dist && webpack-dev-server --env=loc",
+    "build-dev": "rm -rf ./dist && webpack --env=dev --progress",
+    "build-prod": "rm -rf ./dist && webpack --env=prod --progress",
     "lint": "eslint ./src/**/*.js && stylelint ./src/**/*.scss"
   },
   "dependencies": {
