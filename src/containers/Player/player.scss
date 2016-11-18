@@ -15,6 +15,57 @@
 	box-shadow: $player-box-shadow;
 
 	z-index: 1;
+
+	&:hover {
+		.slider {
+			transform: scaleY(1);
+		}
+
+		.handle {
+			transform: translate($player-slider-height, -$player-slider-height / 2) scale(1);
+		}
+	}
+}
+
+.sliderWrapper {
+	display: block;
+	width: 0;
+}
+
+.slider {
+	width: 100%;
+	height: $player-slider-height;
+
+	position: absolute !important;
+	left: 0;
+	top: 0;
+
+	background-color: $player-slider-background;
+
+	cursor: move;
+	transition: transform $animation-duration $animation-function;
+	transform-origin: top;
+	transform: scaleY(0.5);
+}
+
+.bar:first-child {
+	height: $player-slider-height;
+	background-color: $player-slider-background-accent;
+}
+
+.handle {
+	$handle-size: $player-slider-height * 2;
+
+	display: block;
+	width: $handle-size;
+	height: $handle-size;
+
+	border-radius: $handle-size;
+
+	background-color: $player-slider-background-accent;
+
+	transform: translate(-$player-slider-height, -$player-slider-height / 2) scale(0);
+	transition: transform $animation-duration $animation-function;
 }
 
 .visualisationContent {
