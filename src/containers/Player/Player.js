@@ -2,13 +2,12 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import shallowCompare from 'react-addons-shallow-compare';
 
-import ReactSlider from 'react-slider';
-
 import {playerPlayPause, playerNext, playerPrev} from '../../actions/player';
 
 import PlayerLeftControls from '../../components/PlayerLeftControls/PlayerLeftControls';
 import Audio from '../../components/Audio/Audio';
 import AudioInfo from '../../components/AudioInfo/AudioInfo';
+import Slider from '../../components/Slider/Slider';
 
 import classes from './player.scss';
 
@@ -24,7 +23,8 @@ class Player extends Component {
 	};
 
 	state = {
-		currentTime: 0
+		currentTime: 0,
+		volume: 1
 	};
 
 	render() {
@@ -32,21 +32,21 @@ class Player extends Component {
 
 		return (
 			<div className={classes.component}>
-				<PlayerLeftControls
-					playing={this.props.playing}
-					onPlay={this.props.onPlay}
-					onNext={this.props.onNext}
-					onPrev={this.props.onPrev}
-					hasNext={Boolean(this.props.next)}
-					hasPrev={Boolean(this.props.prev)}
-					disabled={!audio}
-				/>
+				<div className={classes.box}>
+					{this.getControls(audio)}
 
-				{this.getSlider(audio)}
+					{this.getPlayerInfo(audio)}
+				</div>
 
-				{this.getPlayerInfo(audio)}
+				<div className={classes.box}>
+					{this.getTimeLine(audio)}
 
-				{this.getAudio(audio)}
+					{this.getAudio(audio)}
+				</div>
+
+				<div className={classes.box} style={{justifyContent: 'flex-end'}}>
+					{this.getVolume(audio)}
+				</div>
 			</div>
 		);
 	}
@@ -55,18 +55,44 @@ class Player extends Component {
 		return shallowCompare(this, nextProps, nextState);
 	}
 
-	getSlider(audio) {
+	getControls(audio) {
 		return (
-			<div className={classes.sliderWrapper}>
-				<ReactSlider
-					className={classes.slider}
-					handleClassName={classes.handle}
-					handleActiveClassName ={classes.handleActive}
-					barClassName ={classes.bar}
+			<PlayerLeftControls
+				playing={this.props.playing}
+				onPlay={this.props.onPlay}
+				onNext={this.props.onNext}
+				onPrev={this.props.onPrev}
+				hasNext={Boolean(this.props.next)}
+				hasPrev={Boolean(this.props.prev)}
+				disabled={!audio}
+			/>
+		);
+	}
+
+	getTimeLine(audio) {
+		return (
+			<div className={classes.timeLineWrapper}>
+				<Slider
+					className={classes.timeLine}
 					value={this.state.currentTime}
-					withBars={true}
 					max={audio ? audio.duration : 0}
 					onChange={this.onTimeUpdate}
+				/>
+			</div>
+		);
+	}
+
+	getVolume() {
+		return (
+			<div className={classes.volumeWrapper}>
+				<Slider
+					className={classes.volume}
+					orientation="vertical"
+					value={this.state.volume}
+					max={1}
+					step={0.01}
+					invert={true}
+					onChange={this.onVolumeChange}
 				/>
 			</div>
 		);
@@ -96,6 +122,7 @@ class Player extends Component {
 				source={audio.url}
 				isPlaying={this.props.playing}
 				currentTime={this.state.currentTime}
+				volume={this.state.volume}
 				onTimeUpdate={this.onTimeUpdate}
 				onEnd={this.onEnded}
 			/>
@@ -113,6 +140,12 @@ class Player extends Component {
 	onTimeUpdate = currentTime => {
 		this.setState({
 			currentTime: currentTime
+		});
+	};
+
+	onVolumeChange = volume => {
+		this.setState({
+			volume: volume
 		});
 	};
 }
