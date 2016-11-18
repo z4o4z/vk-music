@@ -6,6 +6,7 @@ export default class Audio extends Component {
 		source: PropTypes.string.isRequired,
 		isPlaying: PropTypes.bool.isRequired,
 		currentTime: PropTypes.number,
+		volume: PropTypes.number,
 		onProgress: React.PropTypes.func,
 		onTimeUpdate: React.PropTypes.func,
 		onEnd: React.PropTypes.func
@@ -40,6 +41,10 @@ export default class Audio extends Component {
 
 		if (prevProps.currentTime !== this.props.currentTime) {
 			this.updateCurrentTime();
+		}
+
+		if (prevProps.volume !== this.props.volume) {
+			this.updateVolume();
 		}
 	}
 
@@ -96,5 +101,9 @@ export default class Audio extends Component {
 		if (this.props.isPlaying) {
 			this.audioNode.play();
 		}
+	}
+
+	updateVolume() {
+		this.audioNode.volume = this.props.volume;
 	}
 }
