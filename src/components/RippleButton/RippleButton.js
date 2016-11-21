@@ -37,6 +37,7 @@ export default class RippleButton extends Component {
 							onMouseDown={this.onMouseDown}
 							onTouchStart={this.onMouseDown}
 							onClick={this.onClick}>
+				<i className={classes.hoverEffect} />
 				{this.props.children}
 				<Ripple cursorPos={this.state.cursorPos} />
 			</button>

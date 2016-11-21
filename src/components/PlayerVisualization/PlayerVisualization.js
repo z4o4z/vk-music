@@ -13,7 +13,7 @@ const BAR_BLUE_COLOR = 0.4666666666666667;
 
 export default class PlayerVisualization extends Component {
 	static propTypes = {
-		playing: PropTypes.bool.isRequired,
+		isPlaying: PropTypes.bool.isRequired,
 		audioNode: PropTypes.object.isRequired
 	};
 
@@ -70,7 +70,7 @@ export default class PlayerVisualization extends Component {
 			return;
 		}
 
-		if (this.props.playing) {
+		if (this.props.isPlaying) {
 			this.visualize();
 		} else {
 			this.stop();

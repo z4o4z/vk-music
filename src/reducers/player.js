@@ -4,6 +4,8 @@ import {
 	playerPlayTrack,
 	playerPlayPause,
 	playerPlaylistFetched,
+	playerRepeat,
+	playerShuffle,
 	playerNext,
 	playerPrev
 } from '../actions/player';
@@ -18,16 +20,24 @@ export default handleActions({
 		offset: payload.offset,
 		next: getNext(payload.playlist, payload.id),
 		prev: getPrev(payload.playlist, payload.id),
-		playing: true
+		isPlaying: true
 	}),
 	[playerPlayPause]: state =>({
 		...state,
-		playing: !state.playing
+		isPlaying: !state.isPlaying
 	}),
 	[playerPlaylistFetched]: (state, {payload}) =>({
 		...state,
 		playlist: [...state.playlist, ...payload.ids],
 		offset: payload.offset
+	}),
+	[playerRepeat]: state =>({
+		...state,
+		isRepeating: !state.isRepeating
+	}),
+	[playerShuffle]: state =>({
+		...state,
+		isShuffling: !state.isShuffling
 	}),
 	[playerNext]: state =>({
 		...state,

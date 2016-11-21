@@ -8,6 +8,7 @@ import classes from './slider.scss';
 const Slider = props => (
 	<ReactSlider
 		handleClassName={classes.handle}
+		handleActiveClassName={classes.handleActive}
 		barClassName ={classes.bar}
 		withBars={true}
 		{...props}

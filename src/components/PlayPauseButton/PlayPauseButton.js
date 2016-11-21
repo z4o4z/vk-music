@@ -5,19 +5,21 @@ import cns from 'classnames';
 import PlayArrow from 'react-icons/lib/md/play-arrow';
 import Pause from 'react-icons/lib/md/pause';
 
+import {UI_SIZE_ICON, UI_SIZE_ICON_BIG, UI_COLOR_DEFAULT} from '../../constants/ui';
+
 import RippleButton from '../RippleButton/RippleButton';
 
 import classes from './playPauseButton.scss';
 
-const PlayArrowIcon = <PlayArrow size={24} color="white"/>;
-const PauseIcon = <Pause size={24} color="white"/>;
-const PlayArrowIconBig = <PlayArrow size={28} color="white"/>;
-const PauseIconBig = <Pause size={28} color="white"/>;
+const PlayArrowIcon = <PlayArrow size={UI_SIZE_ICON} color={UI_COLOR_DEFAULT} />;
+const PauseIcon = <Pause size={UI_SIZE_ICON} color={UI_COLOR_DEFAULT} />;
+const PlayArrowIconBig = <PlayArrow size={UI_SIZE_ICON_BIG} color={UI_COLOR_DEFAULT} />;
+const PauseIconBig = <Pause size={UI_SIZE_ICON_BIG} color={UI_COLOR_DEFAULT} />;
 
 export default class PlayPauseButton extends Component {
 	static propTypes = {
 		className: PropTypes.string,
-		playing: PropTypes.bool.isRequired,
+		isPlaying: PropTypes.bool.isRequired,
 		big: PropTypes.bool,
 		disabled: PropTypes.bool,
 		onClick: PropTypes.func
@@ -47,7 +49,7 @@ export default class PlayPauseButton extends Component {
 	}
 
 	getIcon() {
-		if (this.props.playing) {
+		if (this.props.isPlaying) {
 			return this.props.big ? PauseIconBig : PauseIcon;
 		}
 

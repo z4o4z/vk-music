@@ -21,6 +21,8 @@ export default {
 		current: 0,
 		next: 0,
 		prev: 0,
-		playing: false
+		isPlaying: false,
+		isRepeating: false,
+		isShuffling: false
 	}
 };

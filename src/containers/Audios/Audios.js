@@ -102,7 +102,7 @@ const mapStateToProps = ({player, entities}, ownProps) => {
 		albumId,
 		activeAudioId: player.current,
 		activeAudioOwnerId: (entities[player.entityId] || {}).userId,
-		isAudioPlaying: player.playing
+		isAudioPlaying: player.isPlaying
 	});
 };
 
