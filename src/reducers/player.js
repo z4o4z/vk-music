@@ -3,7 +3,9 @@ import {handleActions} from 'redux-actions';
 import {
 	playerPlayTrack,
 	playerPlayPause,
+	playerSetFetching,
 	playerPlaylistFetched,
+	playerResetPlaylist,
 	playerRepeat,
 	playerShuffle,
 	playerNext,
@@ -22,16 +24,28 @@ export default handleActions({
 		prev: getPrev(payload.playlist, payload.id),
 		isPlaying: true
 	}),
-	[playerPlayPause]: state =>({
+	[playerPlayPause]: state => ({
 		...state,
 		isPlaying: !state.isPlaying
 	}),
-	[playerPlaylistFetched]: (state, {payload}) =>({
+	[playerSetFetching]: state => ({
+		...state,
+		fetching: true
+	}),
+	[playerPlaylistFetched]: (state, {payload}) => ({
 		...state,
 		playlist: [...state.playlist, ...payload.ids],
-		offset: payload.offset
+		offset: payload.offset,
+		fetching: false
 	}),
-	[playerRepeat]: state =>({
+	[playerResetPlaylist]: (state, {payload}) => ({
+		...state,
+		playlist: payload,
+		next: getNext(payload, state.current),
+		prev: getPrev(payload, state.current),
+		fetching: false
+	}),
+	[playerRepeat]: state => ({
 		...state,
 		isRepeating: !state.isRepeating
 	}),
@@ -39,7 +53,7 @@ export default handleActions({
 		...state,
 		isShuffling: !state.isShuffling
 	}),
-	[playerNext]: state =>({
+	[playerNext]: state => ({
 		...state,
 		current: state.next,
 		next: getNext(state.playlist, state.next),

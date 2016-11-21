@@ -34,6 +34,7 @@ export default handleActions({
 		[payload.id]: {
 			...state[payload.id],
 			...payload,
+			items: {...(state[payload.id] && state[payload.id].items || {}), ...(payload.items || {})},
 			fetching: false,
 			error: null
 		}

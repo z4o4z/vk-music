@@ -6,6 +6,7 @@ import App from '../containers/App/App';
 import Audios from '../containers/Audios/Audios';
 import Friends from '../containers/Friends/Friends';
 import Albums from '../containers/Albums/Albums';
+import Playlist from '../containers/Playlist/Playlist';
 import Authorize from '../containers/Authorize/Authorize';
 
 class MyRouter extends Component {
@@ -35,6 +36,9 @@ class MyRouter extends Component {
 			}, {
 				path: 'friends',
 				component: Friends
+			}, {
+				path: 'playlist',
+				component: Playlist
 			}]
 		}]
 	};

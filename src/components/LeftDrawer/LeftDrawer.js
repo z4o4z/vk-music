@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
 import cns from 'classnames';
 
+import QueueMusic from 'react-icons/lib/md/queue-music';
 import AvLibraryMusic from 'react-icons/lib/md/library-music';
 import AvAlbum from 'react-icons/lib/md/album';
 import SocialPerson from 'react-icons/lib/md/person';
@@ -11,42 +12,48 @@ import SocialNotifications from 'react-icons/lib/md/notifications';
 import ActionThumbUp from 'react-icons/lib/md/thumb-up';
 import ActionSettings from 'react-icons/lib/md/settings';
 
+import {UI_SIZE_ICON, UI_COLOR_DEFAULT} from '../../constants/ui';
+
 import LeftDrawerList from '../LeftDrawerList/LeftDrawerList';
 
 import classes from './leftDrawer.scss';
 
 const menuItems = {
 	topList: [{
-		icon: <AvLibraryMusic className={classes.icon} size={24} color="white" />,
+		icon: <QueueMusic className={classes.icon} size={UI_SIZE_ICON} color={UI_COLOR_DEFAULT} />,
+		text: 'Плэйлист',
+		href: 'playlist'
+	}, {
+		icon: <AvLibraryMusic className={classes.icon} size={UI_SIZE_ICON} color={UI_COLOR_DEFAULT} />,
 		text: 'Аудиозаписи',
 		href: ''
 	}, {
-		icon: <AvAlbum className={classes.icon} size={24} color="white" />,
+		icon: <AvAlbum className={classes.icon} size={UI_SIZE_ICON} color={UI_COLOR_DEFAULT} />,
 		text: 'Альбомы',
 		href: 'albums'
 	}, {
-		icon: <SocialPerson className={classes.icon} size={24} color="white" />,
+		icon: <SocialPerson className={classes.icon} size={UI_SIZE_ICON} color={UI_COLOR_DEFAULT} />,
 		text: 'Друзья',
 		href: 'friends'
 	}, {
-		icon: <SocialPeople className={classes.icon} size={24} color="white" />,
+		icon: <SocialPeople className={classes.icon} size={UI_SIZE_ICON} color={UI_COLOR_DEFAULT} />,
 		text: 'Группы',
 		href: 'groups'
 	}, {
-		icon: <SocialWhatshot className={classes.icon} size={24} color="white" />,
+		icon: <SocialWhatshot className={classes.icon} size={UI_SIZE_ICON} color={UI_COLOR_DEFAULT} />,
 		text: 'Обновления',
 		href: 'news'
 	}, {
-		icon: <SocialNotifications className={classes.icon} size={24} color="white" />,
+		icon: <SocialNotifications className={classes.icon} size={UI_SIZE_ICON} color={UI_COLOR_DEFAULT} />,
 		text: 'Рекомендации',
 		href: 'recommendations'
 	}, {
-		icon: <ActionThumbUp className={classes.icon} size={24} color="white" />,
+		icon: <ActionThumbUp className={classes.icon} size={UI_SIZE_ICON} color={UI_COLOR_DEFAULT} />,
 		text: 'Популярные',
 		href: 'populars'
 	}],
 	bottomList: [{
-		icon: <ActionSettings className={classes.icon} size={24} color="white" />,
+		icon: <ActionSettings className={classes.icon} size={UI_SIZE_ICON} color={UI_COLOR_DEFAULT} />,
 		text: 'Настройки',
 		href: 'settings'
 	}]

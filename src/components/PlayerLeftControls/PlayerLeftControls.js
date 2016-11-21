@@ -4,15 +4,12 @@ import shallowCompare from 'react-addons-shallow-compare';
 import FastForward from 'react-icons/lib/md/fast-forward';
 import FastRewind from 'react-icons/lib/md/fast-rewind';
 
-import {UI_SIZE_ICON, UI_COLOR_DEFAULT} from '../../constants/ui';
+import {UI_SIZE_ICON, UI_COLOR_DEFAULT, UI_COLOR_ACCENT} from '../../constants/ui';
 
 import RippleButton from '../RippleButton/RippleButton';
 import PlayPauseButton from '../PlayPauseButton/PlayPauseButton';
 
 import classes from './playerLeftControls.scss';
-
-const FastForwardIcon = <FastForward size={UI_SIZE_ICON} color={UI_COLOR_DEFAULT} />;
-const FastRewindIcon = <FastRewind size={UI_SIZE_ICON} color={UI_COLOR_DEFAULT} />;
 
 export default class PlayerLeftControls extends Component {
 	static propTypes = {
@@ -26,15 +23,17 @@ export default class PlayerLeftControls extends Component {
 	};
 
 	render() {
+		const {hasNext, hasPrev} = this.props;
+
 		return (
 			<div className={classes.component}>
 
 				<RippleButton
 					className={classes.prev}
 					rounded={true}
-					disabled={!this.props.hasPrev}
+					disabled={!hasPrev}
 					onClick={this.props.onPrev}>
-					{FastRewindIcon}
+					<FastRewind size={UI_SIZE_ICON} color={hasPrev? UI_COLOR_DEFAULT: UI_COLOR_ACCENT} />
 				</RippleButton>
 
 				<PlayPauseButton
@@ -48,9 +47,9 @@ export default class PlayerLeftControls extends Component {
 				<RippleButton
 					className={classes.next}
 					rounded={true}
-					disabled={!this.props.hasNext}
+					disabled={!hasNext}
 					onClick={this.props.onNext}>
-					{FastForwardIcon}
+					<FastForward size={UI_SIZE_ICON} color={hasNext? UI_COLOR_DEFAULT: UI_COLOR_ACCENT} />
 				</RippleButton>
 
 			</div>
