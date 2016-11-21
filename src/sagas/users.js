@@ -4,9 +4,8 @@ import {call, put} from 'redux-saga/effects';
 import normalizeBy from '../helpers/normalizeBy';
 import vk from '../helpers/vk';
 
-import {usersAddMultiple} from '../actions/users';
 import {entitiesSet, entitiesReset, entitiesFetch, entitiesError} from '../actions/entities';
-import {usersFetchAudios, usersFetchAlbums, usersFetchFriends} from '../actions/users';
+import {usersAddMultiple, usersFetchAudios, usersFetchAlbums, usersFetchFriends} from '../actions/users';
 
 function* fetchAudios({payload}) {
 	const {userId, albumId, offset, count} = payload;

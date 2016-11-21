@@ -1,19 +1,5 @@
 @import '../../scss/variable';
 
-.ripple {
-	position: absolute;
-
-	background: rgba(0, 0, 0, 0.2);
-	border-radius: 50%;
-
-	opacity: 1;
-	transform: scale(0);
-
-	&.isReppling {
-		animation: ripple $animation-duration linear;
-	}
-}
-
 .button {
 	display: inline-block;
 	padding: 0;
@@ -37,34 +23,51 @@
 	overflow: hidden;
 	cursor: pointer;
 	transform: translateZ(0);
+	transition:	box-shadow $animation-duration $animation-function;
 
 	&.buttonRounded {
 		border-radius: 100%;
 	}
 
-	&:before {
-		position: absolute;
-		left: 0;
-		top: 0;
-		bottom: 0;
-		right: 0;
-
-		background-color: $btn-hover-background;
-
-		transition: opacity $animation-duration $animation-function;
-		opacity: 0;
-		content: "";
-	}
-
 	&:hover {
-		&:before {
-			opacity: 1;
+		box-shadow: $player-control-box-shadow;
+
+		.hoverEffect {
+			background-color: $btn-hover-background;
 		}
 	}
 
 	&.disabled {
 		cursor: default;
 		pointer-events: none;
+	}
+}
+
+.hoverEffect {
+	display: block;
+
+	position: absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	right: 0;
+
+	background-color: transparent;
+
+	transition: background-color $animation-duration $animation-function
+}
+
+.ripple {
+	position: absolute;
+
+	background: rgba(0, 0, 0, 0.2);
+	border-radius: 50%;
+
+	opacity: 1;
+	transform: scale(0);
+
+	&.isReppling {
+		animation: ripple $animation-duration linear;
 	}
 }
 

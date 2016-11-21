@@ -11,7 +11,7 @@ import {playerPlayTrack, playerPlayPause} from '../../actions/player';
 import ScrollableFetchable from '../../components/ScrollableFetchable/ScrollableFetchable';
 import AudiosList from '../../components/AudiosList/AudiosList';
 
-class Audios extends Component {
+export class Audios extends Component {
 	static propTypes = {
 		ids: PropTypes.array,
 		items: PropTypes.object,
@@ -25,6 +25,7 @@ class Audios extends Component {
 		isAudioPlaying: PropTypes.bool.isRequired,
 		userId: PropTypes.number.isRequired,
 		albumId: PropTypes.number,
+		fetchOnInit: PropTypes.bool,
 		fetch: PropTypes.func.isRequired,
 		playTrack: PropTypes.func.isRequired,
 		playPause: PropTypes.func.isRequired
@@ -59,6 +60,10 @@ class Audios extends Component {
 
 	fetch = isOnInitialize => {
 		if (this.props.fetching || (this.props.count && this.props.offset >= this.props.count)) {
+			return;
+		}
+
+		if (isOnInitialize && !this.props.fetchOnInit) {
 			return;
 		}
 
@@ -102,7 +107,8 @@ const mapStateToProps = ({player, entities}, ownProps) => {
 		albumId,
 		activeAudioId: player.current,
 		activeAudioOwnerId: (entities[player.entityId] || {}).userId,
-		isAudioPlaying: player.playing
+		isAudioPlaying: player.isPlaying,
+		fetchOnInit: true
 	});
 };
 

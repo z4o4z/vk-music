@@ -12,7 +12,7 @@ export default class AudiosList extends Component {
 		audios: PropTypes.object.isRequired,
 		pageSize: PropTypes.number.isRequired,
 		activeAudioId: PropTypes.number,
-		activeAudioOwnerId: PropTypes.number.isRequired,
+		activeAudioOwnerId: PropTypes.number,
 		isAudioPlaying: PropTypes.bool.isRequired,
 		onPlayClick: PropTypes.func.isRequired
 	};
@@ -48,7 +48,7 @@ export default class AudiosList extends Component {
 				artist={audio.artist}
 				genre={getGenreById(audio.genre)}
 				onPlayClick={this.props.onPlayClick}
-				playing={this.isAudioPlying(audio)}
+				isPlaying={this.isAudioPlying(audio)}
 			/>
 		);
 	};

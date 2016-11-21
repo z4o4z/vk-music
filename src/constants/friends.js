@@ -1,1 +1,1 @@
-export const FRIENDS_FETCH_COUNT = 50;
+export const FRIENDS_FETCH_COUNT = 100;
