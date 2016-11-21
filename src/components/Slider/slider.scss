@@ -9,6 +9,10 @@
 		.handle {
 			transform: translate(-0.5em, -0.5em) scaleX(0.5);
 		}
+
+		.handleActive {
+			transform: translate(-0.5em, -0.5em) scaleX(1);
+		}
 	}
 
 	&:hover {
@@ -43,4 +47,8 @@
 
 	transform: translate(0.5em, -0.5em) scaleY(0.5);
 	transition: transform $animation-duration $animation-function;
+}
+
+.handleActive {
+	transform: translate(0.5em, -0.5em) scaleY(1);
 }

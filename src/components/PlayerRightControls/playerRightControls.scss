@@ -3,15 +3,14 @@
 .component {
 	display: flex;
 	align-items: center;
+
+	margin: 0 10px;
 }
 
-.prev,
-.next {
+.btn {
 	display: block;
 	width: $player-control-size;
 	height: $player-control-size;
-}
+	margin: 0 2px;
 
-.play {
-	margin: 0 6px;
 }
