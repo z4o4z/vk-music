@@ -27,7 +27,8 @@ export class Audios extends Component {
 		isAudioPlaying: PropTypes.bool.isRequired,
 		userId: PropTypes.number.isRequired,
 		albumId: PropTypes.number,
-		fetchOnInit: PropTypes.bool,
+		withoutInitFetch: PropTypes.bool,
+		withoutShuffleOnPlay: PropTypes.bool,
 		isShuffling: PropTypes.bool.isRequired,
 		fetch: PropTypes.func.isRequired,
 		playTrack: PropTypes.func.isRequired,
@@ -67,7 +68,7 @@ export class Audios extends Component {
 			return;
 		}
 
-		if (isOnInitialize && !this.props.fetchOnInit) {
+		if (isOnInitialize && this.props.withoutInitFetch) {
 			return;
 		}
 
@@ -80,12 +81,14 @@ export class Audios extends Component {
 	};
 
 	onPlayClick = id => {
+		const makeShuffle = this.props.isShuffling && !this.props.withoutShuffleOnPlay;
+
 		if (id === this.props.activeAudioId) {
 			this.props.playPause();
 		} else {
 			this.props.playTrack({
 				id: id,
-				playlist: this.props.isShuffling ? shuffleAndSetFirst([...this.props.ids], id) : this.props.ids,
+				playlist: makeShuffle ? shuffleAndSetFirst([...this.props.ids], id) : this.props.ids,
 				entityId: this.props.entityId,
 				offset: this.props.offset
 			});
@@ -112,8 +115,7 @@ const mapStateToProps = ({player, entities}, ownProps) => {
 		activeAudioId: player.current,
 		activeAudioOwnerId: (entities[player.entityId] || {}).userId,
 		isAudioPlaying: player.isPlaying,
-		isShuffling: player.isShuffling,
-		fetchOnInit: true
+		isShuffling: player.isShuffling
 	});
 };
 
