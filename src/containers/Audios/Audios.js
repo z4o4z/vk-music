@@ -5,6 +5,8 @@ import {connect} from 'react-redux';
 import {UI_SCROLL_UPDATE_HEIGHT} from '../../constants/ui';
 import {AUDIOS_FETCH_COUNT} from '../../constants/audios';
 
+import shuffleAndSetFirst from '../../helpers/shuffleAndSetFirst';
+
 import {usersFetchAudios} from '../../actions/users';
 import {playerPlayTrack, playerPlayPause} from '../../actions/player';
 
@@ -25,11 +27,17 @@ export class Audios extends Component {
 		isAudioPlaying: PropTypes.bool.isRequired,
 		userId: PropTypes.number.isRequired,
 		albumId: PropTypes.number,
-		fetchOnInit: PropTypes.bool,
+		withoutInitFetch: PropTypes.bool,
+		withoutShuffleOnPlay: PropTypes.bool,
+		isShuffling: PropTypes.bool.isRequired,
 		fetch: PropTypes.func.isRequired,
 		playTrack: PropTypes.func.isRequired,
 		playPause: PropTypes.func.isRequired
 	};
+
+	componentWillMount() {
+		this.fetch(true);
+	}
 
 	render() {
 		return (
@@ -38,18 +46,15 @@ export class Audios extends Component {
 				updateHeight={UI_SCROLL_UPDATE_HEIGHT}
 				scrollToTopIfChange={this.props.userId}
 			>
-				{
-					this.props.ids ? <AudiosList
-							ids={this.props.ids}
-							audios={this.props.items}
-							pageSize={AUDIOS_FETCH_COUNT}
-							activeAudioId={this.props.activeAudioId}
-							activeAudioOwnerId={this.props.activeAudioOwnerId}
-							isAudioPlaying={this.props.isAudioPlaying}
-							onPlayClick={this.onPlayClick}
-						/> :
-						<div></div>
-				}
+				<AudiosList
+					ids={this.props.ids}
+					audios={this.props.items}
+					pageSize={AUDIOS_FETCH_COUNT}
+					activeAudioId={this.props.activeAudioId}
+					activeAudioOwnerId={this.props.activeAudioOwnerId}
+					isAudioPlaying={this.props.isAudioPlaying}
+					onPlayClick={this.onPlayClick}
+				/>
 			</ScrollableFetchable>
 		);
 	}
@@ -63,7 +68,7 @@ export class Audios extends Component {
 			return;
 		}
 
-		if (isOnInitialize && !this.props.fetchOnInit) {
+		if (isOnInitialize && this.props.withoutInitFetch) {
 			return;
 		}
 
@@ -76,12 +81,14 @@ export class Audios extends Component {
 	};
 
 	onPlayClick = id => {
+		const makeShuffle = this.props.isShuffling && !this.props.withoutShuffleOnPlay;
+
 		if (id === this.props.activeAudioId) {
 			this.props.playPause();
 		} else {
 			this.props.playTrack({
 				id: id,
-				playlist: [...this.props.ids],
+				playlist: makeShuffle ? shuffleAndSetFirst([...this.props.ids], id) : this.props.ids,
 				entityId: this.props.entityId,
 				offset: this.props.offset
 			});
@@ -108,7 +115,7 @@ const mapStateToProps = ({player, entities}, ownProps) => {
 		activeAudioId: player.current,
 		activeAudioOwnerId: (entities[player.entityId] || {}).userId,
 		isAudioPlaying: player.isPlaying,
-		fetchOnInit: true
+		isShuffling: player.isShuffling
 	});
 };
 

@@ -11,22 +11,24 @@ import Authorize from '../containers/Authorize/Authorize';
 
 class MyRouter extends Component {
 	static propTypes = {
+		userId: PropTypes.number,
 		history: PropTypes.object.isRequired,
+		routing: PropTypes.object.isRequired,
 		authorized: PropTypes.bool.isRequired
 	};
 
 	routes = {
 		path: '/',
+		indexRoute: {onEnter: (nextState, replace) => this.onEnter(nextState, replace)},
 		childRoutes: [{
 			path: 'authorise',
-			component: Authorize
+			component: Authorize,
+			onEnter: (nextState, replace) => this.onEnter(nextState, replace)
 		}, {
 			path: ':userId',
 			component: App,
-			onEnter: (nextState, replace) => this.checkAuth(nextState, replace),
-			indexRoute: {
-				component: Audios
-			},
+			indexRoute: {component: Audios},
+			onEnter: (nextState, replace) => this.onEnter(nextState, replace),
 			childRoutes: [{
 				path: 'albums',
 				component: Albums
@@ -43,15 +45,20 @@ class MyRouter extends Component {
 		}]
 	};
 
-	checkAuth(nextState, replace) {
-		if (this.props && this.props.authorized) {
-			return;
-		}
+	onEnter(nextState, replace) {
+		const nextPathName = nextState.location.pathname;
 
-		replace({
-			pathname: '/authorise',
-			state: nextState.location.pathname
-		});
+		if (!this.props.authorized && nextPathName !== '/authorise') {
+			replace({
+				pathname: '/authorise',
+				state: nextPathName
+			});
+		} else if (this.props.authorized && (nextPathName === '/' || nextPathName === '/authorise')) {
+			replace({
+				pathname: `/${this.props.userId}`,
+				state: nextPathName
+			});
+		}
 	}
 
 	render() {
@@ -61,8 +68,10 @@ class MyRouter extends Component {
 	}
 }
 
-const mapStateToProps = state => ({
-	authorized: state.vk.authorized
+const mapStateToProps = ({vk, routing}) => ({
+	authorized: vk.authorized,
+	userId: vk.userId,
+	routing: routing.locationBeforeTransitions
 });
 
 export default connect(mapStateToProps)(MyRouter);

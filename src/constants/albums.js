@@ -1,1 +1,1 @@
-export const ALBUMS_FETCH_COUNT = 100;
+export const ALBUMS_FETCH_COUNT = 50;

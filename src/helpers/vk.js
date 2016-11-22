@@ -24,6 +24,10 @@ class VK {
 		return initPromise.then(this._asyncInit);
 	};
 
+	startTrack = () => {
+		return this.api('stats.trackVisitor');
+	};
+
 	getLoginStatus = () => {
 		return new Promise((resolve, reject) => {
 			this._VK.Auth.getLoginStatus(this._loginCallbackCreator(resolve, reject));
@@ -71,7 +75,7 @@ class VK {
 		});
 	};
 
-	api = (name, params) => {
+	api = (name, params = {}) => {
 		const _params = {...params};
 
 		Object.keys(_params).forEach(key => {

@@ -5,7 +5,7 @@ import {playerPlayTrack, playerPlayPause, playerFetchPlaylist} from '../../actio
 
 import {Audios} from '../Audios/Audios';
 
-const Playlist = props => <Audios {...props} />;
+const Playlist = props => <Audios {...props} withoutInitFetch={true} withoutShuffleOnPlay={true} />;
 
 const mapStateToProps = ({player, entities}) => {
 	const {entityId, playlist, error, offset, count, fetching} = player;
@@ -23,6 +23,7 @@ const mapStateToProps = ({player, entities}) => {
 		ids: playlist,
 		activeAudioId: player.current,
 		activeAudioOwnerId: userId,
+		isShuffling: player.isShuffling,
 		isAudioPlaying: player.isPlaying
 	});
 };
