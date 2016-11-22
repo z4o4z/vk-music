@@ -5,6 +5,8 @@ import {connect} from 'react-redux';
 import {UI_SCROLL_UPDATE_HEIGHT} from '../../constants/ui';
 import {AUDIOS_FETCH_COUNT} from '../../constants/audios';
 
+import shuffleAndSetFirst from '../../helpers/shuffleAndSetFirst';
+
 import {usersFetchAudios} from '../../actions/users';
 import {playerPlayTrack, playerPlayPause} from '../../actions/player';
 
@@ -26,10 +28,15 @@ export class Audios extends Component {
 		userId: PropTypes.number.isRequired,
 		albumId: PropTypes.number,
 		fetchOnInit: PropTypes.bool,
+		isShuffling: PropTypes.bool.isRequired,
 		fetch: PropTypes.func.isRequired,
 		playTrack: PropTypes.func.isRequired,
 		playPause: PropTypes.func.isRequired
 	};
+
+	componentWillMount() {
+		this.fetch(true);
+	}
 
 	render() {
 		return (
@@ -38,18 +45,15 @@ export class Audios extends Component {
 				updateHeight={UI_SCROLL_UPDATE_HEIGHT}
 				scrollToTopIfChange={this.props.userId}
 			>
-				{
-					this.props.ids ? <AudiosList
-							ids={this.props.ids}
-							audios={this.props.items}
-							pageSize={AUDIOS_FETCH_COUNT}
-							activeAudioId={this.props.activeAudioId}
-							activeAudioOwnerId={this.props.activeAudioOwnerId}
-							isAudioPlaying={this.props.isAudioPlaying}
-							onPlayClick={this.onPlayClick}
-						/> :
-						<div></div>
-				}
+				<AudiosList
+					ids={this.props.ids}
+					audios={this.props.items}
+					pageSize={AUDIOS_FETCH_COUNT}
+					activeAudioId={this.props.activeAudioId}
+					activeAudioOwnerId={this.props.activeAudioOwnerId}
+					isAudioPlaying={this.props.isAudioPlaying}
+					onPlayClick={this.onPlayClick}
+				/>
 			</ScrollableFetchable>
 		);
 	}
@@ -81,7 +85,7 @@ export class Audios extends Component {
 		} else {
 			this.props.playTrack({
 				id: id,
-				playlist: [...this.props.ids],
+				playlist: this.props.isShuffling ? shuffleAndSetFirst([...this.props.ids], id) : this.props.ids,
 				entityId: this.props.entityId,
 				offset: this.props.offset
 			});
@@ -108,6 +112,7 @@ const mapStateToProps = ({player, entities}, ownProps) => {
 		activeAudioId: player.current,
 		activeAudioOwnerId: (entities[player.entityId] || {}).userId,
 		isAudioPlaying: player.isPlaying,
+		isShuffling: player.isShuffling,
 		fetchOnInit: true
 	});
 };

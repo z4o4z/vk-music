@@ -23,6 +23,7 @@ const mapStateToProps = ({player, entities}) => {
 		ids: playlist,
 		activeAudioId: player.current,
 		activeAudioOwnerId: userId,
+		isShuffling: player.isShuffling,
 		isAudioPlaying: player.isPlaying
 	});
 };

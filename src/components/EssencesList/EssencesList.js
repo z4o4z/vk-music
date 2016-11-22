@@ -2,9 +2,10 @@ import React, {Component, PropTypes} from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
 import ReactList from 'react-list';
 
+import LoaderHOC from '../../hoc/LoaderHOC/LoaderHOC';
 import EssenceItem from '../EssenceItem/EssenceItem';
 
-export default class EssencesList extends Component {
+class EssencesList extends Component {
 	static propTypes = {
 		ids: PropTypes.array.isRequired,
 		essences: PropTypes.object.isRequired,
@@ -35,3 +36,5 @@ export default class EssencesList extends Component {
 		return <EssenceItem {...this.props.getItemProps(key, item)}/>;
 	};
 }
+
+export default LoaderHOC('ids')(EssencesList);

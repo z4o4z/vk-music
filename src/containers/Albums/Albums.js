@@ -24,6 +24,10 @@ class Albums extends Component {
 		fetch: PropTypes.func.isRequired
 	};
 
+	componentWillMount() {
+		this.fetch(true);
+	}
+
 	render() {
 		return (
 			<ScrollableFetchable
@@ -31,17 +35,13 @@ class Albums extends Component {
 				updateHeight={UI_SCROLL_UPDATE_HEIGHT}
 				scrollToTopIfChange={this.props.userId}
 			>
-				{
-					this.props.items ?
-						<EssencesList
-							ids={this.props.ids}
-							essences={this.props.items}
-							pageSize={ALBUMS_FETCH_COUNT}
-							userId={this.props.userId}
-							getItemProps={this.getItemProps}
-						/> :
-						<div></div>
-				}
+				<EssencesList
+					ids={this.props.ids}
+					essences={this.props.items}
+					pageSize={ALBUMS_FETCH_COUNT}
+					userId={this.props.userId}
+					getItemProps={this.getItemProps}
+				/>
 			</ScrollableFetchable>
 		);
 	}

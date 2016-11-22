@@ -1,1 +1,1 @@
-export const AUDIOS_FETCH_COUNT = 150;
+export const AUDIOS_FETCH_COUNT = 100;

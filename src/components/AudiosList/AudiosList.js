@@ -4,9 +4,10 @@ import ReactList from 'react-list';
 
 import {getGenreById} from '../../helpers/genres';
 
+import LoaderHOC from '../../hoc/LoaderHOC/LoaderHOC';
 import AudioItem from '../AudioItem/AudioItem';
 
-export default class AudiosList extends Component {
+class AudiosList extends Component {
 	static propTypes = {
 		ids: PropTypes.array.isRequired,
 		audios: PropTypes.object.isRequired,
@@ -60,3 +61,4 @@ export default class AudiosList extends Component {
 	}
 }
 
+export default LoaderHOC('ids')(AudiosList);

@@ -11,10 +11,6 @@ export default class ScrollableFetchable extends Component {
 		children: PropTypes.element.isRequired
 	};
 
-	componentWillMount() {
-		this.props.fetch(true);
-	}
-
 	render() {
 		return (
 			<Scrollable onScroll={this.onScroll} ref={instance => this.scrollable = instance && instance.scrollable}>
