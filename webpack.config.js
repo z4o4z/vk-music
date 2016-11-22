@@ -6,6 +6,7 @@ let webpack = require('webpack');
 let HtmlWebpackPlugin = require('html-webpack-plugin');
 let ExtractTextPlugin = require('extract-text-webpack-plugin');
 let autoprefixer = require('autoprefixer');
+let CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const PATH_DIST = path.join(__dirname, 'dist');
 
@@ -15,7 +16,7 @@ const IS_DEV = ENV === 'dev';
 const IS_QA = ENV === 'qa';
 const IS_PROD = ENV === 'prod';
 
-let entry = ['babel-polyfill', path.join(__dirname, 'src', 'index.js')];
+let entry = ['babel-polyfill', './index.js'];
 
 let output = {
 	path: PATH_DIST,
@@ -35,6 +36,8 @@ if (IS_LOC) {
 
 let config = {
 	entry,
+
+	context: path.join(__dirname, 'src'),
 
 	devtool: (!IS_PROD) ? 'eval-source-map' : '',
 
@@ -113,9 +116,12 @@ let config = {
 		}),
 		new webpack.NoErrorsPlugin(),
 		new HtmlWebpackPlugin({
-			template: path.join(__dirname, 'src', 'index.html'),
+			template: './index.html',
 			filename: 'index.html'
-		})
+		}),
+		new CopyWebpackPlugin([
+			{from: './static/pwa'}
+		], {copyUnmodified: true})
 	],
 
 	devServer: {
