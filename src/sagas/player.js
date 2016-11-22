@@ -1,11 +1,11 @@
 import {takeEvery} from 'redux-saga';
 import {call, put, select} from 'redux-saga/effects';
-import shuffle from 'lodash/shuffle';
 
 import {AUDIOS_FETCH_COUNT} from '../constants/audios';
 import {PLAYER_MAX_AUDIO_COUNT_BEFORE_FETCH} from '../constants/player';
 
 import vk from '../helpers/vk';
+import shuffleAndSetFirst from '../helpers/shuffleAndSetFirst';
 import normalizeBy from '../helpers/normalizeBy';
 
 import {
@@ -63,8 +63,7 @@ function* fetchShuffleAudios() {
 		let ids = audios.ids;
 
 		if (player.isShuffling) {
-			ids.splice(ids.indexOf(player.current), 1);
-			ids = [player.current, ...shuffle(ids)];
+			ids = shuffleAndSetFirst(ids, player.current);
 		}
 
 		yield put(entitiesSetItems({

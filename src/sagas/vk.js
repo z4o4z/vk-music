@@ -18,6 +18,8 @@ function* tryToLogin() {
 	try {
 		const data = yield call(vk.getLoginStatus);
 		const {userId} = data;
+
+		// vk.startTrack();
 		yield put(vkAuthorized(data));
 
 		const users = yield call(vk.getUsers, [userId]);
@@ -36,6 +38,8 @@ function* login() {
 	try {
 		const data = yield call(vk.login, VK_PERMISSION_KEY);
 		const {userId} = data;
+
+		// yield call(vk.startTrack);
 		yield put(vkAuthorized(data));
 
 		const users = yield call(vk.getUsers, [userId]);

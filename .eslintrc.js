@@ -19,7 +19,8 @@ module.exports = {
 		"no-debugger": 1,
 		"comma-dangle": 0,
 		"arrow-parens": 0,
-		"no-invalid-this": 0
+		"no-invalid-this": 0,
+		"new-cap": 1
 	},
 	"env": {
 		"browser": true,
