@@ -21,9 +21,8 @@ export default class EssenceItem extends Component {
 	render() {
 		return (
 			<div className={classes.component} onClick={this.onClick} >
-				<Ripple />
-
 				<div className={classes.content}>
+					<Ripple />
 					<img className={classes.photo} src={this.props.photo} alt=""/>
 					<div className={classes.wrapper}>
 						<span className={classes.name} >{this.props.name}</span>
