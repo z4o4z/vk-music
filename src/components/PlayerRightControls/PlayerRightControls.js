@@ -6,7 +6,7 @@ import Shuffle from 'react-icons/lib/md/shuffle';
 
 import {UI_SIZE_ICON, UI_COLOR_DEFAULT, UI_COLOR_ACCENT} from '../../constants/ui';
 
-import RippleButton from '../RippleButton/RippleButton';
+import Button from '../Button/Button';
 
 import classes from './playerRightControls.scss';
 
@@ -22,19 +22,21 @@ export default class PlayerRightControls extends Component {
 		return (
 			<div className={classes.component}>
 
-				<RippleButton
+				<Button
 					className={classes.btn}
 					rounded={true}
-					onClick={this.props.onRepeatClick}>
+					onClick={this.props.onRepeatClick}
+				>
 					<Repeat size={UI_SIZE_ICON} color={this.props.isRepeating ? UI_COLOR_DEFAULT : UI_COLOR_ACCENT} />
-				</RippleButton>
+				</Button>
 
-				<RippleButton
+				<Button
 					className={classes.btn}
 					rounded={true}
-					onClick={this.props.onShuffleClick}>
+					onClick={this.props.onShuffleClick}
+				>
 					<Shuffle size={UI_SIZE_ICON} color={this.props.isShuffling ? UI_COLOR_DEFAULT : UI_COLOR_ACCENT} />
-				</RippleButton>
+				</Button>
 
 			</div>
 		);

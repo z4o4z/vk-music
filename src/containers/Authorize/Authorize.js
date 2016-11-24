@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {vkAuthorize} from '../../actions/vk';
 
 import Scrollable from '../../components/Scrollable/Scrollable';
-import RippleButton from '../../components/RippleButton/RippleButton';
+import Button from '../../components/Button/Button';
 
 import classes from './authorize.scss';
 
@@ -20,9 +20,9 @@ class Authorize extends Component {
 			<Scrollable>
 				<div className={classes.component}>
 					<h2 className={classes.title} data-text="VK Music">VK Music</h2>
-					<RippleButton className={classes.button} onClick={this.props.authorize}>
+					<Button className={classes.button} ripple={true} onClick={this.props.authorize} >
 						<span>Авторизоваться</span>
-					</RippleButton>
+					</Button>
 				</div>
 			</Scrollable>
 		);

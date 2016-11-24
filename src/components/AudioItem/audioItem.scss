@@ -5,11 +5,13 @@
 	width: 100%;
 	height: $audio-item-height;
 
+	position: relative;
+
 	color: $audio-item-color;
 
-	cursor: pointer;
-
 	transition: background $animation-duration $animation-function;
+	cursor: pointer;
+	overflow: hidden;
 
 	&:hover {
 		background-color: darken($audio-item-background-color, 15%);

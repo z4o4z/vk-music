@@ -12,7 +12,7 @@ import {
 	UI_COLOR_ACCENT
 } from '../../constants/ui';
 
-import RippleButton from '../RippleButton/RippleButton';
+import Button from '../Button/Button';
 
 import classes from './playPauseButton.scss';
 
@@ -25,22 +25,17 @@ export default class PlayPauseButton extends Component {
 		onClick: PropTypes.func
 	};
 
-	constructor(props) {
-		super(props);
-
-		this.onClick = this.onClick.bind(this);
-	}
-
 	render() {
 		return (
-			<RippleButton
+			<Button
 				className={cns(classes.component, this.props.className, {[classes.big]: this.props.big})}
 				disabled={this.props.disabled}
 				rounded={true}
-				onClick={this.onClick}
+				ripple={true}
+				onClick={this.props.onClick}
 			>
 				{this.getIcon()}
-			</RippleButton>
+			</Button>
 		);
 	}
 
@@ -62,11 +57,5 @@ export default class PlayPauseButton extends Component {
 			size={big ? UI_SIZE_ICON_BIG : UI_SIZE_ICON}
 			color={disabled ? UI_COLOR_ACCENT : UI_COLOR_DEFAULT}
 		/>;
-	}
-
-	onClick() {
-		if (this.props.onClick) {
-			this.props.onClick();
-		}
 	}
 }

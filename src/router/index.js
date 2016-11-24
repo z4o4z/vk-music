@@ -6,12 +6,13 @@ import App from '../containers/App/App';
 import Audios from '../containers/Audios/Audios';
 import Friends from '../containers/Friends/Friends';
 import Albums from '../containers/Albums/Albums';
+import Groups from '../containers/Groups/Groups';
 import Playlist from '../containers/Playlist/Playlist';
 import Authorize from '../containers/Authorize/Authorize';
 
 class MyRouter extends Component {
 	static propTypes = {
-		userId: PropTypes.number,
+		userId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 		history: PropTypes.object.isRequired,
 		routing: PropTypes.object.isRequired,
 		authorized: PropTypes.bool.isRequired
@@ -38,6 +39,9 @@ class MyRouter extends Component {
 			}, {
 				path: 'friends',
 				component: Friends
+			}, {
+				path: 'groups',
+				component: Groups
 			}, {
 				path: 'playlist',
 				component: Playlist

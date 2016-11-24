@@ -1,6 +1,5 @@
 import React, {Component, PropTypes} from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
-import ReactList from 'react-list';
 
 import {getGenreById} from '../../helpers/genres';
 
@@ -20,17 +19,9 @@ class AudiosList extends Component {
 
 	render() {
 		return (
-			<ReactList
-				itemRenderer={this.renderItem}
-				length={this.props.ids.length}
-				pageSize={this.props.pageSize}
-				type="uniform"
-				useStaticSize={true}
-				useTranslate3d={true}
-				activeAudioId={this.props.activeAudioId}
-				activeAudioOwnerId={this.props.activeAudioId}
-				isAudioPlaying={this.props.isAudioPlaying}
-			/>
+			<div>
+				{this.props.ids.map(this.renderItem)}
+			</div>
 		);
 	}
 
@@ -38,12 +29,12 @@ class AudiosList extends Component {
 		return shallowCompare(this, newProps, nextState);
 	}
 
-	renderItem = (index, key) => {
-		const audio = this.props.audios[this.props.ids[index]];
+	renderItem = id => {
+		const audio = this.props.audios[id];
 
 		return (
 			<AudioItem
-				key={key}
+				key={audio.id}
 				id={audio.id}
 				title={audio.title}
 				artist={audio.artist}
