@@ -29,11 +29,11 @@ class Friends extends Component {
 		return shallowCompare(this, nextProps, nextState);
 	}
 
-	getItemProps = (key, item) => {
+	getItemProps = item => {
 		const id = item.id;
 
 		return {
-			key,
+			key: id,
 			name: `${item.first_name} ${item.last_name}`,
 			photo: item.photo_100,
 			url: `/${id}`,

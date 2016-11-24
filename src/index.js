@@ -17,12 +17,6 @@ const store = configureStore(initialState, hashHistory);
 const history = syncHistoryWithStore(hashHistory, store);
 const root = window.document.createElement('div');
 
-if (process.env.NODE_ENV !== 'production') {
-	const {whyDidYouUpdate} = require('why-did-you-update');
-
-	whyDidYouUpdate(React);
-}
-
 store.runSaga(rootSaga);
 
 root.classList.add(classes.root);

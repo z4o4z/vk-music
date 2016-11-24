@@ -31,9 +31,11 @@ class Albums extends Component {
 		return shallowCompare(this, nextProps, nextState);
 	}
 
-	getItemProps = (key, item) => {
+	getItemProps = item => {
+		const id = item.id;
+
 		return {
-			key,
+			key: id,
 			url: `/${this.props.userId}/albums/${item.id}`,
 			name: item.title,
 			photo: albumsLogo,

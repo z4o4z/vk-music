@@ -25,7 +25,7 @@ export class Audios extends Component {
 		activeAudioId: PropTypes.number,
 		activeAudioOwnerId: PropTypes.number,
 		isAudioPlaying: PropTypes.bool.isRequired,
-		userId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+		userId: PropTypes.number.isRequired,
 		albumId: PropTypes.number,
 		withoutInitFetch: PropTypes.bool,
 		withoutShuffleOnPlay: PropTypes.bool,
