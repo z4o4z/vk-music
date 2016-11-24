@@ -4,13 +4,12 @@ import classes from './loaderHOC.scss';
 
 const Loader = (
 	<div className={classes.component}>
-		<div className={classes.loading}>
-			<div className={classes.ring}>
-				<i className={classes.svg} />
-			</div>
-			<div className={classes.ring}>
-				<i className={classes.svg} />
-			</div>
+		<div className={classes.loader}>
+			<i className={classes.bar}></i>
+			<i className={classes.bar}></i>
+			<i className={classes.bar}></i>
+			<i className={classes.bar}></i>
+			<i className={classes.bar}></i>
 		</div>
 	</div>
 );
