@@ -17,12 +17,6 @@ export default class AudioItem extends Component {
 		onPlayClick: PropTypes.func.isRequired
 	};
 
-	constructor(props) {
-		super(props);
-
-		this.onPlay = this.onPlay.bind(this);
-	}
-
 	render() {
 		return (
 			<div className={classes.component} onClick={this.onPlay}>
@@ -39,7 +33,7 @@ export default class AudioItem extends Component {
 		return shallowCompare(this, nextProps, nextState);
 	}
 
-	onPlay() {
+	onPlay = () => {
 		this.props.onPlayClick(this.props.id);
 	}
 }

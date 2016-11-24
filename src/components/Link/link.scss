@@ -1,0 +1,15 @@
+@import "../../scss/variable";
+
+.component {
+	display: inline-block;
+
+	color: $secondary-text-color;
+
+	text-decoration: none;
+	transition: color $animation-duration $animation-function;
+
+	&:hover {
+		color: darken($secondary-text-color, 20%);
+		text-decoration: underline;
+	}
+}

@@ -12,7 +12,7 @@ export default class Essences extends Component {
 		error: PropTypes.number,
 		offset: PropTypes.number,
 		count: PropTypes.number,
-		userId: PropTypes.number.isRequired,
+		userId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 		updateHeight: PropTypes.number.isRequired,
 		fetchCount: PropTypes.number.isRequired,
 		getItemProps: PropTypes.func.isRequired,

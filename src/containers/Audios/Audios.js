@@ -3,7 +3,7 @@ import shallowCompare from 'react-addons-shallow-compare';
 import {connect} from 'react-redux';
 
 import {UI_SCROLL_UPDATE_HEIGHT} from '../../constants/ui';
-import {AUDIOS_FETCH_COUNT} from '../../constants/audios';
+import {AUDIOS_FETCH_COUNT} from '../../constants/general';
 
 import shuffleAndSetFirst from '../../helpers/shuffleAndSetFirst';
 
@@ -25,7 +25,7 @@ export class Audios extends Component {
 		activeAudioId: PropTypes.number,
 		activeAudioOwnerId: PropTypes.number,
 		isAudioPlaying: PropTypes.bool.isRequired,
-		userId: PropTypes.number.isRequired,
+		userId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 		albumId: PropTypes.number,
 		withoutInitFetch: PropTypes.bool,
 		withoutShuffleOnPlay: PropTypes.bool,

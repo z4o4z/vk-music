@@ -1,8 +1,8 @@
 import {takeEvery} from 'redux-saga';
 import {call, put, select} from 'redux-saga/effects';
 
-import {AUDIOS_FETCH_COUNT} from '../constants/audios';
-import {PLAYER_MAX_AUDIO_COUNT_BEFORE_FETCH} from '../constants/player';
+import {AUDIOS_FETCH_COUNT} from '../constants/general';
+import {PLAYER_MAX_AUDIO_COUNT_BEFORE_FETCH} from '../constants/general';
 
 import vk from '../helpers/vk';
 import shuffleAndSetFirst from '../helpers/shuffleAndSetFirst';

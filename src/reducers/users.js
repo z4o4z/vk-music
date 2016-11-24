@@ -21,7 +21,8 @@ function merge(oldUser, user) {
 		...user,
 		audiosEntityId: `${user.id}-audios`,
 		albumsEntityId: `${user.id}-albums`,
-		friendsEntityId: `${user.id}-friends`
+		friendsEntityId: `${user.id}-friends`,
+		groupsEntityId: `${user.id}-groups`
 	};
 }
 

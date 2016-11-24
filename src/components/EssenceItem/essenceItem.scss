@@ -13,6 +13,7 @@
 
 	color: $friend-item-color;
 
+	overflow: hidden;
 	cursor: pointer;
 	transition: background $animation-duration $animation-function;
 
@@ -47,19 +48,4 @@
 	padding: $friend-item-padding;
 	flex-direction: column;
 	justify-content: space-between;
-}
-
-.link {
-	display: inline-block;
-
-	color: $audio-info-secondary-color;
-	font-size: 14px;
-
-	text-decoration: none;
-	transition: color $animation-duration $animation-function;
-
-	&:hover {
-		color: darken($audio-info-secondary-color, 20%);
-		text-decoration: underline;
-	}
 }

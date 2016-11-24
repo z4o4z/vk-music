@@ -3,7 +3,7 @@ import shallowCompare from 'react-addons-shallow-compare';
 import {connect} from 'react-redux';
 
 import {UI_SCROLL_UPDATE_HEIGHT} from '../../constants/ui';
-import {ALBUMS_FETCH_COUNT} from '../../constants/albums';
+import {ALBUMS_FETCH_COUNT} from '../../constants/general';
 
 import {usersFetchAlbums} from '../../actions/users';
 
@@ -13,7 +13,7 @@ import albumsLogo from './album.svg';
 
 class Albums extends Component {
 	static propTypes = {
-		userId: PropTypes.number.isRequired
+		userId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired
 	};
 
 	render() {
@@ -38,9 +38,9 @@ class Albums extends Component {
 			name: item.title,
 			photo: albumsLogo,
 			links: [{
-				to: `//vk.com/audios${this.props.userId}?album_id=${item.id}`,
+				href: `https://vk.com/audios${this.props.userId}?album_id=${item.id}`,
 				blank: true,
-				name: 'Открыть в VK'
+				name: 'VK'
 			}]
 		};
 	}

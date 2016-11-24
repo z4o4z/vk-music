@@ -3,13 +3,13 @@ import shallowCompare from 'react-addons-shallow-compare';
 import {connect} from 'react-redux';
 
 import {UI_SCROLL_UPDATE_HEIGHT} from '../../constants/ui';
-import {FRIENDS_FETCH_COUNT} from '../../constants/general';
+import {GROUPS_FETCH_COUNT} from '../../constants/general';
 
-import {usersFetchFriends} from '../../actions/users';
+import {usersFetchGroups} from '../../actions/users';
 
 import Essences from '../../components/Essences/Essences';
 
-class Friends extends Component {
+class Groups extends Component {
 	static propTypes = {
 		userId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired
 	};
@@ -19,7 +19,7 @@ class Friends extends Component {
 			<Essences
 				{...this.props}
 				updateHeight={UI_SCROLL_UPDATE_HEIGHT}
-				fetchCount={FRIENDS_FETCH_COUNT}
+				fetchCount={GROUPS_FETCH_COUNT}
 				getItemProps={this.getItemProps}
 			/>
 		);
@@ -34,19 +34,15 @@ class Friends extends Component {
 
 		return {
 			key,
-			name: `${item.first_name} ${item.last_name}`,
+			name: item.name,
 			photo: item.photo_100,
-			url: `/${id}`,
+			url: `/-${id}`,
 			links: [{
-				href: `/${id}/friends`,
-				blank: false,
-				name: 'Друзья'
-			}, {
-				href: `/${id}/albums`,
+				href: `/-${id}/albums`,
 				blank: false,
 				name: 'Альбомы'
 			}, {
-				href: `https://vk.com/id${id}`,
+				href: `https://vk.com/${item.screen_name}`,
 				blank: true,
 				name: 'VK'
 			}]
@@ -56,7 +52,7 @@ class Friends extends Component {
 
 const mapStateToProps = ({users, entities}, ownProps) => {
 	const userId = Number(ownProps.params.userId);
-	const {ids, fetching, error, offset, count} = entities[`${userId}-friends`] || {};
+	const {ids, fetching, error, offset, count} = entities[`${userId}-groups`] || {};
 
 	return ({
 		ids,
@@ -70,7 +66,7 @@ const mapStateToProps = ({users, entities}, ownProps) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-	fetch: params => dispatch(usersFetchFriends(params))
+	fetch: params => dispatch(usersFetchGroups(params))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Friends);
+export default connect(mapStateToProps, mapDispatchToProps)(Groups);
