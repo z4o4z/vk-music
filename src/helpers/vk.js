@@ -41,31 +41,45 @@ class VK {
 	};
 
 	fetchAudio = params => {
-		const _params = {...params};
-
-		_params.owner_id = params.userId;
-		_params.album_id = params.albumId;
-		_params.audio_ids = params.audioIds;
+		const _params = {
+			...params,
+			owner_id: params.userId,
+			album_id: params.albumId,
+			audio_ids: params.audioIds
+		};
 
 		return this.api('audio.get', _params);
 	};
 
 	fetchAlbums = params => {
-		const _params = {...params};
-
-		_params.owner_id = params.userId;
+		const _params = {
+			...params,
+			user_id: params.userId
+		};
 
 		return this.api('audio.getAlbums', _params);
 	};
 
 	fetchFriends = params => {
-		const _params = {...params};
-
-		_params.order = 'hints';
-		_params.fields = 'photo_100';
-		_params.user_id = params.userId;
+		const _params = {
+			...params,
+			order: 'hints',
+			fields: 'photo_100',
+			user_id: params.userId
+		};
 
 		return this.api('friends.get', _params);
+	};
+
+	fetchGroups = params => {
+		const _params = {
+			...params,
+			extended: true,
+			fields: 'photo_100',
+			user_id: params.userId
+		};
+
+		return this.api('groups.get', _params);
 	};
 
 	getUsers = ids => {

@@ -12,7 +12,7 @@ import classes from './app.scss';
 
 class App extends Component {
 	static propTypes = {
-		userId: PropTypes.number.isRequired,
+		userId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 		leftMenuOpen: PropTypes.bool.isRequired,
 		uiLeftMenuOpen: PropTypes.func.isRequired,
 		children: PropTypes.element.isRequired

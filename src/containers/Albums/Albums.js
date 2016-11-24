@@ -3,46 +3,27 @@ import shallowCompare from 'react-addons-shallow-compare';
 import {connect} from 'react-redux';
 
 import {UI_SCROLL_UPDATE_HEIGHT} from '../../constants/ui';
-import {ALBUMS_FETCH_COUNT} from '../../constants/albums';
+import {ALBUMS_FETCH_COUNT} from '../../constants/general';
 
 import {usersFetchAlbums} from '../../actions/users';
 
-import ScrollableFetchable from '../../components/ScrollableFetchable/ScrollableFetchable';
-import EssencesList from '../../components/EssencesList/EssencesList';
+import Essences from '../../components/Essences/Essences';
 
 import albumsLogo from './album.svg';
 
 class Albums extends Component {
 	static propTypes = {
-		ids: PropTypes.array,
-		items: PropTypes.object,
-		fetching: PropTypes.bool,
-		error: PropTypes.number,
-		offset: PropTypes.number,
-		count: PropTypes.number,
-		userId: PropTypes.number.isRequired,
-		fetch: PropTypes.func.isRequired
+		userId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired
 	};
-
-	componentWillMount() {
-		this.fetch(true);
-	}
 
 	render() {
 		return (
-			<ScrollableFetchable
-				fetch={this.fetch}
+			<Essences
+				{...this.props}
 				updateHeight={UI_SCROLL_UPDATE_HEIGHT}
-				scrollToTopIfChange={this.props.userId}
-			>
-				<EssencesList
-					ids={this.props.ids}
-					essences={this.props.items}
-					pageSize={ALBUMS_FETCH_COUNT}
-					userId={this.props.userId}
-					getItemProps={this.getItemProps}
-				/>
-			</ScrollableFetchable>
+				fetchCount={ALBUMS_FETCH_COUNT}
+				getItemProps={this.getItemProps}
+			/>
 		);
 	}
 
@@ -50,34 +31,18 @@ class Albums extends Component {
 		return shallowCompare(this, nextProps, nextState);
 	}
 
-	componentDidUpdate(oldProps) {
-		if (this.props.userId !== oldProps.userId) {
-			this.fetch(true);
-		}
-	}
+	getItemProps = item => {
+		const id = item.id;
 
-	fetch = isOnInitialize => {
-		if (this.props.fetching || (this.props.count && this.props.offset >= this.props.count)) {
-			return;
-		}
-
-		this.props.fetch({
-			offset: isOnInitialize ? 0 : this.props.offset,
-			count: ALBUMS_FETCH_COUNT,
-			userId: this.props.userId
-		});
-	};
-
-	getItemProps = (key, item) => {
 		return {
-			key,
+			key: id,
 			url: `/${this.props.userId}/albums/${item.id}`,
 			name: item.title,
 			photo: albumsLogo,
 			links: [{
-				to: `//vk.com/audios${this.props.userId}?album_id=${item.id}`,
+				href: `https://vk.com/audios${this.props.userId}?album_id=${item.id}`,
 				blank: true,
-				name: 'Открыть в VK'
+				name: 'VK'
 			}]
 		};
 	}

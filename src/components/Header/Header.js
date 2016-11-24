@@ -4,7 +4,7 @@ import shallowCompare from 'react-addons-shallow-compare';
 import Close from 'react-icons/lib/md/close';
 import Menu from 'react-icons/lib/md/menu';
 
-import RippleButton from '../RippleButton/RippleButton';
+import Button from '../Button/Button';
 
 import classes from './header.scss';
 
@@ -20,9 +20,14 @@ export default class Header extends Component {
 	render() {
 		return (
 			<header className={classes.component}>
-				<RippleButton className={classes.button} rounded={true} onClick={this.props.onMenuClick}>
+				<Button
+					className={classes.button}
+					rounded={true}
+					ripple={true}
+					onClick={this.props.onMenuClick}
+				>
 					{this.getIcon()}
-				</RippleButton>
+				</Button>
 				<h1 className={classes.title}>VK Music</h1>
 			</header>
 		);

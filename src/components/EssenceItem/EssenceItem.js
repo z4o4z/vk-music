@@ -1,12 +1,12 @@
 import React, {Component, PropTypes} from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
-import {Link} from 'react-router';
 
-import RippleButton from '../RippleButton/RippleButton';
+import Ripple from '../Ripple/Ripple';
+import Link from '../Link/Link';
 
 import classes from './essenceItem.scss';
 
-export default class FriendsAndGroupsItem extends Component {
+export default class EssenceItem extends Component {
 	static propTypes = {
 		url: PropTypes.string.isRequired,
 		name: PropTypes.string.isRequired,
@@ -14,10 +14,15 @@ export default class FriendsAndGroupsItem extends Component {
 		links: PropTypes.array.isRequired
 	};
 
+	static contextTypes = {
+		router: PropTypes.object.isRequired
+	};
+
 	render() {
 		return (
-			<RippleButton className={classes.component} href={this.props.url} >
+			<div className={classes.component} onClick={this.onClick} >
 				<div className={classes.content}>
+					<Ripple />
 					<img className={classes.photo} src={this.props.photo} alt=""/>
 					<div className={classes.wrapper}>
 						<span className={classes.name} >{this.props.name}</span>
@@ -26,7 +31,7 @@ export default class FriendsAndGroupsItem extends Component {
 						</div>
 					</div>
 				</div>
-			</RippleButton>
+			</div>
 		);
 	}
 
@@ -38,17 +43,19 @@ export default class FriendsAndGroupsItem extends Component {
 		return this.props.links.map((link, index) =>
 			<Link
 				className={classes.link}
-				to={link.to}
+				href={link.href}
 				target={link.blank ? '_blank' : ''}
 				key={index}
-				onClick={this.onClick}
+				onClick={this.onLinkClick}
 			>
 				{link.name}
 			</Link>
 		);
 	}
 
-	onClick(e) {
-		e.stopPropagation();
-	}
+	onClick = () => {
+		this.context.router.push(this.props.url);
+	};
+
+	onLinkClick = e => e.stopPropagation();
 }

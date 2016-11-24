@@ -3,7 +3,7 @@ import shallowCompare from 'react-addons-shallow-compare';
 import {connect} from 'react-redux';
 
 import {UI_SCROLL_UPDATE_HEIGHT} from '../../constants/ui';
-import {AUDIOS_FETCH_COUNT} from '../../constants/audios';
+import {AUDIOS_FETCH_COUNT} from '../../constants/general';
 
 import shuffleAndSetFirst from '../../helpers/shuffleAndSetFirst';
 
