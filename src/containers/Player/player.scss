@@ -67,3 +67,17 @@
 	transition: transform $animation-duration $animation-function;
 	transform: scaleX(0.5);
 }
+
+.timeLeft {
+	cursor: pointer;
+
+	font-size: 16px;
+	color: $audio-info-secondary-player-color;
+	letter-spacing: 0.02em;
+
+	transition: color $animation-duration $animation-function;
+
+	&:hover {
+		color: $primary-color-text;
+	}
+}

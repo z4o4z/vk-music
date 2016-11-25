@@ -12,7 +12,7 @@ class AudiosList extends Component {
 		audios: PropTypes.object.isRequired,
 		pageSize: PropTypes.number.isRequired,
 		activeAudioId: PropTypes.number,
-		activeAudioOwnerId: PropTypes.number,
+		activeAudioOwnerId: PropTypes.string,
 		isAudioPlaying: PropTypes.bool.isRequired,
 		onPlayClick: PropTypes.func.isRequired
 	};

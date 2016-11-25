@@ -23,7 +23,7 @@ export class Audios extends Component {
 		count: PropTypes.number,
 		entityId: PropTypes.string,
 		activeAudioId: PropTypes.number,
-		activeAudioOwnerId: PropTypes.number,
+		activeAudioOwnerId: PropTypes.string,
 		isAudioPlaying: PropTypes.bool.isRequired,
 		ownerId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 		albumId: PropTypes.number,
