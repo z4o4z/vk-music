@@ -17,10 +17,11 @@ import {
 	usersFetchFriends,
 	usersFetchGroups
 } from '../actions/users';
+import {groupsAddMultiple} from '../actions/groups';
 
 function* fetchAudios({payload}) {
-	const {userId, albumId, offset, count} = payload;
-	const entityId = `${albumId || userId}-audios`;
+	const {ownerId, albumId, offset, count} = payload;
+	const entityId = `${albumId || ownerId}-audios`;
 
 	yield put(entitiesFetch(entityId));
 
@@ -29,7 +30,7 @@ function* fetchAudios({payload}) {
 		const audios = normalizeBy(data.items, 'id');
 
 		const newPayload = {
-			userId,
+			ownerId,
 			albumId,
 			id: entityId,
 			ids: audios.ids,
@@ -49,8 +50,8 @@ function* fetchAudios({payload}) {
 }
 
 function* fetchAlbums({payload}) {
-	const {userId, offset, count} = payload;
-	const entityId = `${userId}-albums`;
+	const {ownerId, offset, count} = payload;
+	const entityId = `${ownerId}-albums`;
 
 	yield put(entitiesFetch(entityId));
 
@@ -59,7 +60,7 @@ function* fetchAlbums({payload}) {
 		const albums = normalizeBy(data.items, 'id');
 
 		const newPayload = {
-			userId,
+			ownerId,
 			id: entityId,
 			ids: albums.ids,
 			items: albums.normalized,
@@ -78,8 +79,8 @@ function* fetchAlbums({payload}) {
 }
 
 function* fetchFriends({payload}) {
-	const {userId, offset, count} = payload;
-	const entityId = `${userId}-friends`;
+	const {ownerId, offset, count} = payload;
+	const entityId = `${ownerId}-friends`;
 
 	yield put(entitiesFetch(entityId));
 
@@ -107,20 +108,20 @@ function* fetchFriends({payload}) {
 }
 
 function* fetchGroups({payload}) {
-	const {userId, offset, count} = payload;
-	const entityId = `${userId}-groups`;
+	const {ownerId, offset, count} = payload;
+	const entityId = `${ownerId}-groups`;
 
 	yield put(entitiesFetch(entityId));
 
 	try {
 		const data = yield call(vk.fetchGroups, payload);
-		const friends = normalizeBy(data.items, 'id');
+		const groups = normalizeBy(data.items, 'id');
 
-		yield put(usersAddMultiple(friends.normalized));
+		yield put(groupsAddMultiple(groups.normalized));
 
 		const newPayload = {
 			id: entityId,
-			ids: friends.ids,
+			ids: groups.ids,
 			count: data.count,
 			offset: offset + count
 		};

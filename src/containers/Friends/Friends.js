@@ -11,7 +11,7 @@ import Essences from '../../components/Essences/Essences';
 
 class Friends extends Component {
 	static propTypes = {
-		userId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired
+		ownerId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired
 	};
 
 	render() {
@@ -55,8 +55,8 @@ class Friends extends Component {
 }
 
 const mapStateToProps = ({users, entities}, ownProps) => {
-	const userId = Number(ownProps.params.userId);
-	const {ids, fetching, error, offset, count} = entities[`${userId}-friends`] || {};
+	const ownerId = Number(ownProps.params.ownerId);
+	const {ids, fetching, error, offset, count} = entities[`${ownerId}-friends`] || {};
 
 	return ({
 		ids,
@@ -64,7 +64,7 @@ const mapStateToProps = ({users, entities}, ownProps) => {
 		error,
 		offset,
 		count,
-		userId,
+		ownerId,
 		items: users
 	});
 };

@@ -26,7 +26,7 @@ class MyRouter extends Component {
 			component: Authorize,
 			onEnter: (nextState, replace) => this.onEnter(nextState, replace)
 		}, {
-			path: ':userId',
+			path: ':ownerId',
 			component: App,
 			indexRoute: {component: Audios},
 			onEnter: (nextState, replace) => this.onEnter(nextState, replace),

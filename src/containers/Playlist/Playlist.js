@@ -9,7 +9,7 @@ const Playlist = props => <Audios {...props} withoutInitFetch={true} withoutShuf
 
 const mapStateToProps = ({player, entities}) => {
 	const {entityId, playlist, error, offset, count, fetching} = player;
-	const {items, userId, albumId} = entities[player.entityId] || {};
+	const {items, ownerId, albumId} = entities[player.entityId] || {};
 
 	return ({
 		entityId,
@@ -17,12 +17,12 @@ const mapStateToProps = ({player, entities}) => {
 		error,
 		offset,
 		count,
-		userId,
+		ownerId,
 		albumId,
 		fetching,
 		ids: playlist,
 		activeAudioId: player.current,
-		activeAudioOwnerId: userId,
+		activeAudioOwnerId: ownerId,
 		isShuffling: player.isShuffling,
 		isAudioPlaying: player.isPlaying
 	});

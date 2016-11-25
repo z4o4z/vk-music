@@ -12,7 +12,7 @@ export default class Essences extends Component {
 		error: PropTypes.number,
 		offset: PropTypes.number,
 		count: PropTypes.number,
-		userId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+		ownerId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 		updateHeight: PropTypes.number.isRequired,
 		fetchCount: PropTypes.number.isRequired,
 		getItemProps: PropTypes.func.isRequired,
@@ -28,13 +28,13 @@ export default class Essences extends Component {
 			<ScrollableFetchable
 				fetch={this.fetch}
 				updateHeight={this.props.updateHeight}
-				scrollToTopIfChange={this.props.userId}
+				scrollToTopIfChange={this.props.ownerId}
 			>
 				<EssencesList
 					ids={this.props.ids}
 					essences={this.props.items}
 					pageSize={this.props.fetchCount}
-					userId={this.props.userId}
+					ownerId={this.props.ownerId}
 					getItemProps={this.props.getItemProps}
 				/>
 			</ScrollableFetchable>
@@ -46,7 +46,7 @@ export default class Essences extends Component {
 	}
 
 	componentDidUpdate(oldProps) {
-		if (this.props.userId !== oldProps.userId) {
+		if (this.props.ownerId !== oldProps.ownerId) {
 			this.fetch(true);
 		}
 	}
@@ -59,7 +59,7 @@ export default class Essences extends Component {
 		this.props.fetch({
 			offset: isOnInitialize ? 0 : this.props.offset,
 			count: this.props.fetchCount,
-			userId: this.props.userId
+			ownerId: this.props.ownerId
 		});
 	};
 }

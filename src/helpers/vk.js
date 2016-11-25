@@ -43,7 +43,7 @@ class VK {
 	fetchAudio = params => {
 		const _params = {
 			...params,
-			owner_id: params.userId,
+			owner_id: params.ownerId,
 			album_id: params.albumId,
 			audio_ids: params.audioIds
 		};
@@ -54,7 +54,7 @@ class VK {
 	fetchAlbums = params => {
 		const _params = {
 			...params,
-			user_id: params.userId
+			owner_id: params.ownerId
 		};
 
 		return this.api('audio.getAlbums', _params);
@@ -65,7 +65,7 @@ class VK {
 			...params,
 			order: 'hints',
 			fields: 'photo_100',
-			user_id: params.userId
+			user_id: params.ownerId
 		};
 
 		return this.api('friends.get', _params);
@@ -76,7 +76,7 @@ class VK {
 			...params,
 			extended: true,
 			fields: 'photo_100',
-			user_id: params.userId
+			user_id: params.ownerId
 		};
 
 		return this.api('groups.get', _params);
