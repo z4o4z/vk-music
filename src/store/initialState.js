@@ -16,6 +16,8 @@ export default {
 
 	entities: {},
 
+	groups: {},
+
 	player: {
 		playlist: [],
 		current: 0,

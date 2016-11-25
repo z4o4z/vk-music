@@ -26,7 +26,7 @@ export default class EssenceItem extends Component {
 					<img className={classes.photo} src={this.props.photo} alt=""/>
 					<div className={classes.wrapper}>
 						<span className={classes.name} >{this.props.name}</span>
-						<div>
+						<div className={classes.links}>
 							{this.getLinks()}
 						</div>
 					</div>

@@ -1,4 +1,5 @@
 @import "../../scss/variable";
+@import "../../scss/mixins/desktop";
 
 .component {
 	background-color: $player-slider-background;
@@ -15,14 +16,16 @@
 		}
 	}
 
-	&:hover {
-		.handle {
-			transform: translate(0.5em, -0.5em) scaleY(1);
-		}
-
-		&.vertical {
+	@include desktop() {
+		&:hover {
 			.handle {
-				transform: translate(-0.5em, -0.5em) scaleX(1);
+				transform: translate(0.5em, -0.5em) scaleY(1);
+			}
+
+			&.vertical {
+				.handle {
+					transform: translate(-0.5em, -0.5em) scaleX(1);
+				}
 			}
 		}
 	}

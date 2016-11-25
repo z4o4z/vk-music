@@ -13,7 +13,7 @@ import albumsLogo from './album.svg';
 
 class Albums extends Component {
 	static propTypes = {
-		userId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired
+		ownerId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired
 	};
 
 	render() {
@@ -36,11 +36,11 @@ class Albums extends Component {
 
 		return {
 			key: id,
-			url: `/${this.props.userId}/albums/${item.id}`,
+			url: `/${this.props.ownerId}/albums/${item.id}`,
 			name: item.title,
 			photo: albumsLogo,
 			links: [{
-				href: `https://vk.com/audios${this.props.userId}?album_id=${item.id}`,
+				href: `https://vk.com/audios${this.props.ownerId}?album_id=${item.id}`,
 				blank: true,
 				name: 'VK'
 			}]
@@ -49,8 +49,8 @@ class Albums extends Component {
 }
 
 const mapStateToProps = ({entities}, ownProps) => {
-	const userId = Number(ownProps.params.userId);
-	const entityId = `${userId}-albums`;
+	const ownerId = ownProps.params.ownerId;
+	const entityId = `${ownerId}-albums`;
 	const {ids, items, fetching, error, offset, count} = entities[entityId] || {};
 
 	return ({
@@ -60,7 +60,7 @@ const mapStateToProps = ({entities}, ownProps) => {
 		error,
 		offset,
 		count,
-		userId: userId
+		ownerId: ownerId
 	});
 };
 

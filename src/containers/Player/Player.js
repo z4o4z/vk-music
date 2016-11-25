@@ -35,7 +35,8 @@ class Player extends Component {
 
 	state = {
 		currentTime: 0,
-		volume: 1
+		volume: 1,
+		showDurationLeft: false
 	};
 
 	render() {
@@ -56,6 +57,7 @@ class Player extends Component {
 				</div>
 
 				<div className={classes.box} style={{justifyContent: 'flex-end'}}>
+					{this.getTimeLeft(audio)}
 					{this.getRightControls(audio)}
 					{this.getVolume(audio)}
 				</div>
@@ -125,6 +127,32 @@ class Player extends Component {
 		);
 	}
 
+	getTimeLeft(audio) {
+		if (!audio) {
+			return null;
+		}
+
+		const currentTime = this.state.currentTime;
+		let time = Math.floor(currentTime);
+
+		if (this.state.showDurationLeft) {
+			time = Math.floor(audio.duration - currentTime);
+		}
+
+		const hours = Math.floor(time / 3600);
+		const minutes = Math.floor(time / 60) % 60;
+		const seconds = time % 60;
+
+		return (
+			<div className={classes.timeLeft} onClick={this.onTimeLeftClick}>
+				{this.state.showDurationLeft && '-'}
+				{hours ? hours + ':' : null}
+				{minutes || 0}:
+				{seconds > 9 ? seconds : '0' + seconds}
+			</div>
+		);
+	}
+
 	getRightControls(audio) {
 		if (!audio) {
 			return null;
@@ -178,6 +206,12 @@ class Player extends Component {
 			volume: volume
 		});
 	};
+
+	onTimeLeftClick = () => {
+		this.setState({
+			showDurationLeft: !this.state.showDurationLeft
+		});
+	}
 }
 
 const mapStateToProps = ({player, entities}) => {

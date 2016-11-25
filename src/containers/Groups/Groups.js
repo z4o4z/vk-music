@@ -11,7 +11,7 @@ import Essences from '../../components/Essences/Essences';
 
 class Groups extends Component {
 	static propTypes = {
-		userId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired
+		ownerId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired
 	};
 
 	render() {
@@ -42,6 +42,10 @@ class Groups extends Component {
 				blank: false,
 				name: 'Альбомы'
 			}, {
+				href: `/-${id}/members`,
+				blank: false,
+				name: 'Подписчики'
+			}, {
 				href: `https://vk.com/${item.screen_name}`,
 				blank: true,
 				name: 'VK'
@@ -50,9 +54,9 @@ class Groups extends Component {
 	}
 }
 
-const mapStateToProps = ({users, entities}, ownProps) => {
-	const userId = Number(ownProps.params.userId);
-	const {ids, fetching, error, offset, count} = entities[`${userId}-groups`] || {};
+const mapStateToProps = ({groups, entities}, ownProps) => {
+	const ownerId = ownProps.params.ownerId;
+	const {ids, fetching, error, offset, count} = entities[`${ownerId}-groups`] || {};
 
 	return ({
 		ids,
@@ -60,8 +64,8 @@ const mapStateToProps = ({users, entities}, ownProps) => {
 		error,
 		offset,
 		count,
-		userId,
-		items: users
+		ownerId,
+		items: groups
 	});
 };
 
