@@ -9,7 +9,7 @@ class EssencesList extends Component {
 		ids: PropTypes.array.isRequired,
 		essences: PropTypes.object.isRequired,
 		pageSize: PropTypes.number.isRequired,
-		userId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+		ownerId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 		getItemProps: PropTypes.func.isRequired
 	};
 

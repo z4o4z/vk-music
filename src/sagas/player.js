@@ -21,16 +21,16 @@ import {entitiesSetItems} from '../actions/entities';
 function* fetchPlaylist() {
 	const {player, entities} = yield select();
 
-	const {userId, albumId} = entities[player.entityId];
+	const {ownerId, albumId} = entities[player.entityId];
 
 	yield put(playerSetFetching());
 
 	try {
-		const data = yield call(vk.fetchAudio, {userId, albumId, offset: player.offset, count: AUDIOS_FETCH_COUNT});
+		const data = yield call(vk.fetchAudio, {ownerId, albumId, offset: player.offset, count: AUDIOS_FETCH_COUNT});
 		const audios = normalizeBy(data.items, 'id');
 
 		yield put(entitiesSetItems({
-			id: `${userId}-audios`,
+			id: `${ownerId}-audios`,
 			items: audios.normalized
 		}));
 
@@ -53,12 +53,12 @@ function* fetchAudiosIfNeeded() {
 
 function* fetchShuffleAudios() {
 	const {player, entities} = yield select();
-	const {userId, albumId} = entities[player.entityId];
+	const {ownerId, albumId} = entities[player.entityId];
 
 	yield put(playerSetFetching());
 
 	try {
-		const data = yield call(vk.fetchAudio, {userId, albumId, offset: 0, count: player.offset});
+		const data = yield call(vk.fetchAudio, {ownerId, albumId, offset: 0, count: player.offset});
 		const audios = normalizeBy(data.items, 'id');
 		let ids = audios.ids;
 
@@ -67,7 +67,7 @@ function* fetchShuffleAudios() {
 		}
 
 		yield put(entitiesSetItems({
-			id: `${userId}-audios`,
+			id: `${ownerId}-audios`,
 			items: audios.normalized
 		}));
 

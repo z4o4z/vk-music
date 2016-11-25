@@ -5,6 +5,7 @@ import {Router} from 'react-router';
 import App from '../containers/App/App';
 import Audios from '../containers/Audios/Audios';
 import Friends from '../containers/Friends/Friends';
+import Members from '../containers/Members/Members';
 import Albums from '../containers/Albums/Albums';
 import Groups from '../containers/Groups/Groups';
 import Playlist from '../containers/Playlist/Playlist';
@@ -26,7 +27,7 @@ class MyRouter extends Component {
 			component: Authorize,
 			onEnter: (nextState, replace) => this.onEnter(nextState, replace)
 		}, {
-			path: ':userId',
+			path: ':ownerId',
 			component: App,
 			indexRoute: {component: Audios},
 			onEnter: (nextState, replace) => this.onEnter(nextState, replace),
@@ -39,6 +40,9 @@ class MyRouter extends Component {
 			}, {
 				path: 'friends',
 				component: Friends
+			}, {
+				path: 'members',
+				component: Members
 			}, {
 				path: 'groups',
 				component: Groups

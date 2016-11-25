@@ -1,4 +1,5 @@
 @import "../../scss/variable";
+@import "../../scss/mixins/desktop";
 
 .component {
 	display: inline-block;
@@ -8,8 +9,15 @@
 	text-decoration: none;
 	transition: color $animation-duration $animation-function;
 
-	&:hover {
-		color: darken($secondary-text-color, 20%);
-		text-decoration: underline;
+	&:hover,
+	&:focus {
+		text-decoration: none;
+	}
+
+	@include desktop() {
+		&:hover {
+			color: darken($secondary-text-color, 20%);
+			text-decoration: underline;
+		}
 	}
 }

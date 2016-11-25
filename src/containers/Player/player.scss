@@ -1,4 +1,5 @@
 @import '../../scss/_variable';
+@import "../../scss/mixins/desktop";
 
 .component {
 	display: flex;
@@ -16,20 +17,22 @@
 
 	z-index: 1;
 
-	&:hover {
-		.timeLine {
-			transform: scaleY(1);
-		}
-		.volume {
-			transform: scaleX(1);
+	@include desktop() {
+		&:hover {
+			.timeLine {
+				transform: scaleY(1);
+			}
+			.volume {
+				transform: scaleX(1);
+			}
 		}
 	}
 }
 
 .box {
 	display: flex;
-	width: 100%;
 	height: 100%;
+	width: 50%;
 	flex-direction: row;
 	align-items: center;
 }
@@ -66,4 +69,20 @@
 
 	transition: transform $animation-duration $animation-function;
 	transform: scaleX(0.5);
+}
+
+.timeLeft {
+	cursor: pointer;
+
+	font-size: 16px;
+	color: $audio-info-secondary-player-color;
+	letter-spacing: 0.02em;
+
+	transition: color $animation-duration $animation-function;
+
+	@include desktop() {
+		&:hover {
+			color: $primary-color-text;
+		}
+	}
 }

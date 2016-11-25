@@ -23,9 +23,9 @@ export class Audios extends Component {
 		count: PropTypes.number,
 		entityId: PropTypes.string,
 		activeAudioId: PropTypes.number,
-		activeAudioOwnerId: PropTypes.number,
+		activeAudioOwnerId: PropTypes.string,
 		isAudioPlaying: PropTypes.bool.isRequired,
-		userId: PropTypes.number.isRequired,
+		ownerId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 		albumId: PropTypes.number,
 		withoutInitFetch: PropTypes.bool,
 		withoutShuffleOnPlay: PropTypes.bool,
@@ -44,7 +44,7 @@ export class Audios extends Component {
 			<ScrollableFetchable
 				fetch={this.fetch}
 				updateHeight={UI_SCROLL_UPDATE_HEIGHT}
-				scrollToTopIfChange={this.props.userId}
+				scrollToTopIfChange={this.props.ownerId}
 			>
 				<AudiosList
 					ids={this.props.ids}
@@ -75,7 +75,7 @@ export class Audios extends Component {
 		this.props.fetch({
 			offset: isOnInitialize ? 0 : this.props.offset,
 			count: AUDIOS_FETCH_COUNT,
-			userId: this.props.userId,
+			ownerId: this.props.ownerId,
 			albumId: this.props.albumId
 		});
 	};
@@ -97,9 +97,9 @@ export class Audios extends Component {
 }
 
 const mapStateToProps = ({player, entities}, ownProps) => {
-	const userId = Number(ownProps.params.userId);
+	const ownerId = ownProps.params.ownerId;
 	const albumId = Number(ownProps.params.albumId);
-	const entityId = `${albumId || userId}-audios`;
+	const entityId = `${albumId || ownerId}-audios`;
 	const {ids, items, fetching, error, offset, count} = entities[entityId] || {};
 
 	return ({
@@ -110,10 +110,10 @@ const mapStateToProps = ({player, entities}, ownProps) => {
 		error,
 		offset,
 		count,
-		userId,
+		ownerId,
 		albumId,
 		activeAudioId: player.current,
-		activeAudioOwnerId: (entities[player.entityId] || {}).userId,
+		activeAudioOwnerId: (entities[player.entityId] || {}).ownerId,
 		isAudioPlaying: player.isPlaying,
 		isShuffling: player.isShuffling
 	});

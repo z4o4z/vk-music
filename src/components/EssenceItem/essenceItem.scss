@@ -1,8 +1,9 @@
 @import "../../scss/variable";
+@import "../../scss/mixins/desktop";
 
 .component {
 	display: inline-flex;
-	width: $friend-item-width;
+	width: 100%;
 	height: $friend-item-height;
 	padding: $friend-item-padding;
 	box-sizing: border-box;
@@ -17,8 +18,32 @@
 	cursor: pointer;
 	transition: background $animation-duration $animation-function;
 
-	&:hover {
-		background-color: $friend-item-background-color;
+	@include desktop() {
+		width: $friend-item-width;
+
+		&:before {
+			display: block;
+			width: 100%;
+			height: 100%;
+
+			position: absolute;
+			top: 0;
+			left: 0;
+
+			background-color: $btn-hover-background;
+
+			transform: translateX(-100%);
+			transition: transform $animation-duration $animation-function;
+			content: "";
+		}
+
+		&:hover {
+			text-decoration: none;
+
+			&:before {
+				transform: translateX(0);
+			}
+		}
 	}
 }
 
@@ -34,8 +59,9 @@
 }
 
 .photo {
-	display: block;
+	display: flex;
 	width: $friend-item-photo-size;
+	min-width: $friend-item-photo-size;
 	height: $friend-item-photo-size;
 
 	border-radius: $friend-item-photo-size;
@@ -45,8 +71,14 @@
 
 .wrapper {
 	display: flex;
+	width: 100%;
 	padding: $friend-item-padding;
 	flex-direction: column;
+	justify-content: space-between;
+}
+
+.links {
+	display: flex;
 	justify-content: space-between;
 }
 

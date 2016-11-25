@@ -1,4 +1,5 @@
 @import "../../scss/variable";
+@import "../../scss/mixins/desktop";
 
 .component {
 	display: block;
@@ -13,8 +14,10 @@
 	cursor: pointer;
 	overflow: hidden;
 
-	&:hover {
-		background-color: darken($audio-item-background-color, 15%);
+	@include desktop() {
+		&:hover {
+			background-color: darken($audio-item-background-color, 15%);
+		}
 	}
 
 	& + & {

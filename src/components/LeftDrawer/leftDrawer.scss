@@ -15,9 +15,11 @@
 	background-color: $left-drawer-background;
 	box-shadow: $left-drawer-box-shadow;
 
-	z-index: 1;
+	z-index: 2;
 	transform: translateX(-$left-drawer-width) translateZ(0);
 	transition: transform $animation-duration $animation-function;
+	overflow-x: hidden;
+	overflow-y: auto;
 
 	&.componentOpen {
 		transform: translateX(0) translateZ(0);
