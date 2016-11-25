@@ -9,7 +9,7 @@ import {usersFetchFriends} from '../../actions/users';
 
 import Essences from '../../components/Essences/Essences';
 
-class Friends extends Component {
+export class Friends extends Component {
 	static propTypes = {
 		ownerId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired
 	};
@@ -38,13 +38,17 @@ class Friends extends Component {
 			photo: item.photo_100,
 			url: `/${id}`,
 			links: [{
+				href: `/${id}/albums`,
+				blank: false,
+				name: 'Альбомы'
+			}, {
 				href: `/${id}/friends`,
 				blank: false,
 				name: 'Друзья'
 			}, {
-				href: `/${id}/albums`,
+				href: `/${id}/groups`,
 				blank: false,
-				name: 'Альбомы'
+				name: 'Группы'
 			}, {
 				href: `https://vk.com/id${id}`,
 				blank: true,
@@ -55,7 +59,7 @@ class Friends extends Component {
 }
 
 const mapStateToProps = ({users, entities}, ownProps) => {
-	const ownerId = Number(ownProps.params.ownerId);
+	const ownerId = ownProps.params.ownerId;
 	const {ids, fetching, error, offset, count} = entities[`${ownerId}-friends`] || {};
 
 	return ({

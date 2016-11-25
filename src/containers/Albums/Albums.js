@@ -49,7 +49,7 @@ class Albums extends Component {
 }
 
 const mapStateToProps = ({entities}, ownProps) => {
-	const ownerId = Number(ownProps.params.ownerId);
+	const ownerId = ownProps.params.ownerId;
 	const entityId = `${ownerId}-albums`;
 	const {ids, items, fetching, error, offset, count} = entities[entityId] || {};
 

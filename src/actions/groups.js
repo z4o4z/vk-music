@@ -1,7 +1,9 @@
 import {createActions} from 'redux-actions';
 
 export const {
-	groupsAddMultiple
+	groupsAddMultiple,
+	groupsFetchMembers
 } = createActions(
-	'groups_ADD_MULTIPLE'
+	'GROUPS_ADD_MULTIPLE',
+	'GROUPS_FETCH_MEMBERS'
 );

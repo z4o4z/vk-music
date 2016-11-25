@@ -82,6 +82,17 @@ class VK {
 		return this.api('groups.get', _params);
 	};
 
+	fetchMembers = params => {
+		const _params = {
+			...params,
+			extended: true,
+			fields: 'photo_100',
+			group_id: params.ownerId
+		};
+
+		return this.api('groups.getMembers', _params);
+	};
+
 	getUsers = ids => {
 		return this.api('users.get', {
 			user_ids: ids,

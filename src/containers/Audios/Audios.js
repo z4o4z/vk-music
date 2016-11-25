@@ -25,7 +25,7 @@ export class Audios extends Component {
 		activeAudioId: PropTypes.number,
 		activeAudioOwnerId: PropTypes.number,
 		isAudioPlaying: PropTypes.bool.isRequired,
-		ownerId: PropTypes.number.isRequired,
+		ownerId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 		albumId: PropTypes.number,
 		withoutInitFetch: PropTypes.bool,
 		withoutShuffleOnPlay: PropTypes.bool,
@@ -97,7 +97,7 @@ export class Audios extends Component {
 }
 
 const mapStateToProps = ({player, entities}, ownProps) => {
-	const ownerId = Number(ownProps.params.ownerId);
+	const ownerId = ownProps.params.ownerId;
 	const albumId = Number(ownProps.params.albumId);
 	const entityId = `${albumId || ownerId}-audios`;
 	const {ids, items, fetching, error, offset, count} = entities[entityId] || {};

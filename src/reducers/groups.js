@@ -17,7 +17,7 @@ function merge(oldGroup, group) {
 		...group,
 		audiosEntityId: `${group.id}-audios`,
 		albumsEntityId: `${group.id}-albums`,
-		usersEntityId: `${group.id}-users`
+		usersEntityId: `${group.id}-members`
 	};
 }
 

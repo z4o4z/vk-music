@@ -42,6 +42,10 @@ class Groups extends Component {
 				blank: false,
 				name: 'Альбомы'
 			}, {
+				href: `/-${id}/members`,
+				blank: false,
+				name: 'Подписчики'
+			}, {
 				href: `https://vk.com/${item.screen_name}`,
 				blank: true,
 				name: 'VK'
@@ -51,7 +55,7 @@ class Groups extends Component {
 }
 
 const mapStateToProps = ({groups, entities}, ownProps) => {
-	const ownerId = Number(ownProps.params.ownerId);
+	const ownerId = ownProps.params.ownerId;
 	const {ids, fetching, error, offset, count} = entities[`${ownerId}-groups`] || {};
 
 	return ({
