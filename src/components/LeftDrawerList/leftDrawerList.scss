@@ -1,4 +1,5 @@
 @import "../../scss/variable";
+@import "../../scss/mixins/desktop";
 
 .list {
 	display: block;
@@ -42,11 +43,13 @@
 		content: "";
 	}
 
-	&:hover {
-		text-decoration: none;
+	@include desktop() {
+		&:hover {
+			text-decoration: none;
 
-		&:before {
-			transform: translateX(0);
+			&:before {
+				transform: translateX(0);
+			}
 		}
 	}
 }

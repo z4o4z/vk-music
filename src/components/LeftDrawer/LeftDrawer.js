@@ -7,7 +7,6 @@ import AvLibraryMusic from 'react-icons/lib/md/library-music';
 import AvAlbum from 'react-icons/lib/md/album';
 import SocialPerson from 'react-icons/lib/md/person';
 import SocialPeople from 'react-icons/lib/md/people';
-import SocialWhatshot from 'react-icons/lib/md/whatshot';
 import SocialNotifications from 'react-icons/lib/md/notifications';
 import ActionThumbUp from 'react-icons/lib/md/thumb-up';
 import ActionSettings from 'react-icons/lib/md/settings';
@@ -39,10 +38,6 @@ const menuItems = {
 		icon: <SocialPeople className={classes.icon} size={UI_SIZE_ICON} color={UI_COLOR_DEFAULT} />,
 		text: 'Группы',
 		href: 'groups'
-	}, {
-		icon: <SocialWhatshot className={classes.icon} size={UI_SIZE_ICON} color={UI_COLOR_DEFAULT} />,
-		text: 'Обновления',
-		href: 'news'
 	}, {
 		icon: <SocialNotifications className={classes.icon} size={UI_SIZE_ICON} color={UI_COLOR_DEFAULT} />,
 		text: 'Рекомендации',

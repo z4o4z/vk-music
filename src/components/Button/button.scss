@@ -1,4 +1,5 @@
 @import '../../scss/variable';
+@import "../../scss/mixins/desktop";
 
 .button {
 	display: inline-block;
@@ -29,17 +30,19 @@
 		border-radius: 100%;
 	}
 
-	&:hover {
-		box-shadow: $player-control-box-shadow;
-
-		.hoverEffect {
-			background-color: $btn-hover-background;
-		}
-	}
-
 	&.disabled {
 		cursor: default;
 		pointer-events: none;
+	}
+
+	@include desktop() {
+		&:hover {
+			box-shadow: $player-control-box-shadow;
+
+			.hoverEffect {
+				background-color: $btn-hover-background;
+			}
+		}
 	}
 }
 

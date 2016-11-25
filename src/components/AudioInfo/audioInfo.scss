@@ -1,4 +1,5 @@
 @import "../../scss/variable";
+@import "../../scss/mixins/desktop";
 
 .component {
 	display: block;
@@ -38,14 +39,17 @@
 .genre {
 	transition: color $animation-duration $animation-function;
 
-	&:hover {
-		color: darken($audio-info-secondary-color, 20%);
-		text-decoration: underline;
+	@include desktop() {
+		&:hover {
+			color: darken($audio-info-secondary-color, 20%);
+			text-decoration: underline;
+		}
 	}
 }
 
 .componentPlayer {
 	display: inline-flex;
+	width: 50%;
 	max-width: $audio-info-player-max-width;
 	flex-direction: column;
 	justify-content: center;
@@ -61,9 +65,11 @@
 
 	.artist,
 	.genre {
-		&:hover {
-			color: $audio-info-secondary-player-color;
-			text-decoration: none;
+		@include desktop() {
+			&:hover {
+				color: $audio-info-secondary-player-color;
+				text-decoration: none;
+			}
 		}
 	}
 }
