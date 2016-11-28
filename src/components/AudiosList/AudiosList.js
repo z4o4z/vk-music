@@ -48,7 +48,7 @@ class AudiosList extends Component {
 	isAudioPlying(audio) {
 		return this.props.isAudioPlaying &&
 			audio.id === this.props.activeAudioId &&
-			audio.owner_id === this.props.activeAudioOwnerId;
+			String(audio.owner_id) === String(this.props.activeAudioOwnerId);
 	}
 }
 
