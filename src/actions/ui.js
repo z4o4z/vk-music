@@ -1,7 +1,7 @@
 import {createActions} from 'redux-actions';
 
 export const {
-	uiLeftMenuOpen
+	uiLeftMenuToggle
 } = createActions(
-	'UI_LEFT_MENU_OPEN'
+	'UI_LEFT_MENU_TOGGLE'
 );

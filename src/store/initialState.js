@@ -9,7 +9,7 @@ export default {
 	},
 
 	ui: {
-		leftMenuOpen: false
+		isLeftMenuOpen: false
 	},
 
 	users: {},

@@ -229,7 +229,7 @@ const mapStateToProps = ({player, entities}) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-	uiLeftMenuOpen: () => dispatch(uiLeftMenuOpen()),
+	uiLeftMenuToggle: () => dispatch(uiLeftMenuToggle()),
 	onPlay: () => dispatch(playerPlayPause()),
 	onNext: () => dispatch(playerNext()),
 	onPrev: () => dispatch(playerPrev()),

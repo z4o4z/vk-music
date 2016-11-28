@@ -1,10 +1,8 @@
 import {handleActions} from 'redux-actions';
 
-import {
-	uiLeftMenuOpen
-} from '../actions/ui';
+import {uiLeftMenuToggle} from '../actions/ui';
 import defaultState from '../store/initialState';
 
 export default handleActions({
-	[uiLeftMenuOpen]: state => ({...state, leftMenuOpen: !state.leftMenuOpen})
+	[uiLeftMenuToggle]: state => ({...state, isLeftMenuOpen: !state.isLeftMenuOpen})
 }, defaultState.ui);
