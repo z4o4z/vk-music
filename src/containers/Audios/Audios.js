@@ -22,8 +22,7 @@ export class Audios extends Component {
 		offset: PropTypes.number,
 		count: PropTypes.number,
 		entityId: PropTypes.string,
-		activeAudioId: PropTypes.number,
-		activeAudioOwnerId: PropTypes.string,
+		activeAudioId: PropTypes.string,
 		isAudioPlaying: PropTypes.bool.isRequired,
 		ownerId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 		albumId: PropTypes.number,
@@ -51,7 +50,6 @@ export class Audios extends Component {
 					audios={this.props.items}
 					pageSize={AUDIOS_FETCH_COUNT}
 					activeAudioId={this.props.activeAudioId}
-					activeAudioOwnerId={this.props.activeAudioOwnerId}
 					isAudioPlaying={this.props.isAudioPlaying}
 					onPlayClick={this.onPlayClick}
 				/>
@@ -97,24 +95,23 @@ export class Audios extends Component {
 	};
 }
 
-const mapStateToProps = ({player, entities}, ownProps) => {
+const mapStateToProps = ({player, entities, audios}, ownProps) => {
 	const ownerId = ownProps.params.ownerId;
 	const albumId = Number(ownProps.params.albumId);
-	const entityId = `${albumId || ownerId}-audios`;
-	const {ids, items, fetching, error, offset, count} = entities[entityId] || {};
+	const entityId = `${albumId || ownerId}--audios`;
+	const {ids, fetching, error, offset, count} = entities[entityId] || {};
 
 	return ({
 		entityId,
 		ids,
-		items,
 		fetching,
 		error,
 		offset,
 		count,
 		ownerId,
 		albumId,
+		items: audios,
 		activeAudioId: player.current,
-		activeAudioOwnerId: (entities[player.entityId] || {}).ownerId,
 		isAudioPlaying: player.isPlaying,
 		isShuffling: player.isShuffling
 	});

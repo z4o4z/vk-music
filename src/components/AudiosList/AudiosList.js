@@ -11,8 +11,7 @@ class AudiosList extends Component {
 		ids: PropTypes.array.isRequired,
 		audios: PropTypes.object.isRequired,
 		pageSize: PropTypes.number.isRequired,
-		activeAudioId: PropTypes.number,
-		activeAudioOwnerId: PropTypes.string,
+		activeAudioId: PropTypes.string,
 		isAudioPlaying: PropTypes.bool.isRequired,
 		onPlayClick: PropTypes.func.isRequired
 	};
@@ -34,22 +33,16 @@ class AudiosList extends Component {
 
 		return (
 			<AudioItem
-				key={audio.id}
-				id={audio.id}
+				key={audio.cid}
+				id={audio.cid}
 				title={audio.title}
 				artist={audio.artist}
 				genre={getGenreById(audio.genre)}
 				onPlayClick={this.props.onPlayClick}
-				isPlaying={this.isAudioPlying(audio)}
+				isPlaying={this.props.isAudioPlaying && audio.cid === this.props.activeAudioId}
 			/>
 		);
 	};
-
-	isAudioPlying(audio) {
-		return this.props.isAudioPlaying &&
-			audio.id === this.props.activeAudioId &&
-			String(audio.owner_id) === String(this.props.activeAudioOwnerId);
-	}
 }
 
 export default LoaderHOC('ids')(AudiosList);

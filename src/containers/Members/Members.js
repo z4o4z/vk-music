@@ -9,7 +9,7 @@ const Members = props => <Friends {...props} />;
 
 const mapStateToProps = ({users, entities}, ownProps) => {
 	const ownerId = ownProps.params.ownerId;
-	const entityId = `${ownerId}-members`;
+	const entityId = `${ownerId}--members`;
 	const {ids, fetching, error, offset, count} = entities[entityId] || {};
 
 	return ({

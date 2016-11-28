@@ -56,7 +56,7 @@ class Groups extends Component {
 
 const mapStateToProps = ({groups, entities}, ownProps) => {
 	const ownerId = ownProps.params.ownerId;
-	const entityId = `${ownerId}-groups`;
+	const entityId = `${ownerId}--groups`;
 	const {ids, fetching, error, offset, count} = entities[entityId] || {};
 
 	return ({

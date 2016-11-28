@@ -60,7 +60,7 @@ export class Friends extends Component {
 
 const mapStateToProps = ({users, entities}, ownProps) => {
 	const ownerId = ownProps.params.ownerId;
-	const entityId = `${ownerId}-friends`;
+	const entityId = `${ownerId}--friends`;
 	const {ids, fetching, error, offset, count} = entities[entityId] || {};
 
 	return ({

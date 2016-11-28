@@ -8,22 +8,21 @@ import {Audios} from '../Audios/Audios';
 
 const Recommendations = props => <Audios {...props} />;
 
-const mapStateToProps = ({player, entities}, ownProps) => {
+const mapStateToProps = ({player, entities, audios}, ownProps) => {
 	const ownerId = ownProps.params.ownerId;
-	const entityId = `${ownerId}-recommendations`;
-	const {ids, items, fetching, error, offset, count} = entities[entityId] || {};
+	const entityId = `${ownerId}--recommendations`;
+	const {ids, fetching, error, offset, count} = entities[entityId] || {};
 
 	return ({
 		entityId,
 		ids,
-		items,
 		fetching,
 		error,
 		offset,
 		count,
 		ownerId,
+		items: audios,
 		activeAudioId: player.current,
-		activeAudioOwnerId: (entities[player.entityId] || {}).ownerId,
 		isAudioPlaying: player.isPlaying,
 		isShuffling: player.isShuffling
 	});

@@ -96,7 +96,7 @@ class VK {
 			...params,
 			extended: true,
 			fields: 'photo_100',
-			group_id: params.ownerId
+			group_id: params.ownerId.substr(1)
 		};
 
 		return this.api('groups.getMembers', _params);
