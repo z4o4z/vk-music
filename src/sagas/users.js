@@ -19,112 +19,19 @@ import {
 } from '../actions/users';
 import {groupsAddMultiple} from '../actions/groups';
 
-function* fetchAudios({payload}) {
-	const {ownerId, albumId, offset, count} = payload;
-	const entityId = `${albumId || ownerId}-audios`;
+function* fetchByType({payload}) {
+	const entityId = payload.entityId;
+	const type = entityId.split('-')[1];
+	const fetchMethod = getMethodNameByType(type);
 
 	yield put(entitiesFetch(entityId));
 
 	try {
-		const data = yield call(vk.fetchAudio, payload);
-		const audios = normalizeBy(data.items, 'id');
+		const data = yield call(vk[fetchMethod], payload);
+		const newData = normalizeBy(data.items, 'id');
+		const newPayload = getNewPayloadByType(type, data.count, payload, newData);
 
-		const newPayload = {
-			ownerId,
-			albumId,
-			id: entityId,
-			ids: audios.ids,
-			items: audios.normalized,
-			count: data.count,
-			offset: offset + count
-		};
-
-		if (payload.offset === 0) {
-			yield put(entitiesReset(newPayload));
-		} else {
-			yield put(entitiesSet(newPayload));
-		}
-	} catch (e) {
-		yield put(entitiesError(e));
-	}
-}
-
-function* fetchAlbums({payload}) {
-	const {ownerId, offset, count} = payload;
-	const entityId = `${ownerId}-albums`;
-
-	yield put(entitiesFetch(entityId));
-
-	try {
-		const data = yield call(vk.fetchAlbums, payload);
-		const albums = normalizeBy(data.items, 'id');
-
-		const newPayload = {
-			ownerId,
-			id: entityId,
-			ids: albums.ids,
-			items: albums.normalized,
-			count: data.count,
-			offset: offset + count
-		};
-
-		if (payload.offset === 0) {
-			yield put(entitiesReset(newPayload));
-		} else {
-			yield put(entitiesSet(newPayload));
-		}
-	} catch (e) {
-		yield put(entitiesError(e));
-	}
-}
-
-function* fetchFriends({payload}) {
-	const {ownerId, offset, count} = payload;
-	const entityId = `${ownerId}-friends`;
-
-	yield put(entitiesFetch(entityId));
-
-	try {
-		const data = yield call(vk.fetchFriends, payload);
-		const friends = normalizeBy(data.items, 'id');
-
-		yield put(usersAddMultiple(friends.normalized));
-
-		const newPayload = {
-			id: entityId,
-			ids: friends.ids,
-			count: data.count,
-			offset: offset + count
-		};
-
-		if (payload.offset === 0) {
-			yield put(entitiesReset(newPayload));
-		} else {
-			yield put(entitiesSet(newPayload));
-		}
-	} catch (e) {
-		yield put(entitiesError(e));
-	}
-}
-
-function* fetchGroups({payload}) {
-	const {ownerId, offset, count} = payload;
-	const entityId = `${ownerId}-groups`;
-
-	yield put(entitiesFetch(entityId));
-
-	try {
-		const data = yield call(vk.fetchGroups, payload);
-		const groups = normalizeBy(data.items, 'id');
-
-		yield put(groupsAddMultiple(groups.normalized));
-
-		const newPayload = {
-			id: entityId,
-			ids: groups.ids,
-			count: data.count,
-			offset: offset + count
-		};
+		yield makeSomeThinkBeforePutByType(type, payload, newData);
 
 		if (payload.offset === 0) {
 			yield put(entitiesReset(newPayload));
@@ -137,8 +44,50 @@ function* fetchGroups({payload}) {
 }
 
 export default function* () {
-	yield takeEvery(usersFetchAudios.toString(), fetchAudios);
-	yield takeEvery(usersFetchAlbums.toString(), fetchAlbums);
-	yield takeEvery(usersFetchFriends.toString(), fetchFriends);
-	yield takeEvery(usersFetchGroups.toString(), fetchGroups);
+	yield takeEvery([
+		usersFetchAudios.toString(),
+		usersFetchAlbums.toString(),
+		usersFetchFriends.toString(),
+		usersFetchGroups.toString()
+	], fetchByType);
+}
+
+function getMethodNameByType(type) {
+	return switcher(type, {
+		audios: 'fetchAudio',
+		albums: 'fetchAlbums',
+		groups: 'fetchGroups',
+		friends: 'fetchFriends',
+		recommendations: 'fetchRecommendations'
+	});
+}
+
+function getNewPayloadByType(type, dataCount, payload, {ids, normalized}) {
+	const {ownerId, albumId} = payload;
+	const newPayload = {
+		ids,
+		id: payload.entityId,
+		count: dataCount,
+		offset: payload.offset + payload.count
+	};
+
+	return switcher(type, {
+		albums: {...newPayload, ownerId, items: normalized},
+		groups: newPayload,
+		friends: newPayload,
+		default: {...newPayload, ownerId, albumId, items: normalized}
+	});
+}
+
+function makeSomeThinkBeforePutByType(type, {entityId}, {normalized}) {
+	return switcher(type, {
+		albums: put(entitiesFetch(entityId)),
+		groups: put(groupsAddMultiple(normalized)),
+		friends: put(usersAddMultiple(normalized)),
+		default: () => {}
+	});
+}
+
+function switcher(type, options) {
+	return options[type] || options['default'];
 }

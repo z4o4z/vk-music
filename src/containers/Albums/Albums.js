@@ -60,6 +60,7 @@ const mapStateToProps = ({entities}, ownProps) => {
 		error,
 		offset,
 		count,
+		entityId,
 		ownerId: ownerId
 	});
 };

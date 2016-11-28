@@ -73,6 +73,7 @@ export class Audios extends Component {
 		}
 
 		this.props.fetch({
+			entityId: this.props.entityId,
 			offset: isOnInitialize ? 0 : this.props.offset,
 			count: AUDIOS_FETCH_COUNT,
 			ownerId: this.props.ownerId,
