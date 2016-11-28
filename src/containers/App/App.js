@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
 import {connect} from 'react-redux';
 
-import {uiLeftMenuOpen} from '../../actions/ui';
+import {uiLeftMenuToggle} from '../../actions/ui';
 
 import Header from '../../components/Header/Header';
 import LeftDrawer from '../../components/LeftDrawer/LeftDrawer';
@@ -13,17 +13,17 @@ import classes from './app.scss';
 class App extends Component {
 	static propTypes = {
 		userId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-		leftMenuOpen: PropTypes.bool.isRequired,
-		uiLeftMenuOpen: PropTypes.func.isRequired,
+		isLeftMenuOpen: PropTypes.bool.isRequired,
+		uiLeftMenuToggle: PropTypes.func.isRequired,
 		children: PropTypes.element.isRequired
 	};
 
 	render() {
 		return (
 			<section className={classes.component}>
-				<Header onMenuClick={this.props.uiLeftMenuOpen} open={this.props.leftMenuOpen}/>
+				<Header onMenuClick={this.props.uiLeftMenuToggle} open={this.props.isLeftMenuOpen}/>
 
-				<LeftDrawer open={this.props.leftMenuOpen} urlPrefix={String(this.props.userId)} />
+				<LeftDrawer open={this.props.isLeftMenuOpen} urlPrefix={String(this.props.userId)} />
 
 				<main className={classes.content}>
 					{this.props.children}
@@ -41,11 +41,11 @@ class App extends Component {
 
 const mapStateToProps = ({vk, ui, player}) => ({
 	userId: vk.userId,
-	leftMenuOpen: ui.leftMenuOpen
+	isLeftMenuOpen: ui.isLeftMenuOpen
 });
 
 const mapDispatchToProps = dispatch => ({
-	uiLeftMenuOpen: () => dispatch(uiLeftMenuOpen())
+	uiLeftMenuToggle: () => dispatch(uiLeftMenuToggle())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

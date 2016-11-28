@@ -8,6 +8,12 @@ import {VK_APP_ID, VK_PERMISSION_KEY} from '../constants/vk';
 import {vkInitialized, vkAuthorize, vkAuthorized, vkAuthorizeError} from '../actions/vk';
 import {usersAdd} from '../actions/users';
 
+export default function* () {
+	yield initialize();
+	yield tryToLogin();
+	yield takeEvery(vkAuthorize.toString(), login);
+}
+
 function* initialize() {
 	yield call(vk.initialize, VK_APP_ID);
 
@@ -52,12 +58,4 @@ function* login() {
 	} catch (e) {
 		yield put(vkAuthorizeError(e));
 	}
-}
-
-export default function* () {
-	yield initialize();
-
-	yield tryToLogin();
-
-	yield takeEvery(vkAuthorize.toString(), login);
 }

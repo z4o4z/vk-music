@@ -12,6 +12,7 @@ export default class Essences extends Component {
 		error: PropTypes.number,
 		offset: PropTypes.number,
 		count: PropTypes.number,
+		entityId: PropTypes.string.isRequired,
 		ownerId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 		updateHeight: PropTypes.number.isRequired,
 		fetchCount: PropTypes.number.isRequired,
@@ -57,6 +58,7 @@ export default class Essences extends Component {
 		}
 
 		this.props.fetch({
+			entityId: this.props.entityId,
 			offset: isOnInitialize ? 0 : this.props.offset,
 			count: this.props.fetchCount,
 			ownerId: this.props.ownerId

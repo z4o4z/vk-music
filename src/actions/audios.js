@@ -1,7 +1,7 @@
 import {createActions} from 'redux-actions';
 
 export const {
-	uiLeftMenuToggle
+	audiosAddMultiple
 } = createActions(
-	'UI_LEFT_MENU_TOGGLE'
+	'AUDIOS_ADD_MULTIPLE'
 );

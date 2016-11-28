@@ -10,6 +10,8 @@ import Albums from '../containers/Albums/Albums';
 import Groups from '../containers/Groups/Groups';
 import Playlist from '../containers/Playlist/Playlist';
 import Authorize from '../containers/Authorize/Authorize';
+import Popular from '../containers/Popular/Popular';
+import Recommendations from '../containers/Recommendations/Recommendations';
 
 class MyRouter extends Component {
 	static propTypes = {
@@ -49,6 +51,12 @@ class MyRouter extends Component {
 			}, {
 				path: 'playlist',
 				component: Playlist
+			}, {
+				path: 'recommendations',
+				component: Recommendations
+			}, {
+				path: 'popular',
+				component: Popular
 			}]
 		}]
 	};

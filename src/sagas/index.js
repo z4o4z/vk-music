@@ -1,13 +1,13 @@
 import {fork} from 'redux-saga/effects';
 
 import vk from './vk';
-import users from './users';
-import groups from './groups';
+import ui from './ui';
 import player from './player';
+import main from './main';
 
 export default function* () {
 	yield fork(vk);
-	yield fork(users);
-	yield fork(groups);
+	yield fork(ui);
 	yield fork(player);
+	yield fork(main);
 }

@@ -9,7 +9,7 @@ import classes from './audioItem.scss';
 
 export default class AudioItem extends Component {
 	static propTypes = {
-		id: PropTypes.number.isRequired,
+		id: PropTypes.string.isRequired,
 		title: PropTypes.string.isRequired,
 		artist: PropTypes.string.isRequired,
 		genre: PropTypes.string,

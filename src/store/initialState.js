@@ -9,8 +9,10 @@ export default {
 	},
 
 	ui: {
-		leftMenuOpen: false
+		isLeftMenuOpen: false
 	},
+
+	audios: {},
 
 	users: {},
 
@@ -20,9 +22,9 @@ export default {
 
 	player: {
 		playlist: [],
-		current: 0,
-		next: 0,
-		prev: 0,
+		current: '',
+		next: '',
+		prev: '',
 		isPlaying: false,
 		isRepeating: false,
 		isShuffling: false
