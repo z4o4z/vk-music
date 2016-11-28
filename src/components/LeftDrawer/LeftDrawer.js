@@ -45,7 +45,7 @@ const menuItems = {
 	}, {
 		icon: <ActionThumbUp className={classes.icon} size={UI_SIZE_ICON} color={UI_COLOR_DEFAULT} />,
 		text: 'Популярные',
-		href: 'populars'
+		href: 'popular'
 	}],
 	bottomList: [{
 		icon: <ActionSettings className={classes.icon} size={UI_SIZE_ICON} color={UI_COLOR_DEFAULT} />,

@@ -17,10 +17,12 @@ import {
 	usersFetchFriends,
 	usersFetchGroups
 } from '../actions/users';
+import {
+	groupsFetchMembers,
+	groupsAddMultiple
+} from '../actions/groups';
 import {audiosAddMultiple} from '../actions/audios';
 import {albumsAddMultiple} from '../actions/albums';
-import {groupsAddMultiple} from '../actions/groups';
-import {groupsFetchMembers} from '../actions/groups';
 
 export default function* () {
 	yield takeEvery([
@@ -63,6 +65,7 @@ function getMethodNameByType(type) {
 		groups: 'fetchGroups',
 		friends: 'fetchFriends',
 		members: 'fetchMembers',
+		popular: 'fetchPopular',
 		recommendations: 'fetchRecommendations'
 	});
 }
@@ -71,6 +74,7 @@ function getNewDataByType(type, data) {
 	return switcher(type, {
 		albums: normalizeByAndMakeCID(data, 'id', 'owner_id'),
 		audios: normalizeByAndMakeCID(data, 'id', 'owner_id'),
+		popular: normalizeByAndMakeCID(data, 'id', 'owner_id'),
 		recommendations: normalizeByAndMakeCID(data, 'id', 'owner_id'),
 		default: normalizeBy(data, 'id')
 	});
@@ -88,6 +92,7 @@ function getNewPayloadByType(type, dataCount, payload, ids) {
 	return switcher(type, {
 		albums: {...newPayload, ownerId},
 		audios: {...newPayload, ownerId, albumId},
+		popular: {...newPayload, ownerId, albumId},
 		recommendations: {...newPayload, ownerId, albumId},
 		default: newPayload
 	});
@@ -100,6 +105,7 @@ function makeSomeThinkBeforePutByType(type, normalized) {
 		groups: put(groupsAddMultiple(normalized)),
 		friends: put(usersAddMultiple(normalized)),
 		members: put(usersAddMultiple(normalized)),
+		popular: put(audiosAddMultiple(normalized)),
 		recommendations: put(audiosAddMultiple(normalized)),
 		default: () => {}
 	});

@@ -60,6 +60,12 @@ class VK {
 		return this.api('audio.getRecommendations', _params);
 	};
 
+	fetchPopular = params => {
+		const _params = {...params};
+
+		return this.api('audio.getPopular', _params);
+	};
+
 	fetchAlbums = params => {
 		const _params = {
 			...params,
