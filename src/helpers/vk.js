@@ -51,6 +51,15 @@ class VK {
 		return this.api('audio.get', _params);
 	};
 
+	fetchRecommendations = params => {
+		const _params = {
+			...params,
+			user_id: params.ownerId
+		};
+
+		return this.api('audio.getRecommendations', _params);
+	};
+
 	fetchAlbums = params => {
 		const _params = {
 			...params,
