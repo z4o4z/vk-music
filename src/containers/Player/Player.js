@@ -21,8 +21,8 @@ import classes from './player.scss';
 class Player extends Component {
 	static propTypes = {
 		audio: PropTypes.object,
-		next: PropTypes.number,
-		prev: PropTypes.number,
+		next: PropTypes.string,
+		prev: PropTypes.string,
 		isPlaying: PropTypes.bool.isRequired,
 		isRepeating: PropTypes.bool.isRequired,
 		isShuffling: PropTypes.bool.isRequired,
@@ -214,9 +214,8 @@ class Player extends Component {
 	}
 }
 
-const mapStateToProps = ({player, entities}) => {
-	const {isPlaying, isRepeating, isShuffling, next, prev, current, entityId} = player;
-	const entity = entities[entityId];
+const mapStateToProps = ({player, audios}) => {
+	const {isPlaying, isRepeating, isShuffling, next, prev, current} = player;
 
 	return {
 		isPlaying,
@@ -224,12 +223,12 @@ const mapStateToProps = ({player, entities}) => {
 		isShuffling,
 		next,
 		prev,
-		audio: entity && entity.items && entity.items[current]
+		audio: audios[current]
 	};
 };
 
 const mapDispatchToProps = dispatch => ({
-	uiLeftMenuOpen: () => dispatch(uiLeftMenuOpen()),
+	uiLeftMenuToggle: () => dispatch(uiLeftMenuToggle()),
 	onPlay: () => dispatch(playerPlayPause()),
 	onNext: () => dispatch(playerNext()),
 	onPrev: () => dispatch(playerPrev()),

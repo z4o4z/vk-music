@@ -70,11 +70,11 @@ export default handleActions({
 function getNext(playlist, current) {
 	const currentIndex = playlist.indexOf(current);
 
-	return playlist[currentIndex + 1] || 0;
+	return playlist[currentIndex + 1] || '';
 }
 
 function getPrev(playlist, current) {
 	const currentIndex = playlist.indexOf(current);
 
-	return playlist[currentIndex - 1] || 0;
+	return playlist[currentIndex - 1] || '';
 }

@@ -1,16 +1,13 @@
 import {handleActions} from 'redux-actions';
 
 import getStateItems from '../helpers/getStateItems';
-import {usersAdd, usersAddMultiple} from '../actions/users';
+import {albumsAddMultiple} from '../actions/albums';
 import defaultState from '../store/initialState';
 
 export default handleActions({
-	[usersAdd]: (state, {payload}) => ({
-		...state,
-		[payload.id]: {...payload}
-	}),
-	[usersAddMultiple]: (state, {payload}) => ({
+	[albumsAddMultiple]: (state, {payload}) => ({
 		...state,
 		...getStateItems(state, payload)
 	})
-}, defaultState.users);
+}, defaultState.audios);
+

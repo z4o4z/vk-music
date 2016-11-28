@@ -7,13 +7,12 @@ import {Audios} from '../Audios/Audios';
 
 const Playlist = props => <Audios {...props} withoutInitFetch={true} withoutShuffleOnPlay={true} />;
 
-const mapStateToProps = ({player, entities}) => {
+const mapStateToProps = ({player, entities, audios}) => {
 	const {entityId, playlist, error, offset, count, fetching} = player;
-	const {items, ownerId, albumId} = entities[player.entityId] || {};
+	const {ownerId, albumId} = entities[player.entityId] || {};
 
 	return ({
 		entityId,
-		items,
 		error,
 		offset,
 		count,
@@ -21,8 +20,8 @@ const mapStateToProps = ({player, entities}) => {
 		albumId,
 		fetching,
 		ids: playlist,
+		items: audios,
 		activeAudioId: player.current,
-		activeAudioOwnerId: ownerId,
 		isShuffling: player.isShuffling,
 		isAudioPlaying: player.isPlaying
 	});

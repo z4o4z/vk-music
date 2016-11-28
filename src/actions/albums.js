@@ -1,7 +1,7 @@
 import {createActions} from 'redux-actions';
 
 export const {
-	uiLeftMenuToggle
+	albumsAddMultiple
 } = createActions(
-	'UI_LEFT_MENU_TOGGLE'
+	'ALBUMS_ADD_MULTIPLE'
 );

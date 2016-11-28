@@ -51,6 +51,21 @@ class VK {
 		return this.api('audio.get', _params);
 	};
 
+	fetchRecommendations = params => {
+		const _params = {
+			...params,
+			user_id: params.ownerId
+		};
+
+		return this.api('audio.getRecommendations', _params);
+	};
+
+	fetchPopular = params => {
+		const _params = {...params};
+
+		return this.api('audio.getPopular', _params);
+	};
+
 	fetchAlbums = params => {
 		const _params = {
 			...params,
@@ -87,7 +102,7 @@ class VK {
 			...params,
 			extended: true,
 			fields: 'photo_100',
-			group_id: params.ownerId
+			group_id: params.ownerId.substr(1)
 		};
 
 		return this.api('groups.getMembers', _params);

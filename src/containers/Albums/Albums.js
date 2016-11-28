@@ -32,7 +32,7 @@ class Albums extends Component {
 	}
 
 	getItemProps = item => {
-		const id = item.id;
+		const id = item.cid;
 
 		return {
 			key: id,
@@ -48,18 +48,19 @@ class Albums extends Component {
 	}
 }
 
-const mapStateToProps = ({entities}, ownProps) => {
+const mapStateToProps = ({entities, albums}, ownProps) => {
 	const ownerId = ownProps.params.ownerId;
-	const entityId = `${ownerId}-albums`;
-	const {ids, items, fetching, error, offset, count} = entities[entityId] || {};
+	const entityId = `${ownerId}--albums`;
+	const {ids, fetching, error, offset, count} = entities[entityId] || {};
 
 	return ({
 		ids,
-		items,
 		fetching,
 		error,
 		offset,
 		count,
+		entityId,
+		items: albums,
 		ownerId: ownerId
 	});
 };

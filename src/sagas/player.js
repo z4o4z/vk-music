@@ -6,7 +6,7 @@ import {PLAYER_MAX_AUDIO_COUNT_BEFORE_FETCH} from '../constants/general';
 
 import vk from '../helpers/vk';
 import shuffleAndSetFirst from '../helpers/shuffleAndSetFirst';
-import normalizeBy from '../helpers/normalizeBy';
+import {normalizeByAndMakeCID} from '../helpers/normalizeBy';
 
 import {
 	playerNext,
@@ -16,7 +16,21 @@ import {
 	playerResetPlaylist,
 	playerShuffle
 } from '../actions/player';
-import {entitiesSetItems} from '../actions/entities';
+import {audiosAddMultiple} from '../actions/audios';
+
+export default function* () {
+	yield takeEvery(playerNext.toString(), fetchAudiosIfNeeded);
+	yield takeEvery(playerShuffle.toString(), fetchShuffleAudios);
+	yield takeEvery(playerFetchPlaylist.toString(), fetchPlaylist);
+}
+
+function* fetchAudiosIfNeeded() {
+	const {player} = yield select();
+
+	if (player.playlist.length - player.playlist.indexOf(player.current) <= PLAYER_MAX_AUDIO_COUNT_BEFORE_FETCH) {
+		yield call(fetchPlaylist);
+	}
+}
 
 function* fetchPlaylist() {
 	const {player, entities} = yield select();
@@ -27,12 +41,9 @@ function* fetchPlaylist() {
 
 	try {
 		const data = yield call(vk.fetchAudio, {ownerId, albumId, offset: player.offset, count: AUDIOS_FETCH_COUNT});
-		const audios = normalizeBy(data.items, 'id');
+		const audios = normalizeByAndMakeCID(data.items, 'id', 'owner_id');
 
-		yield put(entitiesSetItems({
-			id: `${ownerId}-audios`,
-			items: audios.normalized
-		}));
+		yield put(audiosAddMultiple(audios.normalized));
 
 		yield put(playerPlaylistFetched({
 			ids: player.isShuffling ? shuffle(audios.ids) : audios.ids,
@@ -40,14 +51,6 @@ function* fetchPlaylist() {
 		}));
 	} catch (e) {
 		console.error(e);
-	}
-}
-
-function* fetchAudiosIfNeeded() {
-	const {player} = yield select();
-
-	if (player.playlist.length - player.playlist.indexOf(player.current) <= PLAYER_MAX_AUDIO_COUNT_BEFORE_FETCH) {
-		yield call(fetchPlaylist);
 	}
 }
 
@@ -59,26 +62,17 @@ function* fetchShuffleAudios() {
 
 	try {
 		const data = yield call(vk.fetchAudio, {ownerId, albumId, offset: 0, count: player.offset});
-		const audios = normalizeBy(data.items, 'id');
+		const audios = normalizeByAndMakeCID(data.items, 'id', 'owner_id');
 		let ids = audios.ids;
 
 		if (player.isShuffling) {
 			ids = shuffleAndSetFirst(ids, player.current);
 		}
 
-		yield put(entitiesSetItems({
-			id: `${ownerId}-audios`,
-			items: audios.normalized
-		}));
+		yield put(audiosAddMultiple(audios.normalized));
 
 		yield put(playerResetPlaylist(ids));
 	} catch (e) {
 		console.error(e);
 	}
-}
-
-export default function* () {
-	yield takeEvery(playerNext.toString(), fetchAudiosIfNeeded);
-	yield takeEvery(playerShuffle.toString(), fetchShuffleAudios);
-	yield takeEvery(playerFetchPlaylist.toString(), fetchPlaylist);
 }
