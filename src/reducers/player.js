@@ -20,6 +20,7 @@ export default handleActions({
 		playlist: payload.playlist,
 		entityId: payload.entityId,
 		offset: payload.offset,
+		count: payload.count,
 		next: getNext(payload.playlist, payload.id),
 		prev: getPrev(payload.playlist, payload.id),
 		isPlaying: true
@@ -30,20 +31,24 @@ export default handleActions({
 	}),
 	[playerSetFetching]: state => ({
 		...state,
-		fetching: true
+		fetching: true,
+		error: 0
 	}),
 	[playerPlaylistFetched]: (state, {payload}) => ({
 		...state,
 		playlist: [...state.playlist, ...payload.ids],
 		offset: payload.offset,
-		fetching: false
+		count: payload.count,
+		fetching: false,
+		error: 0
 	}),
 	[playerResetPlaylist]: (state, {payload}) => ({
 		...state,
 		playlist: payload,
 		next: getNext(payload, state.current),
 		prev: getPrev(payload, state.current),
-		fetching: false
+		fetching: false,
+		error: 0
 	}),
 	[playerRepeat]: state => ({
 		...state,

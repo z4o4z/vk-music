@@ -1,8 +1,8 @@
-export default function normalizeBy(data, by) {
+export default function normalizeBy(arr, by) {
 	let normalized = {};
 	let ids = [];
 
-	data.forEach(item => {
+	arr.forEach(item => {
 		if (typeof item !== 'object') {
 			return;
 		}
@@ -17,11 +17,11 @@ export default function normalizeBy(data, by) {
 	};
 }
 
-export function normalizeByAndMakeCID(data, by, prefix) {
+export function normalizeByAndMakeCID(arr, by, prefix) {
 	let normalized = {};
 	let ids = [];
 
-	data.forEach(item => {
+	arr.forEach(item => {
 		if (typeof item !== 'object') {
 			return;
 		}

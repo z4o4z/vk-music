@@ -108,6 +108,12 @@ class VK {
 		return this.api('groups.getMembers', _params);
 	};
 
+	fetchAudioFromWall = params => {
+		const _params = {...params};
+
+		return this.api('execute.audioFromWall', _params);
+	};
+
 	getUsers = ids => {
 		return this.api('users.get', {
 			user_ids: ids,
