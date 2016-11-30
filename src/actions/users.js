@@ -3,6 +3,7 @@ import {createActions} from 'redux-actions';
 export const {
 	usersAdd,
 	usersAddMultiple,
+	usersFetchWall,
 	usersFetchAudios,
 	usersFetchAlbums,
 	usersFetchFriends,
@@ -10,6 +11,7 @@ export const {
 } = createActions(
 	'USERS_ADD',
 	'USERS_ADD_MULTIPLE',
+	'USERS_FETCH_WALL',
 	'USERS_FETCH_AUDIOS',
 	'USERS_FETCH_ALBUMS',
 	'USERS_FETCH_FRIENDS',

@@ -26,7 +26,7 @@ export default class EssenceItem extends Component {
 					<img className={classes.photo} src={this.props.photo} alt=""/>
 					<div className={classes.wrapper}>
 						<span className={classes.name} >{this.props.name}</span>
-						<div className={classes.links}>
+						<div className={classes.bottom}>
 							{this.getLinks()}
 						</div>
 					</div>
@@ -41,15 +41,17 @@ export default class EssenceItem extends Component {
 
 	getLinks() {
 		return this.props.links.map((link, index) =>
-			<Link
-				className={classes.link}
-				href={link.href}
-				target={link.blank ? '_blank' : ''}
-				key={index}
-				onClick={this.onLinkClick}
-			>
-				{link.name}
-			</Link>
+			<div data-tip={link.title} key={index}>
+				<Link
+					className={classes.link}
+					href={link.href}
+					target={link.blank ? '_blank' : ''}
+					ripple={true}
+					onClick={this.onLinkClick}
+				>
+					{link.icon}
+				</Link>
+			</div>
 		);
 	}
 

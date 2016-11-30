@@ -77,11 +77,21 @@
 	justify-content: space-between;
 }
 
-.links {
+.bottom {
 	display: flex;
 	justify-content: space-between;
 }
 
 .link {
 	position: relative;
+	padding: 4px;
+
+	border-radius: 50%;
+
+	background-color: transparent;
+	transition: background-color $animation-duration $animation-function;
+
+	&:hover {
+		background-color: $btn-hover-background;
+	}
 }

@@ -1,8 +1,9 @@
 import {takeEvery} from 'redux-saga';
 import {call, put} from 'redux-saga/effects';
 
-import normalizeBy, {normalizeByAndMakeCID} from '../helpers/normalizeBy';
 import vk from '../helpers/vk';
+import switcher from '../helpers/switcher';
+import normalizeBy, {normalizeByAndMakeCID} from '../helpers/normalizeBy';
 
 import {
 	entitiesSet,
@@ -12,6 +13,7 @@ import {
 } from '../actions/entities';
 import {
 	usersAddMultiple,
+	usersFetchWall,
 	usersFetchAudios,
 	usersFetchAlbums,
 	usersFetchFriends,
@@ -30,7 +32,8 @@ export default function* () {
 		usersFetchAlbums.toString(),
 		usersFetchFriends.toString(),
 		usersFetchGroups.toString(),
-		groupsFetchMembers.toString()
+		groupsFetchMembers.toString(),
+		usersFetchWall.toString()
 	], fetchByType);
 }
 
@@ -43,8 +46,8 @@ function* fetchByType({payload}) {
 
 	try {
 		const data = yield call(vk[fetchMethod], payload);
-		const newData = getNewDataByType(type, data.items);
-		const newPayload = getNewPayloadByType(type, data.count, payload, newData.ids);
+		const newData = getNewDataByType(type, data);
+		const newPayload = getNewPayloadByType(type, data, payload, newData.ids);
 
 		yield makeSomeThinkBeforePutByType(type, newData.normalized);
 
@@ -60,6 +63,7 @@ function* fetchByType({payload}) {
 
 function getMethodNameByType(type) {
 	return switcher(type, {
+		wall: 'fetchAudioFromWall',
 		audios: 'fetchAudio',
 		albums: 'fetchAlbums',
 		groups: 'fetchGroups',
@@ -72,45 +76,43 @@ function getMethodNameByType(type) {
 
 function getNewDataByType(type, data) {
 	return switcher(type, {
-		albums: normalizeByAndMakeCID(data, 'id', 'owner_id'),
-		audios: normalizeByAndMakeCID(data, 'id', 'owner_id'),
-		popular: normalizeByAndMakeCID(data, 'id', 'owner_id'),
-		recommendations: normalizeByAndMakeCID(data, 'id', 'owner_id'),
-		default: normalizeBy(data, 'id')
+		wall: () => normalizeByAndMakeCID(data.items, 'id', 'owner_id'),
+		albums: () => normalizeByAndMakeCID(data.items, 'id', 'owner_id'),
+		audios: () => normalizeByAndMakeCID(data.items, 'id', 'owner_id'),
+		popular: () => normalizeByAndMakeCID(data, 'id', 'owner_id'),
+		recommendations: () => normalizeByAndMakeCID(data.items, 'id', 'owner_id'),
+		default: () => normalizeBy(data.items, 'id')
 	});
 }
 
-function getNewPayloadByType(type, dataCount, payload, ids) {
+function getNewPayloadByType(type, {count, offset}, payload, ids) {
 	const {ownerId, albumId} = payload;
 	const newPayload = {
 		ids,
 		id: payload.entityId,
-		count: dataCount,
+		count: count,
 		offset: payload.offset + payload.count
 	};
 
 	return switcher(type, {
-		albums: {...newPayload, ownerId},
-		audios: {...newPayload, ownerId, albumId},
-		popular: {...newPayload, ownerId, albumId},
-		recommendations: {...newPayload, ownerId, albumId},
+		wall: ({...newPayload, ownerId, albumId, offset}),
+		albums: ({...newPayload, ownerId}),
+		audios: ({...newPayload, ownerId, albumId}),
+		popular: ({...newPayload, ownerId, albumId}),
+		recommendations: ({...newPayload, ownerId, albumId}),
 		default: newPayload
 	});
 }
 
 function makeSomeThinkBeforePutByType(type, normalized) {
 	return switcher(type, {
-		albums: put(albumsAddMultiple(normalized)),
-		audios: put(audiosAddMultiple(normalized)),
-		groups: put(groupsAddMultiple(normalized)),
-		friends: put(usersAddMultiple(normalized)),
-		members: put(usersAddMultiple(normalized)),
-		popular: put(audiosAddMultiple(normalized)),
-		recommendations: put(audiosAddMultiple(normalized)),
-		default: () => {}
+		wall: () => put(audiosAddMultiple(normalized)),
+		albums: () => put(albumsAddMultiple(normalized)),
+		audios: () => put(audiosAddMultiple(normalized)),
+		groups: () => put(groupsAddMultiple(normalized)),
+		friends: () => put(usersAddMultiple(normalized)),
+		members: () => put(usersAddMultiple(normalized)),
+		popular: () => put(audiosAddMultiple(normalized)),
+		recommendations: () => put(audiosAddMultiple(normalized))
 	});
-}
-
-function switcher(type, options) {
-	return options[type] || options['default'];
 }
