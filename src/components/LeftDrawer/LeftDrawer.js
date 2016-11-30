@@ -7,7 +7,7 @@ import AvLibraryMusic from 'react-icons/lib/md/library-music';
 import AvAlbum from 'react-icons/lib/md/album';
 import SocialPerson from 'react-icons/lib/md/person';
 import SocialPeople from 'react-icons/lib/md/people';
-import SocialNotifications from 'react-icons/lib/md/notifications';
+import Notifications from 'react-icons/lib/md/notifications';
 import ActionThumbUp from 'react-icons/lib/md/thumb-up';
 import ActionSettings from 'react-icons/lib/md/settings';
 import Home from 'react-icons/lib/md/home';
@@ -44,7 +44,7 @@ const menuItems = {
 		text: 'Группы',
 		href: 'groups'
 	}, {
-		icon: <SocialNotifications className={classes.icon} size={UI_SIZE_ICON} color={UI_COLOR_DEFAULT} />,
+		icon: <Notifications className={classes.icon} size={UI_SIZE_ICON} color={UI_COLOR_DEFAULT} />,
 		text: 'Рекомендации',
 		href: 'recommendations'
 	}, {

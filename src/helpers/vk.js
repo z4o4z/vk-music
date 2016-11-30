@@ -109,7 +109,10 @@ class VK {
 	};
 
 	fetchAudioFromWall = params => {
-		const _params = {...params};
+		const _params = {
+			...params,
+			owner_id: params.ownerId
+		};
 
 		return this.api('execute.audioFromWall', _params);
 	};
