@@ -2,7 +2,9 @@ import React, {Component, PropTypes} from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
 import {connect} from 'react-redux';
 
-import {UI_SCROLL_UPDATE_HEIGHT} from '../../constants/ui';
+import ExitToApp from 'react-icons/lib/md/exit-to-app';
+
+import {UI_SIZE_ICON, UI_COLOR_ACCENT, UI_SCROLL_UPDATE_HEIGHT} from '../../constants/ui';
 import {ALBUMS_FETCH_COUNT} from '../../constants/general';
 
 import {usersFetchAlbums} from '../../actions/users';
@@ -39,10 +41,11 @@ class Albums extends Component {
 			url: `/${this.props.ownerId}/albums/${item.id}`,
 			name: item.title,
 			photo: albumsLogo,
-			links: [{
-				href: `https://vk.com/audios${this.props.ownerId}?album_id=${item.id}`,
+			links: [, {
+				href: `https://vk.com/${item.screen_name}`,
+				title: 'VK',
 				blank: true,
-				name: 'VK'
+				icon: <ExitToApp size={UI_SIZE_ICON} color={UI_COLOR_ACCENT} />
 			}]
 		};
 	}

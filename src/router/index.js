@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {Router} from 'react-router';
 
 import App from '../containers/App/App';
+import Wall from '../containers/Wall/Wall';
 import Audios from '../containers/Audios/Audios';
 import Friends from '../containers/Friends/Friends';
 import Members from '../containers/Members/Members';
@@ -57,6 +58,9 @@ class MyRouter extends Component {
 			}, {
 				path: 'popular',
 				component: Popular
+			}, {
+				path: 'wall',
+				component: Wall
 			}]
 		}]
 	};

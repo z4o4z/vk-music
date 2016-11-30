@@ -1,6 +1,8 @@
 import React, {Component, PropTypes} from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
 
+import ReactTooltip from 'react-tooltip';
+
 import LoaderHOC from '../../hoc/LoaderHOC/LoaderHOC';
 import EssenceItem from '../EssenceItem/EssenceItem';
 
@@ -17,6 +19,8 @@ class EssencesList extends Component {
 		return (
 			<div>
 				{this.props.ids.map(this.renderItem)}
+
+				<ReactTooltip effect='solid' />
 			</div>
 		);
 	}

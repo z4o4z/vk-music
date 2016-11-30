@@ -5,6 +5,7 @@ import {AUDIOS_FETCH_COUNT} from '../constants/general';
 import {PLAYER_MAX_AUDIO_COUNT_BEFORE_FETCH} from '../constants/general';
 
 import vk from '../helpers/vk';
+import switcher from '../helpers/switcher';
 import shuffleAndSetFirst from '../helpers/shuffleAndSetFirst';
 import {normalizeByAndMakeCID} from '../helpers/normalizeBy';
 
@@ -34,17 +35,17 @@ function* fetchAudiosIfNeeded() {
 
 function* fetchPlaylist() {
 	const {player, entities} = yield select();
-
 	const {ownerId, albumId} = entities[player.entityId];
+	const type = player.entityId.split('--')[1];
+	const fetchMethod = getMethodNameByType(type);
 
 	yield put(playerSetFetching());
 
 	try {
-		const data = yield call(vk.fetchAudio, {ownerId, albumId, offset: player.offset, count: AUDIOS_FETCH_COUNT});
+		const data = yield call(vk[fetchMethod], {ownerId, albumId, offset: player.offset, count: AUDIOS_FETCH_COUNT});
 		const audios = normalizeByAndMakeCID(data.items, 'id', 'owner_id');
 
 		yield put(audiosAddMultiple(audios.normalized));
-
 		yield put(playerPlaylistFetched({
 			ids: player.isShuffling ? shuffle(audios.ids) : audios.ids,
 			offset: player.offset + AUDIOS_FETCH_COUNT
@@ -57,11 +58,13 @@ function* fetchPlaylist() {
 function* fetchShuffleAudios() {
 	const {player, entities} = yield select();
 	const {ownerId, albumId} = entities[player.entityId];
+	const type = player.entityId.split('--')[1];
+	const fetchMethod = getMethodNameByType(type);
 
 	yield put(playerSetFetching());
 
 	try {
-		const data = yield call(vk.fetchAudio, {ownerId, albumId, offset: 0, count: player.offset});
+		const data = yield call(vk[fetchMethod], {ownerId, albumId, offset: 0, count: player.offset});
 		const audios = normalizeByAndMakeCID(data.items, 'id', 'owner_id');
 		let ids = audios.ids;
 
@@ -70,9 +73,18 @@ function* fetchShuffleAudios() {
 		}
 
 		yield put(audiosAddMultiple(audios.normalized));
-
 		yield put(playerResetPlaylist(ids));
 	} catch (e) {
 		console.error(e);
 	}
+}
+
+function getMethodNameByType(type) {
+	return switcher(type, {
+		wall: 'fetchAudioFromWall',
+		audios: 'fetchAudio',
+		friends: 'fetchFriends',
+		popular: 'fetchPopular',
+		recommendations: 'fetchRecommendations'
+	});
 }

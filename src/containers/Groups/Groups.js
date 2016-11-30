@@ -2,7 +2,12 @@ import React, {Component, PropTypes} from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
 import {connect} from 'react-redux';
 
-import {UI_SCROLL_UPDATE_HEIGHT} from '../../constants/ui';
+import Home from 'react-icons/lib/md/home';
+import AvAlbum from 'react-icons/lib/md/album';
+import SocialPerson from 'react-icons/lib/md/person';
+import ExitToApp from 'react-icons/lib/md/exit-to-app';
+
+import {UI_SIZE_ICON, UI_COLOR_ACCENT, UI_SCROLL_UPDATE_HEIGHT} from '../../constants/ui';
 import {GROUPS_FETCH_COUNT} from '../../constants/general';
 
 import {usersFetchGroups} from '../../actions/users';
@@ -39,16 +44,24 @@ class Groups extends Component {
 			url: `/-${id}`,
 			links: [{
 				href: `/-${id}/albums`,
+				title: 'Альбомы',
 				blank: false,
-				name: 'Альбомы'
+				icon: <AvAlbum size={UI_SIZE_ICON} color={UI_COLOR_ACCENT} />
+			}, {
+				href: `/-${id}/wall`,
+				title: 'Стена',
+				blank: false,
+				icon: <Home size={UI_SIZE_ICON} color={UI_COLOR_ACCENT} />
 			}, {
 				href: `/-${id}/members`,
+				title: 'Подписчики',
 				blank: false,
-				name: 'Подписчики'
+				icon: <SocialPerson size={UI_SIZE_ICON} color={UI_COLOR_ACCENT} />
 			}, {
 				href: `https://vk.com/${item.screen_name}`,
+				title: 'VK',
 				blank: true,
-				name: 'VK'
+				icon: <ExitToApp size={UI_SIZE_ICON} color={UI_COLOR_ACCENT} />
 			}]
 		};
 	}

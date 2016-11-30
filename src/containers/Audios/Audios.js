@@ -89,7 +89,8 @@ export class Audios extends Component {
 				id: id,
 				playlist: makeShuffle ? shuffleAndSetFirst([...this.props.ids], id) : this.props.ids,
 				entityId: this.props.entityId,
-				offset: this.props.offset
+				offset: this.props.offset,
+				count: this.props.count
 			});
 		}
 	};

@@ -2,7 +2,14 @@ import React, {Component, PropTypes} from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
 import {connect} from 'react-redux';
 
-import {UI_SCROLL_UPDATE_HEIGHT} from '../../constants/ui';
+import Home from 'react-icons/lib/md/home';
+import AvAlbum from 'react-icons/lib/md/album';
+import SocialPerson from 'react-icons/lib/md/person';
+import SocialPeople from 'react-icons/lib/md/people';
+import ExitToApp from 'react-icons/lib/md/exit-to-app';
+import Notifications from 'react-icons/lib/md/notifications';
+
+import {UI_SIZE_ICON, UI_COLOR_ACCENT, UI_SCROLL_UPDATE_HEIGHT} from '../../constants/ui';
 import {FRIENDS_FETCH_COUNT} from '../../constants/general';
 
 import {usersFetchFriends} from '../../actions/users';
@@ -39,20 +46,34 @@ export class Friends extends Component {
 			url: `/${id}`,
 			links: [{
 				href: `/${id}/albums`,
+				title: 'Альбомы',
 				blank: false,
-				name: 'Альбомы'
+				icon: <AvAlbum size={UI_SIZE_ICON} color={UI_COLOR_ACCENT} />
+			}, {
+				href: `/${id}/wall`,
+				title: 'Стена',
+				blank: false,
+				icon: <Home size={UI_SIZE_ICON} color={UI_COLOR_ACCENT} />
 			}, {
 				href: `/${id}/friends`,
+				title: 'Друзья',
 				blank: false,
-				name: 'Друзья'
+				icon: <SocialPerson size={UI_SIZE_ICON} color={UI_COLOR_ACCENT} />
 			}, {
 				href: `/${id}/groups`,
+				title: 'Группы',
 				blank: false,
-				name: 'Группы'
+				icon: <SocialPeople size={UI_SIZE_ICON} color={UI_COLOR_ACCENT} />
+			}, {
+				href: `/${id}/recommendations`,
+				title: 'Рекомендации',
+				blank: false,
+				icon: <Notifications size={UI_SIZE_ICON} color={UI_COLOR_ACCENT} />
 			}, {
 				href: `https://vk.com/id${id}`,
+				title: 'VK',
 				blank: true,
-				name: 'VK'
+				icon: <ExitToApp size={UI_SIZE_ICON} color={UI_COLOR_ACCENT} />
 			}]
 		};
 	}
