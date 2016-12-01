@@ -12,16 +12,19 @@ export default class AudioItem extends Component {
 		id: PropTypes.string.isRequired,
 		title: PropTypes.string.isRequired,
 		artist: PropTypes.string.isRequired,
+		url: PropTypes.string,
 		genre: PropTypes.string,
 		isPlaying: PropTypes.bool.isRequired,
 		onPlayClick: PropTypes.func.isRequired
 	};
 
 	render() {
+		const clsName = cns(classes.content, {[classes.active]: this.props.isPlaying, [classes.disable]: !this.props.url});
+
 		return (
 			<div className={classes.component} onClick={this.onPlay}>
-				<div className={cns(classes.content, {[classes.active]: this.props.isPlaying})}>
-					<PlayPauseButton isPlaying={this.props.isPlaying}/>
+				<div className={clsName}>
+					<PlayPauseButton isPlaying={this.props.isPlaying} disabled={!this.props.url} />
 
 					<AudioInfo title={this.props.title} artist={this.props.artist} genre={this.props.genre} />
 				</div>
@@ -34,6 +37,8 @@ export default class AudioItem extends Component {
 	}
 
 	onPlay = () => {
-		this.props.onPlayClick(this.props.id);
+		if (this.props.url) {
+			this.props.onPlayClick(this.props.id);
+		}
 	}
 }

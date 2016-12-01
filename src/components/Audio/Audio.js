@@ -22,6 +22,7 @@ export default class Audio extends Component {
 		this.audioNode.addEventListener('progress', this.handleProgress);
 		this.audioNode.addEventListener('timeupdate', this.handleTimeUpdate);
 		this.audioNode.addEventListener('ended', this.handleMediaEnd);
+		this.audioNode.addEventListener('error', this.handleMediaEnd);
 
 		this.updateIsPlaying();
 	}
@@ -31,6 +32,10 @@ export default class Audio extends Component {
 	}
 
 	componentDidUpdate(prevProps) {
+		if (!this.props.source) {
+			return;
+		}
+
 		if (prevProps.source !== this.props.source) {
 			this.updateSource();
 		}
@@ -52,6 +57,7 @@ export default class Audio extends Component {
 		this.audioNode.removeEventListener('progress', this.handleProgress);
 		this.audioNode.removeEventListener('timeupdate', this.handleTimeUpdate);
 		this.audioNode.removeEventListener('ended', this.handleMediaEnd);
+		this.audioNode.removeEventListener('error', this.handleMediaEnd);
 	}
 
 	handleTimeUpdate = () => {
