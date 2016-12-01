@@ -37,6 +37,7 @@ class AudiosList extends Component {
 				id={audio.cid}
 				title={audio.title}
 				artist={audio.artist}
+				url={audio.url}
 				genre={getGenreById(audio.genre)}
 				onPlayClick={this.props.onPlayClick}
 				isPlaying={this.props.isAudioPlaying && audio.cid === this.props.activeAudioId}

@@ -35,4 +35,9 @@
 	&.active {
 		background-color: darken($audio-item-background-color, 40%);
 	}
+
+	&.disable {
+		background-color: lighten($divider-color, 20%);
+		cursor: default;
+	}
 }
