@@ -4,7 +4,7 @@ import cns from 'classnames';
 
 import classes from './audioInfo.scss';
 
-export default class AudioItem extends Component {
+export default class AudioInfo extends Component {
 	static propTypes = {
 		title: PropTypes.string.isRequired,
 		artist: PropTypes.string.isRequired,

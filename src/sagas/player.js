@@ -11,6 +11,7 @@ import {normalizeByAndMakeCID} from '../helpers/normalizeBy';
 
 import {
 	playerNext,
+	playerPrev,
 	playerSetFetching,
 	playerFetchPlaylist,
 	playerPlaylistFetched,
@@ -20,16 +21,29 @@ import {
 import {audiosAddMultiple} from '../actions/audios';
 
 export default function* () {
-	yield takeEvery(playerNext.toString(), fetchAudiosIfNeeded);
+	yield takeEvery(playerNext.toString(), onNext);
+	yield takeEvery(playerPrev.toString(), onPrev);
 	yield takeEvery(playerShuffle.toString(), fetchShuffleAudios);
 	yield takeEvery(playerFetchPlaylist.toString(), fetchPlaylist);
 }
 
-function* fetchAudiosIfNeeded() {
-	const {player} = yield select();
+function* onNext() {
+	const {player, audios} = yield select();
+
+	if (!audios[player.current].url) {
+		yield put(playerNext());
+	}
 
 	if (player.playlist.length - player.playlist.indexOf(player.current) <= PLAYER_MAX_AUDIO_COUNT_BEFORE_FETCH) {
 		yield call(fetchPlaylist);
+	}
+}
+
+function* onPrev() {
+	const {player, audios} = yield select();
+
+	if (!audios[player.current].url) {
+		yield put(playerPrev());
 	}
 }
 
