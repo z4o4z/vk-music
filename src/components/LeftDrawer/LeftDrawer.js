@@ -11,7 +11,7 @@ import Notifications from 'react-icons/lib/md/notifications';
 import ActionThumbUp from 'react-icons/lib/md/thumb-up';
 import ActionSettings from 'react-icons/lib/md/settings';
 import Home from 'react-icons/lib/md/home';
-import LibraryBooks from 'react-icons/lib/md/library-books';
+// import LibraryBooks from 'react-icons/lib/md/library-books';
 
 import {UI_SIZE_ICON, UI_COLOR_DEFAULT} from '../../constants/ui';
 
@@ -32,10 +32,6 @@ const menuItems = {
 		icon: <AvAlbum className={classes.icon} size={UI_SIZE_ICON} color={UI_COLOR_DEFAULT} />,
 		text: 'Альбомы',
 		href: 'albums'
-	}, {
-		icon: <LibraryBooks className={classes.icon} size={UI_SIZE_ICON} color={UI_COLOR_DEFAULT} />,
-		text: 'Новости',
-		href: 'news'
 	}, {
 		icon: <Home className={classes.icon} size={UI_SIZE_ICON} color={UI_COLOR_DEFAULT} />,
 		text: 'Стена',
