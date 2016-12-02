@@ -19,6 +19,7 @@ const mapStateToProps = ({player, entities, audios}) => {
 		ownerId,
 		albumId,
 		fetching,
+		isLast: count && offset >= count,
 		ids: playlist,
 		items: audios,
 		activeAudioId: player.current,

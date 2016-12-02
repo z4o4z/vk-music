@@ -14,6 +14,7 @@ import {
 import {
 	usersAddMultiple,
 	usersFetchWall,
+	usersFetchNews,
 	usersFetchAudios,
 	usersFetchAlbums,
 	usersFetchFriends,
@@ -33,7 +34,8 @@ export default function* () {
 		usersFetchFriends.toString(),
 		usersFetchGroups.toString(),
 		groupsFetchMembers.toString(),
-		usersFetchWall.toString()
+		usersFetchWall.toString(),
+		usersFetchNews.toString()
 	], fetchByType);
 }
 
@@ -64,6 +66,7 @@ function* fetchByType({payload}) {
 function getMethodNameByType(type) {
 	return switcher(type, {
 		wall: 'fetchAudioFromWall',
+		news: 'fetchAudioFromNews',
 		audios: 'fetchAudio',
 		albums: 'fetchAlbums',
 		groups: 'fetchGroups',
@@ -77,6 +80,7 @@ function getMethodNameByType(type) {
 function getNewDataByType(type, data) {
 	return switcher(type, {
 		wall: () => normalizeByAndMakeCID(data.items, 'id', 'owner_id'),
+		news: () => normalizeByAndMakeCID(data.items, 'id', 'owner_id'),
 		albums: () => normalizeByAndMakeCID(data.items, 'id', 'owner_id'),
 		audios: () => normalizeByAndMakeCID(data.items, 'id', 'owner_id'),
 		popular: () => normalizeByAndMakeCID(data, 'id', 'owner_id'),
@@ -85,7 +89,7 @@ function getNewDataByType(type, data) {
 	});
 }
 
-function getNewPayloadByType(type, {count, offset}, payload, ids) {
+function getNewPayloadByType(type, {count, offset, next_from}, payload, ids) {
 	const {ownerId, albumId} = payload;
 	const newPayload = {
 		ids,
@@ -96,6 +100,7 @@ function getNewPayloadByType(type, {count, offset}, payload, ids) {
 
 	return switcher(type, {
 		wall: ({...newPayload, ownerId, albumId, offset}),
+		news: ({ids, id: payload.entityId, nextFrom: next_from}),
 		albums: ({...newPayload, ownerId}),
 		audios: ({...newPayload, ownerId, albumId}),
 		popular: ({...newPayload, ownerId, albumId}),
@@ -107,6 +112,7 @@ function getNewPayloadByType(type, {count, offset}, payload, ids) {
 function makeSomeThinkBeforePutByType(type, normalized) {
 	return switcher(type, {
 		wall: () => put(audiosAddMultiple(normalized)),
+		news: () => put(audiosAddMultiple(normalized)),
 		albums: () => put(albumsAddMultiple(normalized)),
 		audios: () => put(audiosAddMultiple(normalized)),
 		groups: () => put(groupsAddMultiple(normalized)),

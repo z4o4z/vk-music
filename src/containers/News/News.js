@@ -1,27 +1,25 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
-import {usersFetchAudios} from '../../actions/users';
+import {usersFetchWall} from '../../actions/users';
 import {playerPlayTrack, playerPlayPause} from '../../actions/player';
 
 import {Audios} from '../Audios/Audios';
 
-const Popular = props => <Audios {...props} />;
+const News = props => <Audios {...props} />;
 
 const mapStateToProps = ({player, entities, audios}, ownProps) => {
 	const ownerId = ownProps.params.ownerId;
-	const entityId = `${ownerId}--popular`;
-	const {ids, fetching, error, offset, count} = entities[entityId] || {};
+	const entityId = `${ownerId}--news`;
+	const {ids, fetching, error, nextFrom} = entities[entityId] || {};
 
 	return ({
 		entityId,
 		ids,
 		fetching,
 		error,
-		offset,
-		count,
 		ownerId,
-		isLast: count && offset >= count,
+		isLast: !nextFrom,
 		items: audios,
 		activeAudioId: player.current,
 		isAudioPlaying: player.isPlaying,
@@ -30,9 +28,9 @@ const mapStateToProps = ({player, entities, audios}, ownProps) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-	fetch: params => dispatch(usersFetchAudios(params)),
+	fetch: params => dispatch(usersFetchWall(params)),
 	playTrack: params => dispatch(playerPlayTrack(params)),
 	playPause: () => dispatch(playerPlayPause())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Popular);
+export default connect(mapStateToProps, mapDispatchToProps)(News);

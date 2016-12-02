@@ -18,6 +18,7 @@ export class Audios extends Component {
 		ids: PropTypes.array,
 		items: PropTypes.object,
 		fetching: PropTypes.bool,
+		isLast: PropTypes.bool,
 		error: PropTypes.number,
 		offset: PropTypes.number,
 		count: PropTypes.number,
@@ -62,7 +63,7 @@ export class Audios extends Component {
 	}
 
 	fetch = isOnInitialize => {
-		if (this.props.fetching || (this.props.count && this.props.offset >= this.props.count)) {
+		if (this.props.fetching || this.props.isLast) {
 			return;
 		}
 
@@ -111,6 +112,7 @@ const mapStateToProps = ({player, entities, audios}, ownProps) => {
 		count,
 		ownerId,
 		albumId,
+		isLast: count && offset >= count,
 		items: audios,
 		activeAudioId: player.current,
 		isAudioPlaying: player.isPlaying,

@@ -117,6 +117,14 @@ class VK {
 		return this.api('execute.audioFromWall', _params);
 	};
 
+	fetchAudioFromNews = ({nextFrom}) => {
+		const _params = {
+			start_from: nextFrom
+		};
+
+		return this.api('execute.getAudioFromNews', _params);
+	};
+
 	getUsers = ids => {
 		return this.api('users.get', {
 			user_ids: ids,

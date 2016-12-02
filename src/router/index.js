@@ -4,6 +4,7 @@ import {Router} from 'react-router';
 
 import App from '../containers/App/App';
 import Wall from '../containers/Wall/Wall';
+import News from '../containers/News/News';
 import Audios from '../containers/Audios/Audios';
 import Friends from '../containers/Friends/Friends';
 import Members from '../containers/Members/Members';
@@ -61,6 +62,9 @@ class MyRouter extends Component {
 			}, {
 				path: 'wall',
 				component: Wall
+			}, {
+				path: 'news',
+				component: News
 			}]
 		}]
 	};
