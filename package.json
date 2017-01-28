@@ -5,8 +5,8 @@
   "main": "src/index.js",
   "scripts": {
     "loc": "rm -rf ./dist && webpack-dev-server --env=loc",
-    "dev": "rm -rf ./dist && webpack --env=dev --progress",
-    "prod": "rm -rf ./dist && webpack --env=prod --progress",
+    "dev": "rm -rf ./dist && webpack --env=dev",
+    "prod": "rm -rf ./dist && webpack --env=prod",
     "lint": "eslint ./src/**/*.js && stylelint ./src/**/*.scss"
   },
   "dependencies": {
