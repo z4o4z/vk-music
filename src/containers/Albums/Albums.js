@@ -1,5 +1,4 @@
-import React, {Component, PropTypes} from 'react';
-import shallowCompare from 'react-addons-shallow-compare';
+import React, {PureComponent, PropTypes} from 'react';
 import {connect} from 'react-redux';
 
 import ExitToApp from 'react-icons/lib/md/exit-to-app';
@@ -13,7 +12,7 @@ import Essences from '../../components/Essences/Essences';
 
 import albumsLogo from './album.svg';
 
-class Albums extends Component {
+class Albums extends PureComponent {
 	static propTypes = {
 		ownerId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired
 	};
@@ -27,10 +26,6 @@ class Albums extends Component {
 				getItemProps={this.getItemProps}
 			/>
 		);
-	}
-
-	shouldComponentUpdate(nextProps, nextState) {
-		return shallowCompare(this, nextProps, nextState);
 	}
 
 	getItemProps = item => {

@@ -1,5 +1,4 @@
-import React, {Component, PropTypes} from 'react';
-import shallowCompare from 'react-addons-shallow-compare';
+import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 
 import {vkAuthorize} from '../../actions/vk';
@@ -9,29 +8,23 @@ import Button from '../../components/Button/Button';
 
 import classes from './authorize.scss';
 
-class Authorize extends Component {
-	static propTypes = {
-		authorized: PropTypes.bool.isRequired,
-		authorize: PropTypes.func.isRequired
-	};
-
-	render() {
-		return (
-			<Scrollable>
-				<div className={classes.component}>
-					<h2 className={classes.title} data-text="VK Music">VK Music</h2>
-					<Button className={classes.button} ripple={true} onClick={this.props.authorize} >
-						<span>Авторизоваться</span>
-					</Button>
-				</div>
-			</Scrollable>
-		);
-	}
-
-	shouldComponentUpdate(nextProps, nextState) {
-		return shallowCompare(this, nextProps, nextState);
-	}
+function Authorize(props) {
+	return (
+		<Scrollable>
+			<div className={classes.component}>
+				<h2 className={classes.title} data-text="VK Music">VK Music</h2>
+				<Button className={classes.button} ripple={true} onClick={props.authorize} >
+					<span>Авторизоваться</span>
+				</Button>
+			</div>
+		</Scrollable>
+	);
 }
+
+Authorize.propTypes = {
+	authorized: PropTypes.bool.isRequired,
+	authorize: PropTypes.func.isRequired
+};
 
 const mapStateToProps = state => ({
 	authorized: state.vk.authorized

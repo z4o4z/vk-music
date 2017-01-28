@@ -1,5 +1,4 @@
-import React, {Component, PropTypes} from 'react';
-import shallowCompare from 'react-addons-shallow-compare';
+import React, {PropTypes} from 'react';
 import cns from 'classnames';
 
 import PlayPauseButton from '../PlayPauseButton/PlayPauseButton';
@@ -7,37 +6,26 @@ import AudioInfo from '../AudioInfo/AudioInfo';
 
 import classes from './audioItem.scss';
 
-export default class AudioItem extends Component {
-	static propTypes = {
-		id: PropTypes.string.isRequired,
-		title: PropTypes.string.isRequired,
-		artist: PropTypes.string.isRequired,
-		url: PropTypes.string,
-		isPlaying: PropTypes.bool.isRequired,
-		onPlayClick: PropTypes.func.isRequired
-	};
+export default function AudioItem(props) {
+	const clsName = cns(classes.content, {[classes.active]: props.isPlaying, [classes.disable]: !props.url});
+	const onPlay = () => props.url && props.onPlayClick(props.id);
 
-	render() {
-		const clsName = cns(classes.content, {[classes.active]: this.props.isPlaying, [classes.disable]: !this.props.url});
+	return (
+		<div className={classes.component} onClick={onPlay}>
+			<div className={clsName}>
+				<PlayPauseButton isPlaying={props.isPlaying} disabled={!props.url} />
 
-		return (
-			<div className={classes.component} onClick={this.onPlay}>
-				<div className={clsName}>
-					<PlayPauseButton isPlaying={this.props.isPlaying} disabled={!this.props.url} />
-
-					<AudioInfo title={this.props.title} artist={this.props.artist} />
-				</div>
+				<AudioInfo title={props.title} artist={props.artist} />
 			</div>
-		);
-	}
-
-	shouldComponentUpdate(nextProps, nextState) {
-		return shallowCompare(this, nextProps, nextState);
-	}
-
-	onPlay = () => {
-		if (this.props.url) {
-			this.props.onPlayClick(this.props.id);
-		}
-	}
+		</div>
+	);
 }
+
+AudioItem.propTypes = {
+	id: PropTypes.string.isRequired,
+	url: PropTypes.string,
+	title: PropTypes.string.isRequired,
+	artist: PropTypes.string.isRequired,
+	isPlaying: PropTypes.bool.isRequired,
+	onPlayClick: PropTypes.func.isRequired
+};

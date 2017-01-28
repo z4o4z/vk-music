@@ -1,9 +1,8 @@
-import React, {Component} from 'react';
-import shallowCompare from 'react-addons-shallow-compare';
+import React, {PureComponent} from 'react';
 
 import classes from './ripple.scss';
 
-export default class Ripple extends Component {
+export default class Ripple extends PureComponent {
 	state = {
 		ripples: [],
 		width: 0,
@@ -25,10 +24,6 @@ export default class Ripple extends Component {
 				))}
 			</div>
 		);
-	}
-
-	shouldComponentUpdate(nextProps, nextState) {
-		return shallowCompare(this, nextProps, nextState);
 	}
 
 	getStyle(ripple) {

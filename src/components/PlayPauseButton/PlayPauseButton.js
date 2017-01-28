@@ -1,5 +1,4 @@
-import React, {Component, PropTypes} from 'react';
-import shallowCompare from 'react-addons-shallow-compare';
+import React, {PropTypes} from 'react';
 import cns from 'classnames';
 
 import PlayArrow from 'react-icons/lib/md/play-arrow';
@@ -16,46 +15,28 @@ import Button from '../Button/Button';
 
 import classes from './playPauseButton.scss';
 
-export default class PlayPauseButton extends Component {
-	static propTypes = {
-		className: PropTypes.string,
-		isPlaying: PropTypes.bool.isRequired,
-		big: PropTypes.bool,
-		disabled: PropTypes.bool,
-		onClick: PropTypes.func
-	};
+export default function PlayPauseButton(props) {
+	const Icon = props.isPlaying ? Pause : PlayArrow;
+	const size = props.big ? UI_SIZE_ICON_BIG : UI_SIZE_ICON;
+	const color = props.disabled ? UI_COLOR_ACCENT : UI_COLOR_DEFAULT;
 
-	render() {
-		return (
-			<Button
-				className={cns(classes.component, this.props.className, {[classes.big]: this.props.big})}
-				disabled={this.props.disabled}
-				rounded={true}
-				ripple={true}
-				onClick={this.props.onClick}
-			>
-				{this.getIcon()}
-			</Button>
-		);
-	}
-
-	shouldComponentUpdate(nextProps, nextState) {
-		return shallowCompare(this, nextProps, nextState);
-	}
-
-	getIcon() {
-		const {disabled, big, isPlaying} = this.props;
-
-		if (isPlaying) {
-			return <Pause
-				size={big ? UI_SIZE_ICON_BIG : UI_SIZE_ICON}
-				color={disabled ? UI_COLOR_ACCENT : UI_COLOR_DEFAULT}
-			/>;
-		}
-
-		return <PlayArrow
-			size={big ? UI_SIZE_ICON_BIG : UI_SIZE_ICON}
-			color={disabled ? UI_COLOR_ACCENT : UI_COLOR_DEFAULT}
-		/>;
-	}
+	return (
+		<Button
+			className={cns(classes.component, props.className, {[classes.big]: props.big})}
+			disabled={props.disabled}
+			rounded={true}
+			ripple={true}
+			onClick={props.onClick}
+		>
+			<Icon size={size} color={color} />
+		</Button>
+	);
 }
+
+PlayPauseButton.propTypes = {
+	className: PropTypes.string,
+	isPlaying: PropTypes.bool.isRequired,
+	big: PropTypes.bool,
+	disabled: PropTypes.bool,
+	onClick: PropTypes.func
+};

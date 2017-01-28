@@ -51,3 +51,48 @@
 Так же в скрипты можно передавать аргументы используя следующий синтаксис: `npm run имя-команды -- аргументы`.
 Например `npm run dev -- --progress` выполнит `npm run clear && webpack --env=dev --progress`.
 Все аргументы будут добавлены в конец исходного скрипта.
+
+### dependencies
+
+Прямые зависимости вашего проекта, т.е. те зависимости которые используются вашим проектом.
+Что бы зависимость попала в этот объект, при установке необходимо указать флаг `--save` или `-S`.
+
+`npm install react --save` тоже самое что и `npm i react -S`.
+
+Конечно, никто не заприщает все зависимости проекта класть в `dependencies`, ниважно будь то какая-то библиотека используемая вашим проектом или Webpack.
+Но хорошим тоном считается разграничивать такие вещи.
+
+Разберём зависимости нашего приложения:
+
+* `babel-polyfill` - [Полифил](https://babeljs.io/docs/usage/polyfill/) позволяющий использовать фичи стандарта ES2015 (Promise, WeakMap, Array.from, Object.assign, ...)
+* `classnames` - [Утилита](https://github.com/JedWatson/classnames) для удобной склейки классов
+	```
+	classNames('foo', 'bar'); // => 'foo bar'
+	classNames('foo', { bar: true }); // => 'foo bar'
+	classNames({ 'foo-bar': true }); // => 'foo-bar'
+	classNames({ 'foo-bar': false }); // => ''
+	classNames({ foo: true }, { bar: true }); // => 'foo bar'
+	```
+* `lodash` - [Библиотека](https://lodash.com/docs/4.17.4) в функциональном стиле обладающая богатым функционалом для работы с массивами, объектами, строками и т.д.
+* `raf` - [Полифил](http://html5.by/blog/what-is-requestanimationframe/)
+```
+{
+	"babel-polyfill": "^6.16.0",
+	"classnames": "",
+	"lodash": "^4.17.2",
+	"raf": "^3.3.0",
+	"react": "^15.4.1",
+	"react-addons-shallow-compare": "^15.4.1",
+	"react-dom": "^15.4.1",
+	"react-icons": "^2.2.1",
+	"react-redux": "^5.0.2",
+	"react-router": "^3.0.0",
+	"react-router-redux": "^4.0.7",
+	"react-slider": "^0.7.0",
+	"react-tooltip": "^3.2.2",
+	"redux": "^3.6.0",
+	"redux-actions": "^1.1.0",
+	"redux-localstorage": "^0.4.1",
+	"redux-saga": "^0.14.3"
+}
+```

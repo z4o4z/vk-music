@@ -1,5 +1,4 @@
-import {takeEvery} from 'redux-saga';
-import {call, put, select} from 'redux-saga/effects';
+import {takeEvery, call, put, select} from 'redux-saga/effects';
 
 import {AUDIOS_FETCH_COUNT} from '../constants/general';
 import {PLAYER_MAX_AUDIO_COUNT_BEFORE_FETCH} from '../constants/general';

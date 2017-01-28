@@ -1,10 +1,9 @@
-import React, {Component, PropTypes} from 'react';
-import shallowCompare from 'react-addons-shallow-compare';
+import React, {PureComponent, PropTypes} from 'react';
 
 import ScrollableFetchable from '../ScrollableFetchable/ScrollableFetchable';
 import EssencesList from '../EssencesList/EssencesList';
 
-export default class Essences extends Component {
+export default class Essences extends PureComponent {
 	static propTypes = {
 		ids: PropTypes.array,
 		items: PropTypes.object,
@@ -40,10 +39,6 @@ export default class Essences extends Component {
 				/>
 			</ScrollableFetchable>
 		);
-	}
-
-	shouldComponentUpdate(nextProps, nextState) {
-		return shallowCompare(this, nextProps, nextState);
 	}
 
 	componentDidUpdate(oldProps) {

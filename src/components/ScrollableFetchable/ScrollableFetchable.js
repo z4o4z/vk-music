@@ -1,9 +1,8 @@
-import React, {Component, PropTypes} from 'react';
-import shallowCompare from 'react-addons-shallow-compare';
+import React, {PureComponent, PropTypes} from 'react';
 
 import Scrollable from '../Scrollable/Scrollable';
 
-export default class ScrollableFetchable extends Component {
+export default class ScrollableFetchable extends PureComponent {
 	static propTypes = {
 		fetch: PropTypes.func.isRequired,
 		updateHeight: PropTypes.number.isRequired,
@@ -23,10 +22,6 @@ export default class ScrollableFetchable extends Component {
 		if (prevProps.scrollToTopIfChange !== this.props.scrollToTopIfChange) {
 			this.scrollable.scrollTop = 0;
 		}
-	}
-
-	shouldComponentUpdate(nextProps, nextState) {
-		return shallowCompare(this, nextProps, nextState);
 	}
 
 	onScroll = (scrollTop, height, childHeight) => {

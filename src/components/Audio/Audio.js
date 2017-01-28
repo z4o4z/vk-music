@@ -1,7 +1,6 @@
-import React, {Component, PropTypes} from 'react';
-import shallowCompare from 'react-addons-shallow-compare';
+import React, {PureComponent, PropTypes} from 'react';
 
-export default class Audio extends Component {
+export default class Audio extends PureComponent {
 	static propTypes = {
 		source: PropTypes.string.isRequired,
 		isPlaying: PropTypes.bool.isRequired,
@@ -25,10 +24,6 @@ export default class Audio extends Component {
 		this.audioNode.addEventListener('error', this.handleMediaEnd);
 
 		this.updateIsPlaying();
-	}
-
-	shouldComponentUpdate(nextProps, nextState) {
-		return shallowCompare(this, nextProps, nextState);
 	}
 
 	componentDidUpdate(prevProps) {

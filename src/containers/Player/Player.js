@@ -1,6 +1,5 @@
-import React, {Component, PropTypes} from 'react';
+import React, {PureComponent, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import shallowCompare from 'react-addons-shallow-compare';
 
 import {
 	playerPlayPause,
@@ -18,7 +17,7 @@ import Slider from '../../components/Slider/Slider';
 
 import classes from './player.scss';
 
-class Player extends Component {
+class Player extends PureComponent {
 	static propTypes = {
 		audio: PropTypes.object,
 		next: PropTypes.string,
@@ -63,10 +62,6 @@ class Player extends Component {
 				</div>
 			</div>
 		);
-	}
-
-	shouldComponentUpdate(nextProps, nextState) {
-		return shallowCompare(this, nextProps, nextState);
 	}
 
 	getLeftControls(audio) {

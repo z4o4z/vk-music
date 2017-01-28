@@ -1,5 +1,4 @@
-import React, {Component, PropTypes} from 'react';
-import shallowCompare from 'react-addons-shallow-compare';
+import React, {PureComponent, PropTypes} from 'react';
 import {connect} from 'react-redux';
 
 import Home from 'react-icons/lib/md/home';
@@ -14,7 +13,7 @@ import {usersFetchGroups} from '../../actions/users';
 
 import Essences from '../../components/Essences/Essences';
 
-class Groups extends Component {
+class Groups extends PureComponent {
 	static propTypes = {
 		ownerId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired
 	};
@@ -28,10 +27,6 @@ class Groups extends Component {
 				getItemProps={this.getItemProps}
 			/>
 		);
-	}
-
-	shouldComponentUpdate(nextProps, nextState) {
-		return shallowCompare(this, nextProps, nextState);
 	}
 
 	getItemProps = item => {

@@ -1,9 +1,8 @@
-import React, {Component, PropTypes} from 'react';
-import shallowCompare from 'react-addons-shallow-compare';
+import React, {PureComponent, PropTypes} from 'react';
 
 import classes from './scrollable.scss';
 
-export default class Scrollable extends Component {
+export default class Scrollable extends PureComponent {
 	static propTypes = {
 		onScroll: PropTypes.func,
 		children: PropTypes.element.isRequired
@@ -17,10 +16,6 @@ export default class Scrollable extends Component {
 				</div>
 			</div>
 		);
-	}
-
-	shouldComponentUpdate(nextProps, nextState) {
-		return shallowCompare(this, nextProps, nextState);
 	}
 
 	onScroll = () => {
