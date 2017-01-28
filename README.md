@@ -1,7 +1,7 @@
 # Разбор проекта на React + Redux + Saga, на примере [VK Music Player](http://vkmsc.com/)
 
 ## Содержание
-* [package.json](#package.json)
+* [package.json](#packagejson)
 	* [scripts](#scripts)
 	* [dependencies](#dependencies)
 	* [devDependencies](#devDependencies)
@@ -35,7 +35,7 @@
 Ключи (loc, dev, prod, lint) являются названиями команд, которые можно вызвать при помощи `npm run имя-команды`.
 Т.е. исходя из примера выше, если мы напишем в консоле `npm run loc`, то на самом деле выполнится `rm -rf ./dist && webpack-dev-server --env=loc`.
 Согласитесь, вариант с `npm run` намного короче и проще.
-Более того, в scrips также можно использовать `npm run` команды.
+Более того, в `scripts` также можно использовать `npm run` команды.
 Для примера можно вынести повторяющийся кусок `rm -rf ./dist` в отдельный скрипт `clear`, в итоге получим:
 
 ```
