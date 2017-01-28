@@ -8,7 +8,6 @@ export default class AudioInfo extends Component {
 	static propTypes = {
 		title: PropTypes.string.isRequired,
 		artist: PropTypes.string.isRequired,
-		genre: PropTypes.string,
 		playerStyle: PropTypes.bool
 	};
 
@@ -18,7 +17,6 @@ export default class AudioInfo extends Component {
 				<span className={classes.title}>{this.props.title}</span>
 				<div className={classes.infoFooter}>
 					<span className={classes.artist}>{this.props.artist}</span>
-					<span className={classes.genre}>{this.props.genre}</span>
 				</div>
 			</div>
 		);

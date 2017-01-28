@@ -1,8 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
 
-import {getGenreById} from '../../helpers/genres';
-
 import LoaderHOC from '../../hoc/LoaderHOC/LoaderHOC';
 import AudioItem from '../AudioItem/AudioItem';
 
@@ -38,7 +36,6 @@ class AudiosList extends Component {
 				title={audio.title}
 				artist={audio.artist}
 				url={audio.url}
-				genre={getGenreById(audio.genre)}
 				onPlayClick={this.props.onPlayClick}
 				isPlaying={this.props.isAudioPlaying && audio.cid === this.props.activeAudioId}
 			/>

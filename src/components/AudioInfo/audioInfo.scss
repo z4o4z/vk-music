@@ -35,8 +35,7 @@
 	margin-right: $audio-info-margin;
 }
 
-.artist,
-.genre {
+.artist {
 	transition: color $animation-duration $animation-function;
 
 	@include desktop() {
@@ -63,8 +62,7 @@
 		color: $audio-info-secondary-player-color;
 	}
 
-	.artist,
-	.genre {
+	.artist {
 		@include desktop() {
 			&:hover {
 				color: $audio-info-secondary-player-color;

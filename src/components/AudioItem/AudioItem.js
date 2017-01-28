@@ -13,7 +13,6 @@ export default class AudioItem extends Component {
 		title: PropTypes.string.isRequired,
 		artist: PropTypes.string.isRequired,
 		url: PropTypes.string,
-		genre: PropTypes.string,
 		isPlaying: PropTypes.bool.isRequired,
 		onPlayClick: PropTypes.func.isRequired
 	};
@@ -26,7 +25,7 @@ export default class AudioItem extends Component {
 				<div className={clsName}>
 					<PlayPauseButton isPlaying={this.props.isPlaying} disabled={!this.props.url} />
 
-					<AudioInfo title={this.props.title} artist={this.props.artist} genre={this.props.genre} />
+					<AudioInfo title={this.props.title} artist={this.props.artist} />
 				</div>
 			</div>
 		);
