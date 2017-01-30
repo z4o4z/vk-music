@@ -56,16 +56,18 @@
 
 Прямые зависимости вашего проекта, т.е. те зависимости которые используются вашим проектом.
 
-Что бы зависимость попала в этот объект, при установке необходимо указать флаг `--save` или `-S`.
+Что бы зависимость попала в dependencies, при установке необходимо указать флаг `--save` или `-S`.
 
 `npm install react --save` тоже самое, что и `npm i react -S`.
 
 Конечно, никто не заприщает все зависимости проекта класть в `dependencies`, ниважно, будь то какая-то библиотека используемая вашим проектом или Webpack/Gulp.
 Но хорошим тоном считается разграничивать такие вещи.
 
-Разберём зависимости нашего приложения:
+Разберём dependencies нашего приложения:
 
 * `babel-polyfill` - [Полифил](https://babeljs.io/docs/usage/polyfill/) позволяющий использовать фичи стандарта ES2015 (Promise, WeakMap, Array.from, Object.assign, ...)
+
+* `babel-runtime` - [Плагин](https://babeljs.io/docs/plugins/transform-runtime/) для Babel'я, который выносит функции-хэлперы бабеля, например _extend, в отдельные модули, что позваляет избежать дублирования кода.
 
 * `classnames` - [Утилита](https://github.com/JedWatson/classnames) для удобной склейки классов
 	
@@ -125,3 +127,95 @@
 	Саги имеют полный доступ к Redux-состоянию. 
 	Они могут наблюдать за action'ами отправяемыми в Redux, реагировать на них, отправлять новые action'ы.
 	А также порождать новые саги, при этом имея полный контроль над ними.  
+
+### devDependencies
+
+Косвенные зависимости вашего проекта, т.е. те зависимости которые не используются вашим проектом. 
+Однако учавствуют в сборке проекта, тестировании и т.д.
+
+Для того, что бы зависимость попала в devDependencies, при установке необходимо указать флаг `--save-dev` или `-D`.
+
+`npm install eslint --save-dev` тоже самое, что и `npm i eslint -D`.
+ 
+Разберём devDependencies нашего приложения:
+
+* `autoprefixer` - [Утилита](https://github.com/postcss/autoprefixer) для автоматического добавления префиксов в ваш css
+
+* `babel-core` - [Транспайлер](https://github.com/babel/babel/tree/master/packages/babel-core), транспайлит (переделывает) код из ES2015+ в ES5
+	
+	`const sum = (a, b) => a + b;` 
+	
+	переделает в 
+	```
+	"use strict";
+	
+	var sum = function sum(a, b) {
+		return a + b;
+	};
+	```
+
+* `babel-eslint` - [Утилита](https://github.com/babel/babel-eslint) позваляющая использовать Babel в качестве парсера для ESLint. 
+Необхадима, если вы исользуете фичи не вошедшие в стандарт языка 
+
+* `babel-loader` - [Пакет](https://github.com/babel/babel-loader) для использования Babel'я с Webpack'ом
+
+* `babel-plugin-transform-react-constant-elements` - [Плагин](https://babeljs.io/docs/plugins/transform-react-constant-elements/) для Babel'я, выносящий создание инстансов для полностью статичных React-компонентов на верхний уровень.
+
+	Из
+	```
+	const Hr = () => {
+		return <hr className="hr" />;
+	};
+	```
+	Получим
+	```
+	const _ref = <hr className="hr" />;
+
+	const Hr = () => {
+		return _ref;
+	};
+	```
+
+	Как видно на пример выше, инстанс компонента Hr будет создан единожды. 
+	В противном случае на каждый рендер родителя, создавался бы новый инстанс Hr-компонента.
+
+* `babel-plugin-transform-react-inline-elements` - [Плагин](https://babeljs.io/docs/plugins/transform-react-inline-elements/) для Babel'я, заменяющий `React.createElement` функцию на `babelHelpers.jsx` функцию, которая более оптимизированна.
+
+	Из
+	```
+	<Baz foo="bar" key="1"></Baz>;
+	```
+	Получим
+	```
+	babelHelpers.jsx(Baz, {
+		foo: "bar"
+	}, "1");
+	```
+	Вместо
+	```
+	 React.createElement(Baz, {
+		foo: "bar",
+		key: "1",
+	});
+	```
+
+* `babel-plugin-transform-react-remove-prop-types` - [Плагин](https://github.com/oliviertassinari/babel-plugin-transform-react-remove-prop-types) для Babel'я, удаляющий propTypes из билда.
+	
+	Из
+	```
+	const Baz = (props) => (
+		<div {...props} />
+	);
+
+	Baz.propTypes = {
+		className: React.PropTypes.string
+	};
+	```
+	Получим
+	```
+	const Baz = (props) => (
+		<div {...props} />
+	);
+	```
+
+* `babel-plugin-transform-runtime` - тоже самое, что и `babel-runtime` только для dev-билда
