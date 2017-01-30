@@ -4,13 +4,14 @@
   "description": "Audio player for vk.com",
   "main": "src/index.js",
   "scripts": {
-    "loc": "rm -rf ./dist && webpack-dev-server --env=loc",
+    "loc": "webpack-dev-server --env=loc",
     "dev": "rm -rf ./dist && webpack --env=dev",
     "prod": "rm -rf ./dist && webpack --env=prod",
     "lint": "eslint ./src/**/*.js && stylelint ./src/**/*.scss"
   },
   "dependencies": {
     "babel-polyfill": "^6.16.0",
+    "babel-runtime": "^6.22.0",
     "classnames": "^2.2.5",
     "lodash": "^4.17.2",
     "raf": "^3.3.0",
