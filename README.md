@@ -92,7 +92,7 @@
 
 * `react-router` - [Роутер](https://github.com/ReactTraining/react-router) в декларативном стиле для React'а
 
-* `react-router-redux` - [Утилита](https://github.com/reactjs/react-router-redux) для синхронизации ReactRouter'a с Redux'ом хранилищем. 
+* `react-router-redux` - [Утилита](https://github.com/reactjs/react-router-redux) для синхронизации ReactRouter'a с Redux хранилищем. 
 	Т.е. в Redux хранилище будет находитсья состояние роутера (текущая страница, параметры, и т.д.)
 
 * `react-slider` - [Слайдер](https://github.com/mpowaga/react-slider) компонент
