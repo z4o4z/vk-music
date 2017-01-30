@@ -88,7 +88,7 @@
 	* Github Octicons
 	* Ionicons
 
-* `react-redux` - [Утилита](https://github.com/reactjs/react-redux) для связи [Redux](http://redux.js.org/) хранилища с React'ом
+* `react-redux` - [Утилита](https://github.com/reactjs/react-redux) для связи Redux хранилища с React'ом
 
 * `react-router` - [Роутер](https://github.com/ReactTraining/react-router) в декларативном стиле для React'а
 
@@ -105,24 +105,23 @@
 	> Это позволяет вам создавать приложения, которые ведут себя одинаково в различных окружениях (клиент, сервер и нативные приложения), а также просто тестируются. 
 	> Кроме того, это обеспечивает большой опыт отладки, например редактирование кода в реальном времени в сочетании с time traveling.
 
-* `redux-actions`
-```
-{
-	"babel-polyfill": "^6.16.0",
-	"classnames": "",
-	"lodash": "^4.17.2",
-	"raf": "^3.3.0",
-	"react": "^15.4.1",
-	"react-dom": "^15.4.1",
-	"react-icons": "^2.2.1",
-	"react-redux": "^5.0.2",
-	"react-router": "^3.0.0",
-	"react-router-redux": "^4.0.7",
-	"react-slider": "^0.7.0",
-	"react-tooltip": "^3.2.2",
-	"redux": "^3.6.0",
-	"redux-actions": "^1.1.0",
-	"redux-localstorage": "^0.4.1",
-	"redux-saga": "^0.14.3"
-}
-```
+* `redux-actions` - Вспомогательная [утилита](https://github.com/acdlite/redux-actions) которая упращает создание action'ов и reducer'ов.
+	
+	```
+	let increment = amount => ({
+		type: 'INCREMENT',
+		payload: amount
+	});
+	increment = createAction('INCREMENT', amount => amount);
+	increment = createAction('INCREMENT');
+	```
+
+	Последние две строчки делают абсолютно тоже самое, что и первая, однако последний вариант намного удобнее, и избавляет нас от кучи лишнего кода
+
+* `redux-localstorage` - [Библиотека](https://github.com/elgerlambert/redux-localstorage) для полного или частичного сохранения redux-store в localstorage
+
+* `redux-saga` - [Библиотека](https://redux-saga.github.io/redux-saga/) цель которой сделать сайд эффекты (AJAX, setTimeout, доступ к localstorage и т.д.) в React/Redux приложениях легче и лучше.
+	Представте что Saga - это самостоятльный поток в вашем приложении, который отвечает только за сайд эффекты. 
+	Саги имеют полный доступ к Redux-состоянию. 
+	Они могут наблюдать за action'ами отправяемыми в Redux, реагировать на них, отправлять новые action'ы.
+	А также порождать новые саги, при этом имея полный контроль над ними.  
