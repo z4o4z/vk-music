@@ -1,12 +1,11 @@
-import React, {Component, PropTypes} from 'react';
-import shallowCompare from 'react-addons-shallow-compare';
+import React, {PureComponent, PropTypes} from 'react';
 import cns from 'classnames';
 
 import Ripple from '../Ripple/Ripple';
 
 import classes from './link.scss';
 
-export default class Link extends Component {
+export default class Link extends PureComponent {
 	static propTypes = {
 		href: PropTypes.string.isRequired,
 		children: PropTypes.any.isRequired,
@@ -32,10 +31,6 @@ export default class Link extends Component {
 				{this.props.children}
 			</a>
 		);
-	}
-
-	shouldComponentUpdate(nextProps, nextState) {
-		return shallowCompare(this, nextProps, nextState);
 	}
 
 	getHref(href) {

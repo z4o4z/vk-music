@@ -1,12 +1,11 @@
-import React, {Component, PropTypes} from 'react';
-import shallowCompare from 'react-addons-shallow-compare';
+import React, {PureComponent, PropTypes} from 'react';
 
 import Ripple from '../Ripple/Ripple';
 import Link from '../Link/Link';
 
 import classes from './essenceItem.scss';
 
-export default class EssenceItem extends Component {
+export default class EssenceItem extends PureComponent {
 	static propTypes = {
 		url: PropTypes.string.isRequired,
 		name: PropTypes.string.isRequired,
@@ -33,10 +32,6 @@ export default class EssenceItem extends Component {
 				</div>
 			</div>
 		);
-	}
-
-	shouldComponentUpdate(nextProps, nextState) {
-		return shallowCompare(this, nextProps, nextState);
 	}
 
 	getLinks() {

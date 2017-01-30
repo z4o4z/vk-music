@@ -1,5 +1,4 @@
-import React, {Component, PropTypes} from 'react';
-import shallowCompare from 'react-addons-shallow-compare';
+import React, {PureComponent, PropTypes} from 'react';
 import cns from 'classnames';
 
 import QueueMusic from 'react-icons/lib/md/queue-music';
@@ -60,7 +59,7 @@ const menuItems = {
 	}]
 };
 
-export default class LeftDrawer extends Component {
+export default class LeftDrawer extends PureComponent {
 	static propTypes = {
 		urlPrefix: PropTypes.string.isRequired,
 		open: PropTypes.bool.isRequired
@@ -83,10 +82,6 @@ export default class LeftDrawer extends Component {
 
 	componentWillReceiveProps(newProps) {
 		this.setState(this.getState(newProps));
-	}
-
-	shouldComponentUpdate(nextProps, nextState) {
-		return shallowCompare(this, nextProps, nextState);
 	}
 
 	getState(props) {

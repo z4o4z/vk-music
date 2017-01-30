@@ -24,7 +24,7 @@
 	overflow: hidden;
 	cursor: pointer;
 	transform: translateZ(0);
-	transition:	box-shadow $animation-duration $animation-function;
+	transition: box-shadow $animation-duration $animation-function;
 
 	&.buttonRounded {
 		border-radius: 100%;
@@ -57,7 +57,7 @@
 
 	background-color: transparent;
 
-	transition: background-color $animation-duration $animation-function
+	transition: background-color $animation-duration $animation-function;
 }
 
 .ripple {

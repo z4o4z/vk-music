@@ -1,5 +1,4 @@
-import React, {Component, PropTypes} from 'react';
-import shallowCompare from 'react-addons-shallow-compare';
+import React, {PropTypes} from 'react';
 
 import Repeat from 'react-icons/lib/md/repeat';
 import Shuffle from 'react-icons/lib/md/shuffle';
@@ -10,39 +9,33 @@ import Button from '../Button/Button';
 
 import classes from './playerRightControls.scss';
 
-export default class PlayerRightControls extends Component {
-	static propTypes = {
-		isRepeating: PropTypes.bool.isRequired,
-		isShuffling: PropTypes.bool.isRequired,
-		onRepeatClick: PropTypes.func.isRequired,
-		onShuffleClick: PropTypes.func.isRequired
-	};
+export default function PlayerRightControls(props) {
+	return (
+		<div className={classes.component}>
 
-	render() {
-		return (
-			<div className={classes.component}>
+			<Button
+				className={classes.btn}
+				rounded={true}
+				onClick={props.onRepeatClick}
+			>
+				<Repeat size={UI_SIZE_ICON} color={props.isRepeating ? UI_COLOR_DEFAULT : UI_COLOR_ACCENT} />
+			</Button>
 
-				<Button
-					className={classes.btn}
-					rounded={true}
-					onClick={this.props.onRepeatClick}
-				>
-					<Repeat size={UI_SIZE_ICON} color={this.props.isRepeating ? UI_COLOR_DEFAULT : UI_COLOR_ACCENT} />
-				</Button>
+			<Button
+				className={classes.btn}
+				rounded={true}
+				onClick={props.onShuffleClick}
+			>
+				<Shuffle size={UI_SIZE_ICON} color={props.isShuffling ? UI_COLOR_DEFAULT : UI_COLOR_ACCENT} />
+			</Button>
 
-				<Button
-					className={classes.btn}
-					rounded={true}
-					onClick={this.props.onShuffleClick}
-				>
-					<Shuffle size={UI_SIZE_ICON} color={this.props.isShuffling ? UI_COLOR_DEFAULT : UI_COLOR_ACCENT} />
-				</Button>
-
-			</div>
-		);
-	}
-
-	shouldComponentUpdate(nextProps, nextState) {
-		return shallowCompare(this, nextProps, nextState);
-	}
+		</div>
+	);
 }
+
+PlayerRightControls.propTypes = {
+	isRepeating: PropTypes.bool.isRequired,
+	isShuffling: PropTypes.bool.isRequired,
+	onRepeatClick: PropTypes.func.isRequired,
+	onShuffleClick: PropTypes.func.isRequired
+};

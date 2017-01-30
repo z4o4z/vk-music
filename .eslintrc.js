@@ -29,7 +29,6 @@ module.exports = {
 	"globals": {
 		"IS_LOC": true,
 		"IS_DEV": true,
-		"IS_QA": true,
 		"IS_PROD": true
 	}
 };

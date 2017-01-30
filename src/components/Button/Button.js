@@ -1,12 +1,11 @@
-import React, {Component, PropTypes} from 'react';
-import shallowCompare from 'react-addons-shallow-compare';
+import React, {PureComponent, PropTypes} from 'react';
 import cns from 'classnames';
 
 import Ripple from '../Ripple/Ripple';
 
 import classes from './button.scss';
 
-export default class Button extends Component {
+export default class Button extends PureComponent {
 	static propTypes = {
 		className: PropTypes.string,
 		ripple: PropTypes.bool,
@@ -26,10 +25,6 @@ export default class Button extends Component {
 				{this.props.ripple && <Ripple />}
 			</button>
 		);
-	}
-
-	shouldComponentUpdate(nextProps, nextState) {
-		return shallowCompare(this, nextProps, nextState);
 	}
 
 	getClassName() {

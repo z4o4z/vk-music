@@ -1,5 +1,4 @@
-import React, {Component, PropTypes} from 'react';
-import shallowCompare from 'react-addons-shallow-compare';
+import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 
 import {uiLeftMenuToggle} from '../../actions/ui';
@@ -10,34 +9,28 @@ import Player from '../Player/Player';
 
 import classes from './app.scss';
 
-class App extends Component {
-	static propTypes = {
-		userId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-		isLeftMenuOpen: PropTypes.bool.isRequired,
-		uiLeftMenuToggle: PropTypes.func.isRequired,
-		children: PropTypes.element.isRequired
-	};
+function App(props) {
+	return (
+		<section className={classes.component}>
+			<Header onMenuClick={props.uiLeftMenuToggle} open={props.isLeftMenuOpen}/>
 
-	render() {
-		return (
-			<section className={classes.component}>
-				<Header onMenuClick={this.props.uiLeftMenuToggle} open={this.props.isLeftMenuOpen}/>
+			<LeftDrawer open={props.isLeftMenuOpen} urlPrefix={String(props.userId)} />
 
-				<LeftDrawer open={this.props.isLeftMenuOpen} urlPrefix={String(this.props.userId)} />
+			<main className={classes.content}>
+				{props.children}
+			</main>
 
-				<main className={classes.content}>
-					{this.props.children}
-				</main>
-
-				<Player />
-			</section>
-		);
-	}
-
-	shouldComponentUpdate(nextProps, nextState) {
-		return shallowCompare(this, nextProps, nextState);
-	}
+			<Player />
+		</section>
+	);
 }
+
+App.propTypes = {
+	userId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+	isLeftMenuOpen: PropTypes.bool.isRequired,
+	uiLeftMenuToggle: PropTypes.func.isRequired,
+	children: PropTypes.element.isRequired
+};
 
 const mapStateToProps = ({vk, ui, player}) => ({
 	userId: vk.userId,

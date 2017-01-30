@@ -3,9 +3,10 @@
 let path = require('path');
 let args = require('yargs').argv;
 let webpack = require('webpack');
+let autoprefixer = require('autoprefixer');
+let StyleLintPlugin = require('stylelint-webpack-plugin');
 let HtmlWebpackPlugin = require('html-webpack-plugin');
 let ExtractTextPlugin = require('extract-text-webpack-plugin');
-let autoprefixer = require('autoprefixer');
 let CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const PATH_DIST = path.join(__dirname, 'dist');
@@ -13,7 +14,6 @@ const PATH_DIST = path.join(__dirname, 'dist');
 const ENV = args.e || args.env || args.environment || 'dev';
 const IS_LOC = ENV === 'loc';
 const IS_DEV = ENV === 'dev';
-const IS_QA = ENV === 'qa';
 const IS_PROD = ENV === 'prod';
 
 let entry = ['babel-polyfill', './index.js'];
@@ -24,7 +24,7 @@ let output = {
 };
 
 if (!IS_PROD) {
-	output.library = 'VKMusic'
+	output.library = 'VKMusic';
 }
 
 if (IS_LOC) {
@@ -74,7 +74,7 @@ let config = {
 			}
 		}, {
 			test: /\.(eot|otf)/,
-			loader: 'file-loader'
+			loader: 'file-lbuild-oader'
 		}, {
 			test: /\.(woff|woff2)$/,
 			loader: 'url?prefix=font/&limit=5000'
@@ -104,11 +104,10 @@ let config = {
 
 	plugins: [
 		new webpack.DefinePlugin({
-			IS_LOC: JSON.stringify(IS_LOC),
-			IS_DEV: JSON.stringify(IS_DEV),
-			IS_QA: JSON.stringify(IS_QA),
-			IS_PROD: JSON.stringify(IS_PROD),
-			'process.env.NODE_ENV': JSON.stringify(IS_PROD || IS_QA ? 'production' : 'development')
+			'IS_LOC': JSON.stringify(IS_LOC),
+			'IS_DEV': JSON.stringify(IS_DEV),
+			'IS_PROD': JSON.stringify(IS_PROD),
+			'process.env.NODE_ENV': JSON.stringify(IS_PROD ? 'production' : 'development')
 		}),
 		new webpack.optimize.CommonsChunkPlugin({
 			children: true,
@@ -141,18 +140,28 @@ if (IS_LOC) {
 	config.module.preLoaders = [{
 		test: /\.js$/,
 		exclude: /(node_modules)/,
-		loader: "eslint-loader"
+		loader: 'eslint-loader'
 	}];
 
 	config.module.loaders.push({
 		test: /\.scss$/,
-		loaders: ['style', 'css?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]', 'postcss-loader', 'resolve-url', 'sass']
+		loaders: [
+			'style',
+			'css?modules&importLoaders=1&localIdentName=[name]-[local]-[hash:base64:5]',
+			'postcss-loader',
+			'resolve-url',
+			'sass'
+		]
 	});
 	config.module.loaders.push({
 		test: /\.css$/,
 		loaders: ['style', 'css', 'resolve-url']
 	});
 
+	config.plugins.push(new StyleLintPlugin({
+		configFile: path.join(__dirname, '.stylelintrc.js'),
+		syntax: 'scss'
+	}));
 	config.plugins.push(new webpack.HotModuleReplacementPlugin());
 }
 
@@ -163,7 +172,10 @@ if (!IS_LOC) {
 
 	config.module.loaders.push({
 		test: /\.scss$/,
-		loader: ExtractTextPlugin.extract('style', 'css?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader!resolve-url!sass')
+		loader: ExtractTextPlugin.extract(
+			'style',
+			'css?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader!resolve-url!sass'
+			)
 	});
 	config.module.loaders.push({
 		test: /\.css$/,
@@ -173,7 +185,7 @@ if (!IS_LOC) {
 	config.plugins.push(new ExtractTextPlugin('[hash].style.css'));
 }
 
-if (IS_PROD || IS_QA) {
+if (IS_PROD) {
 	config.plugins.push(
 		new webpack.optimize.DedupePlugin()
 	);
@@ -187,7 +199,7 @@ if (IS_PROD || IS_QA) {
 				loops: true,
 				unused: true,
 				warnings: false,
-				drop_console : IS_PROD,
+				drop_console: IS_PROD,
 				unsafe: true
 			}
 		})

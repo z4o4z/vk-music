@@ -1,5 +1,4 @@
-import React, {Component, PropTypes} from 'react';
-import shallowCompare from 'react-addons-shallow-compare';
+import React, {PureComponent, PropTypes} from 'react';
 import {connect} from 'react-redux';
 
 import {UI_SCROLL_UPDATE_HEIGHT} from '../../constants/ui';
@@ -13,7 +12,7 @@ import {playerPlayTrack, playerPlayPause} from '../../actions/player';
 import ScrollableFetchable from '../../components/ScrollableFetchable/ScrollableFetchable';
 import AudiosList from '../../components/AudiosList/AudiosList';
 
-export class Audios extends Component {
+export class Audios extends PureComponent {
 	static propTypes = {
 		ids: PropTypes.array,
 		items: PropTypes.object,
@@ -56,10 +55,6 @@ export class Audios extends Component {
 				/>
 			</ScrollableFetchable>
 		);
-	}
-
-	shouldComponentUpdate(nextProps, nextState) {
-		return shallowCompare(this, nextProps, nextState);
 	}
 
 	fetch = isOnInitialize => {
